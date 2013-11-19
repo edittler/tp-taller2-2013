@@ -1,0 +1,22 @@
+PASOS para una instalacion desde 0:
+1: descomprimir tomcat y axis2-1.6.2-war.zip
+
+2: pegar en apache-tomcat-6.0.37/webapps solamente el axis.war que esta en la carpeta de axis recien descomprimida, luego si quieren borren la carpeta de axis (no tiene mas uso)
+
+3: descomprimir axis2-1.6.2-bin.zip
+
+4: iniciar el tomcat ejecutando en terminal en el directorio apache-tomcat-6.0.37/bin/ el archivo ./startup.sh
+   esperamos 15 seg
+   apagamos el tomcat ejecutando en terminal en el directorio apache-tomcat-6.0.37/bin/ el archivo ./shutdown.sh
+
+5: seguimos el tutorial de eclipse en http://www.eclipse.org/webtools/jst/components/ws/1.5/tutorials/BottomUpWebService/BottomUpWebService.html
+
+6: Como generar el .wsdl de la clase Actividad ??
+   -> FACIL : sigue las instrucciones de http://axis.apache.org/axis2/java/core/tools/eclipse/plugin-installation.html para instalar el plugin que lo generará
+	      sigue las instrucciones de http://axis.apache.org/axis2/java/core/tools/eclipse/wsdl2java-plugin.html para generar el .wsdl
+	      OJO: en el wizar seleccionar 
+	           -> Generate a WSDL from java source file
+		   ->ingresar datos Fully Qualified Class name : wtp.Actividad
+		   ->ingresar Add Folder (nombre de proyecto)/WebContent/WEB-INF/services/Actividad     OJO: no entrar en wtp
+		   ->apretar boton Test Class Loading -> les deberia decir : file Class loaded succesfully
+		   ->apretar boton next ect ect el resto es logica humana :)
