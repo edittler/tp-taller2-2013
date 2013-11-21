@@ -1,11 +1,15 @@
 package wtp;
 
+import java.io.StringReader;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 
 public class Actividad {
@@ -23,13 +27,10 @@ public class Actividad {
 	// - muroSuperior : Informable
 	
 	public Actividad(){
-		//claramente no podemos utilizar construcores para los atributos, pero para parametros que todas las instancias compartitian podrian estar aca
-		
-		// esto es solo para demostracion
-		id=-1; // aca vamos a llamar a integracion para levantar los datos
-		nombre="";
-		fechaFin="";
-		fechaInicio="";
+		id=10; // aca vamos a llamar a integracion para levantar los datos
+		nombre="pepe";
+		fechaFin="mamam";
+		fechaInicio="hola";
 	}
 
 	private static String getValue(String tag, Element element) {
@@ -39,13 +40,15 @@ public class Actividad {
 	}
 
 	// Recibe el xml obtenido de integracion, cullo contenido es los datos de la clase actividad
-	private Boolean descerializar(String xml) {
+	public String descerializar(String xml) {
 		// procesar xml y asignar sus datos a los atributos internos de
 		// Actividad
+		String info="";
 		try {
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(xml);
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		    DocumentBuilder builder = factory.newDocumentBuilder();
+		    InputSource is = new InputSource(new StringReader(xml));
+		    Document doc = builder.parse(is);
 			doc.getDocumentElement().normalize();
 			
 			NodeList nodes = doc.getElementsByTagName("Actividad");
@@ -54,20 +57,21 @@ public class Actividad {
 
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					System.out.println("Actividad id: "+ getValue("id", element));
-					System.out.println("Actividad nombre: "+ getValue("nombre", element));
+					info+="Actividad id: "+ getValue("id", element)+"\n";
+					info+="Actividad nombre: "+ getValue("nombre", element)+"\n";
 					this.nombre=getValue("nombre", element);
-					System.out.println("Actividad fechaini: "+ getValue("fechaini", element));
+					info+="Actividad fechaini: "+ getValue("fechaini", element)+"\n";
 					this.fechaInicio=getValue("fechaini", element);
-					System.out.println("Actividad fechafin: "+ getValue("fechafin", element));
+					info+="Actividad fechafin: "+ getValue("fechafin", element)+"\n";
 					this.fechaFin=getValue("fechafin", element);
 				}
 			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
-		return true;
+		
+		return info;
 	}
 
 	// serializa a la actividad
@@ -75,7 +79,7 @@ public class Actividad {
 	// este metodo intente ser util tanto para cuando:
 	// 		-> se envian las propiedades de la actividad a presentacion
 	// 		-> se guardan los datos a integracion y se envian los datos de consulta a integracion
-	private String serializar () {
+	public String serializar () {
 		String identif="";
 		if(id>=0){
 			identif=String.valueOf(id);
