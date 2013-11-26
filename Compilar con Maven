@@ -1,7 +1,20 @@
+Instrucciones para importar el proyecto Maven a Eclipse EE Kepler
+=================================================================
+
+1) Abrir Eclipse EE Kepler.
+
+2) File->Import...
+
+3) Seleccionar la opción "Existing Maven Projects" y presionar "Next".
+
+4) En "Root Directory" colocar el directorio raíz del proyecto Maven y
+	presionar "Finish".
+
+
 Instrucciones para compilar y ejecutar el proyecto con Maven
+============================================================
 
 1)	Instalar Maven ejecutando: sudo apt-get maven
 
-2)	Ejecutar en el directorio del proyecto el comando mvn package (aún no funciona)
-
-3) (cuando se solucione el paso 2, sigo con el instructivo para ejecutar el proyecto)
+2)	Ejecutar en el directorio del proyecto el comando mvn package.
+	Esto genera el archivo taller2-actividad.war en el directorio target del proyecto.
