@@ -1,6 +1,5 @@
-package wtp;
-import wtp.Actividad;
-import wtp.ActividadIndividual;
+package fiuba.taller.actividad;
+
 public class ActividadControlador {
 	// para metodos comunes de todas las clases llama a actividad
 	public String getNombre(int id) {

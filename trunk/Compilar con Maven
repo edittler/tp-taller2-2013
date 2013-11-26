@@ -1,0 +1,7 @@
+Instrucciones para compilar y ejecutar el proyecto con Maven
+
+1)	Instalar Maven ejecutando: sudo apt-get maven
+
+2)	Ejecutar en el directorio del proyecto el comando mvn package (aún no funciona)
+
+3) (cuando se solucione el paso 2, sigo con el instructivo para ejecutar el proyecto)

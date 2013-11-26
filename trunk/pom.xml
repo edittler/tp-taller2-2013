@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>actividad</groupId>
+  <artifactId>taller2-actividad</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>taller2-actividad</name>
+
+  <build>
+    <finalName>taller2-actividad</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <inherited>true</inherited>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <!--<plugin>
+        <groupId>org.apache.axis2</groupId>
+        <artifactId>axis2-java2wsdl-maven-plugin</artifactId>
+        <version>1.6.2</version>
+        <configuration>
+          <className>fiuba.taller.actividad.ActividadControlador</className>
+          <serviceName>Example</serviceName>
+          <schemaTargetNamespace>http://slopjong.de</schemaTargetNamespace>
+          <schemaTargetNamespacePrefix>tns</schemaTargetNamespacePrefix>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>java2wsdl</goal>
+            </goals>
+          </execution>
+         </executions>
+      </plugin> -->
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- Testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- HTTP Components -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient-cache</artifactId>
+      <version>4.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>fluent-hc</artifactId>
+      <version>4.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.3.1</version>
+    </dependency>
+    
+    <!-- SOAP with Axis2 -->
+    <dependency> 
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-kernel</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-transport-http</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-transport-local</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+  </dependencies>
+</project>
