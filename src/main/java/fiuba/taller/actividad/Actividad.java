@@ -1,4 +1,4 @@
-package wtp;
+package fiuba.taller.actividad;
 
 import java.io.StringReader;
 

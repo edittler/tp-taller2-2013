@@ -1,4 +1,4 @@
-package wtp;
+package fiuba.taller.actividad;
 
 public class ActividadIndividual extends Actividad {
 
