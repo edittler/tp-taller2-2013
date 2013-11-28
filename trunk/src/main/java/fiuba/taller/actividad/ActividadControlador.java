@@ -57,11 +57,13 @@ public class ActividadControlador {
 		}
 		/*
 		 * FIXME Corregir la forma de carga de actividad desde integracion.
-		 * FIXME Corregir el retorno de agregarParticipante de ActividadIndividual
+		 * FIXME Corregir el retorno de agregarParticipante de 
+		 * ActividadIndividual. Lo ideal es que lance una excepción y en este
+		 * método se capture para luego enviar el mensaje correspondiente.
 		 */
 		ActividadIndividual actividadIndividual = new ActividadIndividual();
 		actividadIndividual.agregarParticipante(idActividad, idParticipante);
-
+		return "Ok";
 	}
 
 	public void eliminarParticipante(long idActividad, long idParticipante) {
