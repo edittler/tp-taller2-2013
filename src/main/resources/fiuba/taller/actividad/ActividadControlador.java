@@ -14,6 +14,9 @@ public class ActividadControlador {
 		Actividad actividad = new Actividad();
 		return actividad.getActividades(idAmbito, tipoAmbito);
 	}
+	
+	/*	METODOS DE CREACION DE ACTIVIDADES	*/
+	
 	public int crearActividadIndividual(String propiedades_xml){
 		Actividad actividad = new Actividad();
 		return actividad.crearActividadIndividual(propiedades_xml);
@@ -34,19 +37,70 @@ public class ActividadControlador {
 		Actividad actividad = new Actividad();
 		return actividad.crearActividadGrupalEvaluableGruposExlusivos(propiedades_xml);
 	}
+	
+	/*	METODOS DE CADA ACTIVIDAD PARTICULAR	*/
+	
+	/*	ACTIVIDAD INDIVIDUAL E HIJAS	*/
+	
+	public boolean agregarParticipante(long idActividad ,long idParticipante){
+		if(id_corresponde(idActividad)=="ActInd"){
+			ActividadIndividual actividadIndividual = new ActividadIndividual();
+			return actividadIndividual.agregarParticipante(idActividad, idParticipante);
+		}else{
+			// aca podria levantar una excepcion o algo asi
+			return false;
+		}
+	}
+	
+	public void eliminarParticipante(long idActividad, long idParticipante) {
+		
+	}
+	
+	public void getParticipantes(long idActividad) {
+		
+	}
+	
+	public void getParticipante(long idActividad, long idParticipante) {
+		
+	}
+	
 	private String id_corresponde(long id){
 		// recupero el tipo de clase de Integracion
 		// puede devolver ActInd ActGrup ActIndEv ActGrupEv ActGrupEvExcl o none
 		return "ActInd";
 	}
-	// para metodos propios de herederos de actividad llams segun id
-	public boolean agregar_participante (long id ,long id_participante){
-		if(id_corresponde(id)=="ActInd"){
-			ActividadIndividual act_individual = new ActividadIndividual();
-			return act_individual.agregar_participante(id, id_participante);
-		}else{
-			// aca podria levantar una excepcion o algo asi
-			return false;
-		}
+	
+	/*	ACTIVIDAD GRUPAL E HIJAS	*/
+	
+	public void agregarGrupo(long idActividad, long idGrupo) {
+		
+	}
+	
+	public void eliminarGrupo(long idActividad, long idGrupo) {
+		
+	}
+	
+	public void getGrupos(long idActividad) {
+		
+	}
+	
+	public void getGrupo(long idActividad, long idGrupo) {
+		
+	}
+	
+	/*	ACTIVIDADES EVALUABLES	*/
+	
+	// Evaluado puede ser un participante o un grupo, dependiendo si la actividad es ind o grupal
+	public void evaluar(long idActividad, long idEvaluado) {
+		
+	}
+	
+	public void getNota(long idActividad, long idEvaluado) {
+		
+	}
+	
+	// Verificar que la actividad sea evaluable
+	public void getNotas(long idActividad) {
+		
 	}
 }
