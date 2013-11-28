@@ -2,6 +2,9 @@ package fiuba.taller.actividad;
 
 public class ActividadGrupal extends Actividad {
 
+	public ActividadGrupal() {
+	}
+	
 	public ActividadGrupal(long idActividadGrupal) {
 		// TODO: Llamar a Integracion
 	}

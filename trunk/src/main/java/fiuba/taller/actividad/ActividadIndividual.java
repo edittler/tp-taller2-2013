@@ -2,6 +2,11 @@ package fiuba.taller.actividad;
 
 public class ActividadIndividual extends Actividad {
 
+	
+	public ActividadIndividual() {
+		//FIXME
+	}
+	
 	public ActividadIndividual(long idActividad) {
 		/* TODO: Llamar a Integracion para que nos devuelva el estado de la actividad
 		 * con ID = idActividad
@@ -17,7 +22,8 @@ public class ActividadIndividual extends Actividad {
 	}
 	
 	public String getParticipantes() {
-		
+		//FIXME
+		return "";
 	}
 	
 }

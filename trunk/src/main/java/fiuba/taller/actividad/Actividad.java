@@ -1,17 +1,6 @@
 package fiuba.taller.actividad;
 
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import fiuba.taller.xmlParser;
+import fiuba.taller.xml.XMLParser;
 
 public class Actividad {
 	private long id;
@@ -26,7 +15,7 @@ public class Actividad {
 	String fechaInicio;
 	String fechaFin;
 	// - muroSuperior : Informable
-	
+
 	public Actividad(){
 		id=10; // aca vamos a llamar a integracion para levantar los datos
 		nombre="pepe";
@@ -34,18 +23,20 @@ public class Actividad {
 		fechaInicio="hola";
 	}
 
-	private static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
-	}
-	
 	// ------------------------metodos de webbservice ----------------
+	public long getID() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
 	public String getNombre(int id) {
 		// cargar datos desde integracion usando id
 		// ej: string xml = Integracion (blabla id blabla);
 		//     obtener_datos(xml);
-		
+
 		// devolver nombre
 		return nombre;
 	}
@@ -66,13 +57,14 @@ public class Actividad {
 			return "usted pidio las actividades que contiene una actividad";
 		}
 	}
-	
+
 	// esta devuelve un xml
 	public String getPropiedades(int IdActividad){
 		// cargo datos de integracion
 		// devuelvo la clase serializada(necesario, no combiene directamente enviar xml que devuelve integracion??)
 		XMLParser xmlParser = new XMLParser();
-		return xmlParser.serializarActividad();
+		return xmlParser.serializarActividad(this);
 	}
-	
+
+	/*  METODOS AUXILIARES PRIVADOS */
 }
