@@ -1,5 +1,8 @@
 package fiuba.taller.actividad;
 
+/**
+ * Define la interfaz para poder manipular el webservice del paquete Actividad.
+ */
 public class ActividadControlador {
 	// para metodos comunes de todas las clases llama a actividad
 	public String getNombre(int id) {
@@ -14,9 +17,14 @@ public class ActividadControlador {
 		Actividad actividad = new Actividad();
 		return actividad.getActividades(idAmbito, tipoAmbito);
 	}
-	
+
 	/*	METODOS DE CREACION DE ACTIVIDADES	*/
-	
+
+	/**
+	 * 
+	 * @param propiedades_xml
+	 * @return
+	 */
 	public int crearActividadIndividual(String propiedades_xml){
 		Actividad actividad = new Actividad();
 		return actividad.crearActividadIndividual(propiedades_xml);
@@ -37,70 +45,75 @@ public class ActividadControlador {
 		Actividad actividad = new Actividad();
 		return actividad.crearActividadGrupalEvaluableGruposExlusivos(propiedades_xml);
 	}
-	
+
 	/*	METODOS DE CADA ACTIVIDAD PARTICULAR	*/
-	
+
 	/*	ACTIVIDAD INDIVIDUAL E HIJAS	*/
-	
-	public boolean agregarParticipante(long idActividad ,long idParticipante){
-		if(id_corresponde(idActividad)=="ActInd"){
-			ActividadIndividual actividadIndividual = new ActividadIndividual();
-			return actividadIndividual.agregarParticipante(idActividad, idParticipante);
-		}else{
-			// aca podria levantar una excepcion o algo asi
-			return false;
+
+	public String agregarParticipante(long idActividad ,long idParticipante){
+		if(!esActividadIndividual(idActividad)){
+			// FIXME Lanzar mensaje de error o algo por el estilo.
+			return "Error";
 		}
+		/*
+		 * FIXME Corregir la forma de carga de actividad desde integracion.
+		 * FIXME Corregir el retorno de agregarParticipante de ActividadIndividual
+		 */
+		ActividadIndividual actividadIndividual = new ActividadIndividual();
+		actividadIndividual.agregarParticipante(idActividad, idParticipante);
+
 	}
-	
+
 	public void eliminarParticipante(long idActividad, long idParticipante) {
-		
+
 	}
-	
+
 	public void getParticipantes(long idActividad) {
-		
+
 	}
-	
+
 	public void getParticipante(long idActividad, long idParticipante) {
-		
+
 	}
-	
-	private String id_corresponde(long id){
-		// recupero el tipo de clase de Integracion
-		// puede devolver ActInd ActGrup ActIndEv ActGrupEv ActGrupEvExcl o none
-		return "ActInd";
-	}
-	
+
 	/*	ACTIVIDAD GRUPAL E HIJAS	*/
-	
+
 	public void agregarGrupo(long idActividad, long idGrupo) {
-		
+
 	}
-	
+
 	public void eliminarGrupo(long idActividad, long idGrupo) {
-		
+
 	}
-	
+
 	public void getGrupos(long idActividad) {
-		
+
 	}
-	
+
 	public void getGrupo(long idActividad, long idGrupo) {
-		
+
 	}
-	
+
 	/*	ACTIVIDADES EVALUABLES	*/
-	
+
 	// Evaluado puede ser un participante o un grupo, dependiendo si la actividad es ind o grupal
 	public void evaluar(long idActividad, long idEvaluado) {
-		
+
 	}
-	
+
 	public void getNota(long idActividad, long idEvaluado) {
-		
+
 	}
-	
+
 	// Verificar que la actividad sea evaluable
 	public void getNotas(long idActividad) {
-		
+
+	}
+
+	/*  METODOS AUXILIARES PRIVADOS */
+
+	private boolean esActividadIndividual(long idActividad) {
+		// FIXME Levantar datos de integración y verificar el tipo de actividad
+		return true;
 	}
 }

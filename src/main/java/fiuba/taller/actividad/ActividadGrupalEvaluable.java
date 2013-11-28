@@ -6,9 +6,14 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements IEvalua
 		
 	}
 	
-	public void evaluar(long idEvaluado, String nota);
+	public void evaluar(long idEvaluado, String nota) {
+	}
 	
-	public String getNota(long idParticipante);
+	public String getNota(long idParticipante) {
+		return null;
+	}
 	
-	public String getNotas();
+	public String getNotas() {
+		return null;
+	}
 }
