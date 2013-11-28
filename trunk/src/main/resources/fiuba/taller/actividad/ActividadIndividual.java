@@ -2,11 +2,22 @@ package fiuba.taller.actividad;
 
 public class ActividadIndividual extends Actividad {
 
-	public ActividadIndividual() {
-		// TODO Auto-generated constructor stub
+	public ActividadIndividual(long idActividad) {
+		/* TODO: Llamar a Integracion para que nos devuelva el estado de la actividad
+		 * con ID = idActividad
+		 */
 	}
-	public boolean agregar_participante (long id ,long id_participante){
+	
+	public boolean agregarParticipante(long id ,long idParticipante) {
 		return true;
 	}
 
+	public void eliminarParticipante(long idParticipante) {
+		
+	}
+	
+	public String getParticipantes() {
+		
+	}
+	
 }
