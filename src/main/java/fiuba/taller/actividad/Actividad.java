@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.io.StringReader;
 import java.rmi.RemoteException;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -95,9 +96,10 @@ public class Actividad {
 					this.idActividadSuperior = Integer.valueOf(getValue(
 							"idActividadSuperior", element));
 					this.nombre = getValue("nombre", element);
+					this.tipo = getValue("Tipo", element);
 					this.fechaInicio = getValue("fechaini", element);
 					this.fechaFin = getValue("fechafin", element);
-					this.descripcion= getValue("Descripcion", element);
+					this.descripcion = getValue("Descripcion", element);
 				}
 			}
 		} catch (Exception ex) {
@@ -153,6 +155,10 @@ public class Actividad {
 		 System.out.print(response.get_return());
 		 */
 	}
+	public void levantarEstado(){
+		descerializar(getXml());
+	}
+	
 
 	/*
 	 * Con el estado interno actual que tiene la instancia , la serializa y
@@ -162,6 +168,9 @@ public class Actividad {
 	public String getXml(long id) {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
+		this.id = id;
+		String xml = this.serializar();
+		//TODO llamar a integrar y conseguir el xml completo
 		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<id>" + 45 + "</id>" 
 				+ "<idSuperior>" + 88 + "</idSuperior>"
@@ -184,8 +193,8 @@ public class Actividad {
 
 	public static Actividad getActividad(long idActividad) {
 		Actividad actividad = new Actividad();
-		String xml = actividad.getXml(idActividad);
-		actividad.descerializar(xml);
+		actividad.setId(idActividad);
+		actividad.levantarEstado();
 		return actividad;
 	}
 
