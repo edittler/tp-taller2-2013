@@ -35,14 +35,14 @@ public class Actividad {
 
 	// - muroSuperior : Informable
 	public Actividad() {
-		id = 10; // finalmente va -1
-		idAmbitoSuperior = 22; // finalmente va -1
-		idActividadSuperior = 88; // finalmente va -1
-		nombre = "pepe"; // finalmente va ""
-		fechaFin = "mamam"; // finalmente va ""
-		fechaInicio = "hola";
-		descripcion = "esto es una descripcion"; // finalmente va ""
-		tipo = "bad gay"; // finalmente va ""
+		id = -1;
+		idAmbitoSuperior = -1;
+		idActividadSuperior = -1;
+		nombre = "";
+		fechaFin = "";
+		fechaInicio = "";
+		descripcion = "";
+		tipo = "";
 	}
 
 	public static boolean esTipoValido(String xml) {
@@ -89,9 +89,15 @@ public class Actividad {
 
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
+					this.id = Integer.valueOf(getValue("id", element));
+					this.idAmbitoSuperior = Integer.valueOf(getValue(
+							"idAmbitoSuperior", element));
+					this.idActividadSuperior = Integer.valueOf(getValue(
+							"idActividadSuperior", element));
 					this.nombre = getValue("nombre", element);
 					this.fechaInicio = getValue("fechaini", element);
 					this.fechaFin = getValue("fechafin", element);
+					this.descripcion= getValue("Descripcion", element);
 				}
 			}
 		} catch (Exception ex) {
@@ -122,13 +128,13 @@ public class Actividad {
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+"<id>" + identif + "</id>"
 				+"<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
-				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
-				+ "<nombre>" + nombre + "</nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>"
-				+"<Descripcion>" + descripcion+"</Descripcion>"
+				+"<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
+				+"<nombre>" + nombre + "</nombre>"
+				+"<Tipo>" + tipo + "</Tipo>"
+				+"<Descripcion>" + descripcion +"</Descripcion>"
 				+"<fechaini>" + fechaInicio + "</fechaini>"
 				+"<fechafin>" + fechaFin + "</fechafin>" 
-				+ "</Actividad></WS>";
+				+"</Actividad></WS>";
 		return xml;
 	}
 
@@ -233,5 +239,33 @@ public class Actividad {
 				.getChildNodes();
 		Node node = (Node) nodes.item(0);
 		return node.getNodeValue();
+	}
+	/* METODOS PUBLICOS DE TESTING */
+	public String toString() {
+		return "ID: "+ this.id+ "\n"
+				+"ID AMBITO SUP: " +this.idAmbitoSuperior+"\n"
+				+"NOMBRE: "+ this.nombre + "\n"
+				+"FECHA INI: "+ this.fechaInicio + "\n"
+				+"FECHA FIN: "+ this.fechaFin + "\n"
+				+"DESCRIPCION: "+ this.descripcion + "\n";
+		
+	}
+	public long getIdAmbSup(){
+		return idAmbitoSuperior;
+	}
+	public long getIdActiSup(){
+		return idActividadSuperior;
+	}
+	public String getTipo(){
+		return tipo;
+	}
+	public String getDescripcion(){
+		return descripcion;
+	}
+	public String getFechaIni(){
+		return fechaInicio;
+	}
+	public String getFechaFin(){
+		return fechaFin;
 	}
 }
