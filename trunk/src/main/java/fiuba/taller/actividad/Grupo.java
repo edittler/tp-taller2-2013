@@ -5,7 +5,7 @@ public class Grupo {
 		return "no implementado";
 	}
 
-	public void descerializa(String xml) {
+	public void descerializar(String xml) {
 
 	}
 

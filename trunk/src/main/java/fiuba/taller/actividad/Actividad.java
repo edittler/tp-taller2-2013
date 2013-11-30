@@ -51,18 +51,19 @@ public class Actividad {
 
 	public String pruebaIntegracion() {
 		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
-		// GuardarDatosResponse response = new GuardarDatosResponse();
-		// GuardarDatos envio = new GuardarDatos();
-		// envio.setXml(xml);
-		// IntegracionStub servicio;
-		// try {
-		// servicio = new IntegracionStub();
-		// response = servicio.guardarDatos(envio);
-		// } catch (RemoteException e) {
-		// System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n");
-		// e.printStackTrace();
-		// return "ERROR";
-		// }
+		/*GuardarDatosResponse response = new GuardarDatosResponse();
+		 GuardarDatos envio = new GuardarDatos();
+		 envio.setXml(xml);
+		 IntegracionStub servicio;
+		 try {
+		 servicio = new IntegracionStub();
+		 response = servicio.guardarDatos(envio);
+		 } catch (RemoteException e) {
+		 System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n");
+		 e.printStackTrace();
+		 return "ERROR";
+		 }
+		*/
 		return "Integracion Contesto";// +response.get_return()+"\n";
 
 	}
@@ -88,19 +89,11 @@ public class Actividad {
 
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					info += "Actividad id: " + getValue("id", element) + "\n";
-					info += "Actividad nombre: " + getValue("nombre", element)
-							+ "\n";
 					this.nombre = getValue("nombre", element);
-					info += "Actividad fechaini: "
-							+ getValue("fechaini", element) + "\n";
 					this.fechaInicio = getValue("fechaini", element);
-					info += "Actividad fechafin: "
-							+ getValue("fechafin", element) + "\n";
 					this.fechaFin = getValue("fechafin", element);
 				}
 			}
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -115,41 +108,44 @@ public class Actividad {
 	// integracion
 	public String serializar() {
 		String identif = "";
-		String idAmbitoSuperiorString = "";
-		String idActividadSuperiorString = "ninguna";
+		String idAmbSupStr = "";
+		String idActSupStr = "ninguna";
 		if (id >= 0) {
 			identif = String.valueOf(id);
 		}
 		if (idAmbitoSuperior >= 0) {
-			idAmbitoSuperiorString = String.valueOf(idAmbitoSuperior);
+			idAmbSupStr = String.valueOf(idAmbitoSuperior);
 		}
 		if (idActividadSuperior >= 0) {
-			idActividadSuperiorString = String.valueOf(idActividadSuperior);
+			idActSupStr = String.valueOf(idActividadSuperior);
 		}
-		String xml = "<?xml version=\"1.0\"?><WS>" + "<Actividad>" + "<id>"
-				+ identif + "</id>" + "<idAmbitoSuperior>"
-				+ idAmbitoSuperiorString + "</idAmbitoSuperior>"
-				+ "<idActividadSuperior>" + idActividadSuperiorString
-				+ "</idActividadSuperior>" + "<nombre>" + nombre + "</nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>" + "<Descripcion>" + descripcion
-				+ "</Descripcion>" + "<fechaini>" + fechaInicio + "</fechaini>"
-				+ "<fechafin>" + fechaFin + "</fechafin>" + "</Actividad></WS>";
+		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
+				+"<id>" + identif + "</id>"
+				+"<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
+				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
+				+ "<nombre>" + nombre + "</nombre>"
+				+ "<Tipo>" + tipo + "</Tipo>"
+				+"<Descripcion>" + descripcion+"</Descripcion>"
+				+"<fechaini>" + fechaInicio + "</fechaini>"
+				+"<fechafin>" + fechaFin + "</fechafin>" 
+				+ "</Actividad></WS>";
 		return xml;
 	}
 
 	public void guardarEstado() {
-		// GuardarDatosResponse response = new GuardarDatosResponse();
-		// GuardarDatos envio = new GuardarDatos();
-		// envio.setXml(serializar());
-		// IntegracionStub servicio;
-		// try {
-		// servicio = new IntegracionStub();
-		// response = servicio.guardarDatos(envio);
-		// } catch (RemoteException e) {
-		// System.out.print("Ocurrio un Error en el metodo setNombre\n");
-		// e.printStackTrace();
-		// }
-		// System.out.print(response.get_return());
+		/* GuardarDatosResponse response = new GuardarDatosResponse();
+		 GuardarDatos envio = new GuardarDatos();
+		 envio.setXml(serializar());
+		 IntegracionStub servicio;
+		 try {
+		 servicio = new IntegracionStub();
+		 response = servicio.guardarDatos(envio);
+		 } catch (RemoteException e) {
+		 System.out.print("Ocurrio un Error en el metodo setNombre\n");
+		 e.printStackTrace();
+		 }
+		 System.out.print(response.get_return());
+		 */
 	}
 
 	/*
@@ -160,13 +156,15 @@ public class Actividad {
 	public String getXml(long id) {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
-		String xmlDevuelto = "<?xml version=\"1.0\"?><WS>" + "<Actividad>"
-				+ "<id>" + 45 + "</id>" + "<idSuperior>" + 88 + "</idSuperior>"
-				+ "<nombre>" + "pepe" + "</nombre>" + "<Tipo>"
-				+ "ActividadIndividual" + "</Tipo>" + "<Descripcion>"
-				+ "esto es una descripcion" + "</Descripcion>" + "<fechaini>"
-				+ "esto es una fechaInicio" + "</fechaini>" + "<fechafin>"
-				+ "esto es una fechaFin" + "</fechafin>" + "</Actividad></WS>";
+		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>"
+				+ "<id>" + 45 + "</id>" 
+				+ "<idSuperior>" + 88 + "</idSuperior>"
+				+ "<nombre>" + "pepe" + "</nombre>"
+				+ "<Tipo>"+ "ActividadIndividual" + "</Tipo>" 
+				+ "<Descripcion>"+ "esto es una descripcion" + "</Descripcion>" 
+				+ "<fechaini>"+ fechaInicio + "</fechaini>" 
+				+ "<fechafin>"+ fechaFin + "</fechafin>" 
+				+ "</Actividad></WS>";
 		return xmlDevuelto;
 	}
 
@@ -227,29 +225,8 @@ public class Actividad {
 	 * "usted pidio las actividades que contiene una actividad\n"; } return
 	 * "tipo de ambito no valido : "+tipoAmbito; }
 	 */
-	public int crearActividadIndividual(String propiedades_xml) {
-		return 0;
-	}
-
-	public int crearActividadGrupal(String propiedades_xml) {
-		return 0;
-	}
-
-	public int crearActividadIndividualEvaluable(String propiedades_xml) {
-		return 0;
-	}
-
-	public int crearActividadGrupalEvaluable(String propiedades_xml) {
-		return 0;
-	}
-
-	public int crearActividadGrupalEvaluableGruposExlusivos(
-			String propiedades_xml) {
-		return 0;
-	}
-
+	
 	/* METODOS PRIVADOS AUXILIARES */
-
 	// metodo interno de ayuda para el parseo
 	private static String getValue(String tag, Element element) {
 		NodeList nodes = element.getElementsByTagName(tag).item(0)

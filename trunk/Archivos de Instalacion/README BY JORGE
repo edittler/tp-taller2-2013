@@ -17,7 +17,15 @@ PASOS para una instalación desde 0:
 	http://www.eclipse.org/webtools/jst/components/ws/1.5/tutorials/BottomUpWebService/BottomUpWebService.html
 
 6: Como generar el .wsdl de la clase Actividad ??
-   -> FACIL : Sigue las instrucciones de 
+   -> FACIL :
+	   	Forma1:
+	   	has deploy en el servidor el webbsevice
+		entra en http://localhost:8080
+		entra en el manager de tomcat y pincha en el webbservice que anteriormente hiciste deploy
+		ahi te muestra el wsdl
+		usa TODA la direccion url como si fuera un archivo normal
+   		
+   		Forma2: Sigue las instrucciones de 
    		http://axis.apache.org/axis2/java/core/tools/eclipse/plugin-installation.html 
    		para instalar el plugin que lo generará. Sigue las instrucciones de 
    		http://axis.apache.org/axis2/java/core/tools/eclipse/wsdl2java-plugin.html 
@@ -28,3 +36,8 @@ PASOS para una instalación desde 0:
 	      	->ingresar Add Folder (nombre de proyecto)/WebContent/WEB-INF/services/Actividad     OJO: no entrar en wtp
 	      	->apretar boton Test Class Loading -> les deberia decir : file Class loaded succesfully
 	      	->apretar boton next ect ect el resto es logica humana :)
+7: como consumir un webbservice
+	mete el wsdl de el webbservice en el plugin de eclipse y click en la opcion
+	-> Generate java from WSDL file
+	-> ahi te genera clases que servirán para comunicarte con el webbservice
+	-> mira el codigo en Actividad guardarEstado para entender como utilizar estas clases
