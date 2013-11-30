@@ -32,7 +32,7 @@ public class PruebasActividad {
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<id>" + idPrueba + "</id>" 
-				+"<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
+				+ "<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
 				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
 				+ "<nombre>" + nombrePrueba + "</nombre>"
 				+ "<Tipo>"+ tipo + "</Tipo>" 
@@ -46,14 +46,20 @@ public class PruebasActividad {
 		if (act.getId() != idPrueba){
 			fail("id esperado: "+idPrueba+" id encontrado: "+act.getId());
 		}
+		if(act.getIdAmbSup() != idAmbSupStr){
+			fail("idAmbitoSuperior esperado: "+idAmbSupStr+" idAmbitoSuperior encontrado: "+act.getIdAmbSup());
+		}
 		if(act.getIdActiSup() != idActSupStr){
 			fail("idActividadSuperior esperado: "+idActSupStr+" idActividadSuperior encontrado: "+act.getIdActiSup());
 		}
 		if(!act.getNombre().equals(nombrePrueba)){
 			fail("nombre esperado: "+nombrePrueba+" nombre encontrado: "+act.getNombre());
 		}
-		if(act.getIdAmbSup() != idAmbSupStr){
-			fail("idAmbitoSuperior esperado: "+idAmbSupStr+" idAmbitoSuperior encontrado: "+act.getIdAmbSup());
+		if(!act.getTipo().equals(tipo)){
+			fail("tipo esperado: "+tipo+"tipo encontrado: "+act.getTipo());
+		}
+		if(!act.getDescripcion().equals(descripcion)){
+			fail("descripcion esperada: "+descripcion+" descripcion encontrada: "+act.getDescripcion());
 		}
 		if(!act.getFechaIni().equals(fechaIni)) {
 			fail("fecha inicio distinta");
@@ -61,14 +67,36 @@ public class PruebasActividad {
 		if(!act.getFechaFin().equals(fechaFin)){
 			fail("fecha fin distinta");
 		}
-		if(!act.getDescripcion().equals(descripcion)){
-			fail("descripcion esperada: "+descripcion+" descripcion encontrada: "+act.getDescripcion());
-		}
+		
 	}
 
 	@Test
 	public void testSerializar() {
-		fail("Not yet implemented");
+		long idPrueba = 22;
+		long idAmbSupStr = 99;
+		long idActSupStr = 77;
+		String nombrePrueba = "langosta";
+		String tipo = "bay guy";
+		String descripcion = "nada q ver nada q oler";
+		String fechaIni = "11/11/11";
+		String fechaFin = "12/12/12";
+		
+		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
+				+ "<id>" + idPrueba + "</id>" 
+				+"<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
+				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<Tipo>"+ tipo + "</Tipo>" 
+				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
+				+ "<fechaini>"+ fechaIni + "</fechaini>" 
+				+ "<fechafin>"+ fechaFin + "</fechafin>" 
+				+ "</Actividad></WS>";
+		
+		act.descerializar(xmlADescerializar);
+		String xmlFinal = act.serializar();
+		if(!xmlADescerializar.equals(xmlFinal)){
+			fail("los xml son DISTINTOS\nxml original:\n"+xmlADescerializar+"\nxml de actividad:\n"+xmlFinal);
+		}
 	}
 
 	@Test

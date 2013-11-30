@@ -25,8 +25,8 @@ public class ActividadIndividual extends Actividad {
 
 	public static ActividadIndividual getActividad(long idActividad) {
 		ActividadIndividual actividad = new ActividadIndividual();
-		String xml = actividad.getXml(idActividad);
-		actividad.descerializar(xml);
+		actividad.setId(idActividad);
+		actividad.levantarEstado();
 		return actividad;
 	}
 }
