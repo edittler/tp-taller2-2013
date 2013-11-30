@@ -17,25 +17,21 @@ import org.xml.sax.InputSource;
 
 @SuppressWarnings("unused")
 public class Actividad {
-	private static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
-	private static final String TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE = "Individual Evaluable";
-	private static final String TIPO_ACTIVIDAD_GRUPAL = "Grupal";
-	private static final String TIPO_ACTIVIDAD_GRUPAL_EVALUABLE = "Grupal Evaluable";
 
-	private long id;
-	private String nombre;
-	private String tipo;
-	private String descripcion;
-	private long idAmbitoSuperior;
-	private long idActividadSuperior;
+	protected long id;
+	protected String nombre;
+	protected String tipo;
+	protected String descripcion;
+	protected long idAmbitoSuperior;
+	protected long idActividadSuperior;
 	// - coordinadores : ArrayList<Miembro>
 	// - cartelera : Cartelera
 	// - foro : Foro
 	// - actividadesInternas : ArrayList<Actividad>
 	// - chat : Chat (necesario ??)
 	// usar desp tipo de dato correcto en fechas
-	String fechaInicio;
-	String fechaFin;
+	protected String fechaInicio;
+	protected String fechaFin;
 
 	// - muroSuperior : Informable
 	public Actividad() {
@@ -49,25 +45,24 @@ public class Actividad {
 		tipo = "bad gay"; // finalmente va ""
 	}
 
-	// metodo interno de ayuda para el parseo
-	private static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0)
-				.getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
+	public static boolean esTipoValido(String xml) {
+		return true;
 	}
 
 	public String pruebaIntegracion() {
 		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
-		/*
-		 * GuardarDatosResponse response = new GuardarDatosResponse();
-		 * GuardarDatos envio = new GuardarDatos(); envio.setXml(xml);
-		 * IntegracionStub servicio; try { servicio = new IntegracionStub();
-		 * response = servicio.guardarDatos(envio); } catch (RemoteException e)
-		 * {
-		 * System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n"
-		 * ); e.printStackTrace(); return "ERROR"; }
-		 */
+		// GuardarDatosResponse response = new GuardarDatosResponse();
+		// GuardarDatos envio = new GuardarDatos();
+		// envio.setXml(xml);
+		// IntegracionStub servicio;
+		// try {
+		// servicio = new IntegracionStub();
+		// response = servicio.guardarDatos(envio);
+		// } catch (RemoteException e) {
+		// System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n");
+		// e.printStackTrace();
+		// return "ERROR";
+		// }
 		return "Integracion Contesto";// +response.get_return()+"\n";
 
 	}
@@ -143,14 +138,18 @@ public class Actividad {
 	}
 
 	public void guardarEstado() {
-		/*
-		 * GuardarDatosResponse response = new GuardarDatosResponse();
-		 * GuardarDatos envio = new GuardarDatos(); envio.setXml( serializar()
-		 * ); IntegracionStub servicio; try { servicio = new IntegracionStub();
-		 * response = servicio.guardarDatos(envio); } catch (RemoteException e)
-		 * { System.out.print("Ocurrio un Error en el metodo setNombre\n");
-		 * e.printStackTrace(); } System.out.print(response.get_return());
-		 */
+		// GuardarDatosResponse response = new GuardarDatosResponse();
+		// GuardarDatos envio = new GuardarDatos();
+		// envio.setXml(serializar());
+		// IntegracionStub servicio;
+		// try {
+		// servicio = new IntegracionStub();
+		// response = servicio.guardarDatos(envio);
+		// } catch (RemoteException e) {
+		// System.out.print("Ocurrio un Error en el metodo setNombre\n");
+		// e.printStackTrace();
+		// }
+		// System.out.print(response.get_return());
 	}
 
 	/*
@@ -179,7 +178,6 @@ public class Actividad {
 		return getXml(-1);
 	}
 
-	// a pedido del pampa
 	public static Actividad getActividad(long idActividad) {
 		Actividad actividad = new Actividad();
 		String xml = actividad.getXml(idActividad);
@@ -203,28 +201,20 @@ public class Actividad {
 		this.nombre = nombre;
 	}
 
-	public boolean esIndividual() {
-		return tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL);
-	}
-
-	public boolean esIndividualEvaluable() {
-		return tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE);
-	}
-
-	public boolean esGrupal() {
-		return tipo.equals(TIPO_ACTIVIDAD_GRUPAL);
-	}
-
-	public boolean esGrupalEvaluable() {
-		return tipo.equals(TIPO_ACTIVIDAD_GRUPAL_EVALUABLE);
-	}
-
 	public void setIdAmbitoSuperior(long idAmbitoSuperior) {
 		this.idAmbitoSuperior = idAmbitoSuperior;
 	}
 
 	public void setIdActividadSuperior(long idActividadSuperior) {
 		this.idActividadSuperior = idActividadSuperior;
+	}
+
+	// esta devuelve un xml
+	public String getPropiedades(int IdActividad) {
+		// cargo datos de integracion
+		// devuelvo la clase serializada(necesario, no combiene directamente
+		// enviar xml que devuelve integracion??)
+		return serializar();
 	}
 
 	// FALTA HACER
@@ -258,16 +248,13 @@ public class Actividad {
 		return 0;
 	}
 
-	// esta devuelve un xml
-	public String getPropiedades(int IdActividad) {
-		// cargo datos de integracion
-		// devuelvo la clase serializada(necesario, no combiene directamente
-		// enviar xml que devuelve integracion??)
-		return serializar();
-	}
+	/* METODOS PRIVADOS AUXILIARES */
 
-	// metodo que se sobreescribe en cada clase
-	public boolean corresponde(String xml) {
-		return false;
+	// metodo interno de ayuda para el parseo
+	private static String getValue(String tag, Element element) {
+		NodeList nodes = element.getElementsByTagName(tag).item(0)
+				.getChildNodes();
+		Node node = (Node) nodes.item(0);
+		return node.getNodeValue();
 	}
 }
