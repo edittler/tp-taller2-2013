@@ -73,21 +73,18 @@ public class ActividadControlador {
 	}
 
 	public long crearActividadGrupal(String propiedadesXml) {
-		Actividad actividad = new Actividad();
-		return actividad.crearActividadGrupal(propiedadesXml);
 		// TODO Terminar de implementar
+		return 0;
 	}
 
 	public long crearActividadIndividualEvaluable(String propiedadesXml) {
-		Actividad actividad = new Actividad();
-		return actividad.crearActividadIndividualEvaluable(propiedadesXml);
 		// TODO Terminar de implementar
+		return 0;
 	}
 
 	public long crearActividadGrupalEvaluable(String propiedades_xml) {
-		Actividad actividad = new Actividad();
-		return actividad.crearActividadGrupalEvaluable(propiedades_xml);
 		// TODO Terminar de implementar
+		return 0;
 	}
 
 	public long crearActividadGrupalEvaluableGruposExlusivos(
@@ -98,17 +95,14 @@ public class ActividadControlador {
 		 * un booleano?
 		 */
 
-		Actividad actividad = new Actividad();
-		return actividad
-				.crearActividadGrupalEvaluableGruposExlusivos(propiedades_xml);
+		return 0;
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
 	// metodo que levanta una excepcion (FALTA HACER)
 	public void agregarParticipante(long idActividad, long idParticipante) {
-		ActividadIndividual actividad = ActividadIndividual
-				.getActividad(idActividad);
+		ActividadIndividual actividad = ActividadIndividual.getActividad(idActividad);
 		actividad.agregarParticipante(idParticipante);
 	}
 
@@ -146,18 +140,18 @@ public class ActividadControlador {
 
 	// Evaluado puede ser un participante o un grupo, dependiendo si la
 	// actividad es ind o grupal
-	public void evaluar(long idActividad, long idEvaluado) {
+	public void evaluar(long idActividad, long idEvaluado, String nota) {
 		Actividad actividad = new Actividad();
 		String xml = actividad.getXml(idActividad);
+		IEvaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
-			ActividadIndividualEvaluable actividadEvaluable = ActividadIndividualEvaluable
-					.getActividad(idActividad);
-			return;
+			evaluable = ActividadIndividualEvaluable.getActividad(idActividad);
+		} else if (ActividadGrupalEvaluable.esTipoValido(xml)) {
+			evaluable = ActividadGrupalEvaluable.getActividad(idActividad);
+		} else {
+			// LEVANTAR EXCEPCION
 		}
-		if (ActividadGrupalEvaluable.esTipoValido(xml)) {
-			ActividadGrupalEvaluable actividadEvaluable = ActividadGrupalEvaluable
-					.getActividad(idActividad);
-		}
+		evaluable.evaluar(idEvaluado, nota);
 		// TODO Terminar de implementar
 	}
 
