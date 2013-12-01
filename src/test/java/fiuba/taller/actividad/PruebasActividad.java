@@ -93,7 +93,9 @@ public class PruebasActividad {
 				+ "</Actividad></WS>";
 		
 		act.descerializar(xmlADescerializar);
+		
 		String xmlFinal = act.serializar();
+		
 		if(!xmlADescerializar.equals(xmlFinal)){
 			fail("los xml son DISTINTOS\nxml original:\n"+xmlADescerializar+"\nxml de actividad:\n"+xmlFinal);
 		}

@@ -85,10 +85,10 @@ public class Actividad {
 
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					this.id = Integer.valueOf(getValue("id", element));
-					this.idAmbitoSuperior = Integer.valueOf(getValue(
+					this.id = Long.valueOf(getValue("id", element));
+					this.idAmbitoSuperior = Long.valueOf(getValue(
 							"idAmbitoSuperior", element));
-					this.idActividadSuperior = Integer.valueOf(getValue(
+					this.idActividadSuperior = Long.valueOf(getValue(
 							"idActividadSuperior", element));
 					this.nombre = getValue("nombre", element);
 					this.tipo = getValue("Tipo", element);

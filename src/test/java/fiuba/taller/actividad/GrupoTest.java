@@ -25,6 +25,22 @@ public class GrupoTest {
 	}
 
 	@Test
+	public void serializar() {
+		long idGrupo = 10;
+		long idParticipante1 = 20;
+		long idParticipante2 = 88;
+		String xmlADescerializar =  "<?xml version=\"1.0\"?><WS><Grupo>"
+				+"<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+"<IdParticipante>"+ idParticipante1+ "</IdParticipante>"
+				+"<IdParticipante>"+ idParticipante2+ "</IdParticipante>"
+				+"</Grupo></WS>";
+		grupo.descerializar(xmlADescerializar);
+		String xml = grupo.serializar();
+		if(!xml.equals(xmlADescerializar)){
+			fail("xml DISTINTOS:");
+		}
+	}
+	@Test
 	public void testDescerializar() {
 		long idGrupo = 10;
 		long idParticipante1 = 20;
