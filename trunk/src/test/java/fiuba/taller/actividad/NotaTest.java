@@ -69,7 +69,7 @@ public class NotaTest {
 		
 		nota.descerializar(xmlADescerializar);
 		
-		String xml = nota.testSerializar();
+		String xml = nota.serializar();
 		
 		if(!xml.equals(xmlADescerializar)){
 			fail("xml NO COINCIDEN \n esperado: \n "+xmlADescerializar+" \n xml devuelto: \n "+xml);
