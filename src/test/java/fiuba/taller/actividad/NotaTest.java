@@ -55,7 +55,25 @@ public class NotaTest {
 
 	@Test
 	public void testSerializar() {
-		fail("Not yet implemented");
+		long idActividad = 100;
+		long idElemento = 878;
+		String valorNota = "4";
+		String observaciones = "pibe metele pata que asi vas a terminar laburando de panadero";
+
+		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Nota>"
+				+"<IdActividad>"+idActividad+"</IdActividad>"
+				+"<IdElementoEvaluado>"+idElemento+"</IdElementoEvaluado>"
+				+"<ValorNota>"+valorNota+"</ValorNota>"
+				+"<Observaciones>"+observaciones+"</Observaciones>"
+				+"</Nota></WS>";
+		
+		nota.descerializar(xmlADescerializar);
+		
+		String xml = nota.testSerializar();
+		
+		if(!xml.equals(xmlADescerializar)){
+			fail("xml NO COINCIDEN \n esperado: \n "+xmlADescerializar+" \n xml devuelto: \n "+xml);
+		}
 	}
 
 	@Test
