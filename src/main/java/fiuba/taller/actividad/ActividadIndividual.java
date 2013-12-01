@@ -29,13 +29,23 @@ public class ActividadIndividual extends Actividad {
 
 	/* METODOS DE CLASE (ESTATICOS) */
 
-	public static long crearInstancia(String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+	public static boolean esTipoValido(String xml) {
+		Actividad actividad = new Actividad();
+		actividad.descerializar(xml);
+		if (actividad.tipo.contains((CharSequence) TIPO_ACTIVIDAD_INDIVIDUAL))
+			return true;
+		return false;
+	}
+
+	public static ActividadIndividual crearInstancia(String xmlPropiedades) {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.descerializar(xmlPropiedades);
-		// TODO Obtener un ID nuevo
+		// TODO(Pampa) Obtener un ID nuevo
 		// actividad.id = nuevoId;
-		return actividad.id;
+		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
+		// TODO(Pampa) Validar fecha y lanzar excepcion
+		actividad.guardarEstado();
+		return actividad;
 	}
 
 	public static ActividadIndividual getActividad(long idActividad) {
