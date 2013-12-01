@@ -1,4 +1,4 @@
-package tests.actividad;
+package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
@@ -46,11 +46,11 @@ public class PruebasActividad {
 		if (act.getId() != idPrueba){
 			fail("id esperado: "+idPrueba+" id encontrado: "+act.getId());
 		}
-		if(act.getIdAmbSup() != idAmbSupStr){
-			fail("idAmbitoSuperior esperado: "+idAmbSupStr+" idAmbitoSuperior encontrado: "+act.getIdAmbSup());
+		if(act.getIdAmbitoSuperior() != idAmbSupStr){
+			fail("idAmbitoSuperior esperado: "+idAmbSupStr+" idAmbitoSuperior encontrado: "+act.getIdAmbitoSuperior());
 		}
-		if(act.getIdActiSup() != idActSupStr){
-			fail("idActividadSuperior esperado: "+idActSupStr+" idActividadSuperior encontrado: "+act.getIdActiSup());
+		if(act.getIdActividadSuperior() != idActSupStr){
+			fail("idActividadSuperior esperado: "+idActSupStr+" idActividadSuperior encontrado: "+act.getIdActividadSuperior());
 		}
 		if(!act.getNombre().equals(nombrePrueba)){
 			fail("nombre esperado: "+nombrePrueba+" nombre encontrado: "+act.getNombre());
@@ -61,7 +61,7 @@ public class PruebasActividad {
 		if(!act.getDescripcion().equals(descripcion)){
 			fail("descripcion esperada: "+descripcion+" descripcion encontrada: "+act.getDescripcion());
 		}
-		if(!act.getFechaIni().equals(fechaIni)) {
+		if(!act.getFechaInicio().equals(fechaIni)) {
 			fail("fecha inicio distinta");
 		}
 		if(!act.getFechaFin().equals(fechaFin)){

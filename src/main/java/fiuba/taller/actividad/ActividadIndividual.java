@@ -1,5 +1,9 @@
 package fiuba.taller.actividad;
 
+
+import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
+
 public class ActividadIndividual extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
@@ -9,18 +13,29 @@ public class ActividadIndividual extends Actividad {
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
 	}
 
-	public boolean agregarParticipante(long idParticipante) {
-		// TODO Implementar
-		return true;
+	public void agregarParticipante(long idParticipante) {
+		/* TODO Implementar.
+		 * Si ya existe el participante, no se realiza nada?
+		 */
 	}
 
-	public static boolean esTipoValido(String xml) {
+	public void eliminarParticipante(long idParticipante)
+			throws ParticipanteInexistenteExcepcion {
 		/*
-		 * TODO Implementar Se debe verificar que el tipo almacenado en el xml
-		 * contiene a TIPO_ACTIVIDAD_INDIVIDUAL. No precisamente debe ser igual,
-		 * ya que pueden haber clases hijas, como ActividadIndividualEvaluable.
+		 * TODO Implementar. Si no existe el participante, se debería lanzar una
+		 * excepcion.
 		 */
-		return true;
+	}
+
+	/* METODOS DE CLASE (ESTATICOS) */
+
+	public static long crearInstancia(String xmlPropiedades)
+			throws XmlErroneoExcepcion {
+		ActividadIndividual actividad = new ActividadIndividual();
+		actividad.descerializar(xmlPropiedades);
+		// TODO Obtener un ID nuevo
+		// actividad.id = nuevoId;
+		return actividad.id;
 	}
 
 	public static ActividadIndividual getActividad(long idActividad) {
