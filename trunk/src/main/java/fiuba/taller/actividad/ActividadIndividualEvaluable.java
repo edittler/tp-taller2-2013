@@ -26,12 +26,11 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	public static boolean esTipoValido(String xml) {
-		/*
-		 * TODO Implementar Se debe verificar que el tipo almacenado en el xml
-		 * contiene a TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE. No precisamente debe
-		 * ser igual, ya que pueden haber clases hijas.
-		 */
-		return true;
+		Actividad actividad = new Actividad();
+		actividad.descerializar(xml);
+		if (actividad.tipo.contains((CharSequence) TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE))
+			return true;
+		return false;
 	}
 
 	public static ActividadIndividualEvaluable getActividad(long idActividad) {

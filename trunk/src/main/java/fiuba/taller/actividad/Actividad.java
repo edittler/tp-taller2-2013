@@ -46,10 +46,6 @@ public class Actividad {
 		tipo = "";
 	}
 
-	public static boolean esTipoValido(String xml) {
-		return true;
-	}
-
 	public String pruebaIntegracion() {
 		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
 		/*GuardarDatosResponse response = new GuardarDatosResponse();
@@ -155,10 +151,10 @@ public class Actividad {
 		 System.out.print(response.get_return());
 		 */
 	}
+
 	public void levantarEstado(){
 		descerializar(getXml());
 	}
-	
 
 	/*
 	 * Con el estado interno actual que tiene la instancia , la serializa y
@@ -189,13 +185,6 @@ public class Actividad {
 	 */
 	public String getXml() {
 		return getXml(-1);
-	}
-
-	public static Actividad getActividad(long idActividad) {
-		Actividad actividad = new Actividad();
-		actividad.setId(idActividad);
-		actividad.levantarEstado();
-		return actividad;
 	}
 
 	public long getId() {
@@ -230,18 +219,27 @@ public class Actividad {
 		return serializar();
 	}
 
-	// FALTA HACER
-	// devuelve xml
-	/*
-	 * public String getActividades(int id,String tipoAmbito){ if
-	 * (tipoAmbito.equalsIgnoreCase("Ambito")){ return
-	 * "usted pidio las actividades que contiene un Ambito\n"; }else
-	 * if(tipoAmbito.equalsIgnoreCase("Actividad")){ return
-	 * "usted pidio las actividades que contiene una actividad\n"; } return
-	 * "tipo de ambito no valido : "+tipoAmbito; }
-	 */
-	
+	/*  METODOS DE CLASE (ESTATICOS)  */
+
+	public static Actividad getActividad(long idActividad) {
+		Actividad actividad = new Actividad();
+		actividad.setId(idActividad);
+		actividad.levantarEstado();
+		return actividad;
+	}
+
+	public static String getActividades(long idAmbito, String tipoAmbito) {
+		if (tipoAmbito.equalsIgnoreCase("Ambito")) {
+			return "Usted pidio las actividades que contiene un Ambito\n";
+		} else if(tipoAmbito.equalsIgnoreCase("Actividad")) {
+			return "usted pidio las actividades que contiene una actividad\n";
+		}
+		// TODO Hacer que devuelva el xml de actividades
+		return "tipo de ambito no valido : "+tipoAmbito;
+	}
+
 	/* METODOS PRIVADOS AUXILIARES */
+
 	// metodo interno de ayuda para el parseo
 	private static String getValue(String tag, Element element) {
 		NodeList nodes = element.getElementsByTagName(tag).item(0)
@@ -249,7 +247,9 @@ public class Actividad {
 		Node node = (Node) nodes.item(0);
 		return node.getNodeValue();
 	}
-	/* METODOS PUBLICOS DE TESTING */
+
+	/*  METODOS PUBLICOS DE TESTING  */
+
 	public String toString() {
 		return "ID: "+ this.id+ "\n"
 				+"ID AMBITO SUP: " +this.idAmbitoSuperior+"\n"
@@ -259,21 +259,27 @@ public class Actividad {
 				+"DESCRIPCION: "+ this.descripcion + "\n";
 		
 	}
-	public long getIdAmbSup(){
+
+	public long getIdAmbitoSuperior(){
 		return idAmbitoSuperior;
 	}
-	public long getIdActiSup(){
+
+	public long getIdActividadSuperior(){
 		return idActividadSuperior;
 	}
+
 	public String getTipo(){
 		return tipo;
 	}
+
 	public String getDescripcion(){
 		return descripcion;
 	}
-	public String getFechaIni(){
+
+	public String getFechaInicio(){
 		return fechaInicio;
 	}
+
 	public String getFechaFin(){
 		return fechaFin;
 	}
