@@ -1,5 +1,7 @@
 package fiuba.taller.actividad;
 
+import java.util.List;
+
 public interface IEvaluable {
 
 	/*
@@ -13,10 +15,10 @@ public interface IEvaluable {
 	/*
 	 * 
 	 * */
-	public String getNota(long idParticipante);
+	public Nota getNota(long idParticipante);
 	
 	/*
 	 * 
 	 * */
-	public String getNotas();
+	public List<Nota> getNotas();
 }

@@ -1,11 +1,8 @@
 package fiuba.taller.actividad;
 
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -170,7 +167,7 @@ public class ActividadControlador {
 	}
 
 	public void getParticipante(long idActividad, long idParticipante) {
-		// TODO Implementar
+		// TODO Implementar getParticipante (¿comunicarse con Participacion?)
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
@@ -228,7 +225,7 @@ public class ActividadControlador {
 	}
 
 	public void getGrupo(long idActividad, long idGrupo) {
-		// TODO Implementar
+		// TODO Implementar getGrupo (¿comunicarse con Participacion?)
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES EVALUABLES */
@@ -249,13 +246,115 @@ public class ActividadControlador {
 		evaluable.evaluar(idEvaluado, nota);
 		// TODO Terminar de implementar
 	}
+	
+	// TODO: Refactorizar
+	public IEvaluable encontrarActividadEvaluable(long idActividad) {
+		// TODO Refactorizar la busqueda de actividades evaluables
+		Actividad actividad = new Actividad();
+		String xml = actividad.getXml(idActividad);
+		IEvaluable evaluable = null;
+		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
+			return ActividadIndividualEvaluable.getActividad(idActividad);
+		} else if (ActividadGrupalEvaluable.esTipoValido(xml)) {
+			return ActividadGrupalEvaluable.getActividad(idActividad);
+		} else {
+			return evaluable;
+		}
+	}
 
-	public void getNota(long idActividad, long idEvaluado) {
-		// TODO Implementar
+	public String getNota(long idActividad, long idEvaluado) {
+		IEvaluable evaluable = encontrarActividadEvaluable(idActividad);
+		if (evaluable == null) {
+			//TODO: Lanzar alguna excepcion
+		}
+		Nota nota = evaluable.getNota(idEvaluado);
+		// TODO: ¿Muy C? Refactorizar, quizas...
+		if (nota != null) {
+			// Armo el XML correspondiente a la nota
+			Document docNota = null;
+			try {
+				docNota = DocumentBuilderFactory.newInstance().
+						newDocumentBuilder().newDocument();
+			} catch (ParserConfigurationException e) {
+				// TODO do some magic with exceptions, Ferno!
+			}
+			
+			Element root = docNota.createElement("Nota");
+			root.setAttribute("ID", ((Long)nota.getIdActividad()).toString());
+			
+			// Se agrega nodo "Valor" al XML
+			Element valor = docNota.createElement("Valor");
+			valor.setTextContent(nota.getNota());
+			root.appendChild(valor);
+			
+			// Se agrega nodo "Observaciones" al XML
+			Element obs = docNota.createElement("Observaciones");
+			obs.setTextContent(nota.getObservaciones());
+			root.appendChild(obs);
+			
+			docNota.appendChild(root);
+			
+			String xmlNota = null;
+			try {
+				xmlNota = this.getStringFromDocument(docNota);
+			} catch (TransformerException e) {
+				// TODO add exceptions magic here, Ferno :)
+			}
+			
+			return xmlNota;
+		}
+		
+		// TODO: Retornar algun tipo de Excepcion!
+		return null;
 	}
 
 	// Verificar que la actividad sea evaluable
-	public void getNotas(long idActividad) {
-		// TODO Implementar
+	public String getNotas(long idActividad) {
+		IEvaluable evaluable = encontrarActividadEvaluable(idActividad);
+		if (evaluable == null) {
+			//TODO: Lanzar alguna excepcion
+		}
+		
+		List<Nota> notas = evaluable.getNotas();
+		
+		// Creo el Documento a crear el XML
+		Document docNotas = null;
+		try {
+			docNotas = DocumentBuilderFactory.newInstance().
+					newDocumentBuilder().newDocument();
+		} catch (ParserConfigurationException e) {
+			// TODO do some magic with exceptions, Ferno!
+		}
+		
+		Element root = docNotas.createElement("Notas");
+		
+		for( Nota nota : notas) {
+			Element nodoNota = docNotas.createElement("Nota");
+			nodoNota.setAttribute("ID", ((Long)nota.getIdActividad()).
+					toString());
+			
+			// Se agrega nodo "Valor" al XML
+			Element valor = docNotas.createElement("Valor");
+			valor.setTextContent(nota.getNota());
+			nodoNota.appendChild(valor);
+			
+			// Se agrega nodo "Observaciones" al XML
+			Element obs = docNotas.createElement("Observaciones");
+			obs.setTextContent(nota.getObservaciones());
+			nodoNota.appendChild(obs);
+			
+			root.appendChild(nodoNota);
+		}
+		
+		docNotas.appendChild(root);
+		
+		String xmlNotas = null;
+		try {
+			xmlNotas = this.getStringFromDocument(docNotas);
+		} catch (TransformerException e) {
+			// TODO add exceptions magic here, Ferno :)
+		}
+		
+		return xmlNotas;
 	}
 }
