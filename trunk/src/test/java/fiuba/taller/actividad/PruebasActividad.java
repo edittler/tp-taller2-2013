@@ -37,7 +37,7 @@ public class PruebasActividad {
 				+ "<nombre>" + nombrePrueba + "</nombre>"
 				+ "<Tipo>"+ tipo + "</Tipo>" 
 				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<fechaini>"+ fechaIni + "</fechaini>" 
+				+ "<fechainicio>"+ fechaIni + "</fechainicio>" 
 				+ "<fechafin>"+ fechaFin + "</fechafin>" 
 				+ "</Actividad></WS>";
 		
@@ -88,7 +88,7 @@ public class PruebasActividad {
 				+ "<nombre>" + nombrePrueba + "</nombre>"
 				+ "<Tipo>"+ tipo + "</Tipo>" 
 				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<fechaini>"+ fechaIni + "</fechaini>" 
+				+ "<fechainicio>"+ fechaIni + "</fechainicio>" 
 				+ "<fechafin>"+ fechaFin + "</fechafin>" 
 				+ "</Actividad></WS>";
 		

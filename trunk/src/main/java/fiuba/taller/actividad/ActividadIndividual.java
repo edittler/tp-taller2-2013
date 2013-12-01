@@ -1,6 +1,5 @@
 package fiuba.taller.actividad;
 
-
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 

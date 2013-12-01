@@ -14,11 +14,10 @@ import org.xml.sax.InputSource;
 /* FORMATO DEL XML GRUPO
  * <Grupo>
  * 		<IdGrupo></IdGrupo>
- * 		
- * 			<IdParticipante></IdParticipante>
+ * 		<IdParticipante></IdParticipante>
  * 			.
  * 			.
- * 		
+ * 		<IdParticipante></IdParticipante>
  * </Grupo>
  */
 
@@ -27,7 +26,7 @@ public class Grupo implements Serializable {
 	ArrayList <Long> idParticipantes;
 	public Grupo() {
 		id=-1;
-		idParticipantes=new ArrayList<>();
+		idParticipantes = new ArrayList<>();
 	}
 	public String getXml() {
 		return "no implementado";
