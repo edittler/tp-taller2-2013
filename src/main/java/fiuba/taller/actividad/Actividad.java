@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 //import com.ws.services.*;
 
 @SuppressWarnings("unused")
-public class Actividad {
+public class Actividad implements Serializable{
 
 	protected long id;
 	protected String nombre;
