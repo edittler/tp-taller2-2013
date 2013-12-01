@@ -34,8 +34,11 @@ public class GrupoTest {
 				+"<IdParticipante>"+ idParticipante1+ "</IdParticipante>"
 				+"<IdParticipante>"+ idParticipante2+ "</IdParticipante>"
 				+"</Grupo></WS>";
+		
 		grupo.descerializar(xmlADescerializar);
+		
 		String xml = grupo.serializar();
+		
 		if(!xml.equals(xmlADescerializar)){
 			fail("xml DISTINTOS:");
 		}
@@ -50,7 +53,9 @@ public class GrupoTest {
 				+"<IdParticipante>"+ idParticipante1+ "</IdParticipante>"
 				+"<IdParticipante>"+ idParticipante2+ "</IdParticipante>"
 				+"</Grupo></WS>";
+		
 		grupo.descerializar(xmlADescerializar);
+		
 		if(grupo.getId() != idGrupo){
 			fail("IdGrupo esperado: "+idGrupo+" IdGrupo encontrado: "+grupo.getId());
 		}

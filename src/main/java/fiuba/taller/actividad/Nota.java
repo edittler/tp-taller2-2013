@@ -49,11 +49,12 @@ public class Nota implements Serializable {
 			ex.printStackTrace();
 		}
 	}
-	protected String serializar (){
-		String idActividadString="";
-		String idElementoEvaluadoString="";
-		if(idActividad>=0){
-			idActividadString=String.valueOf(idActividad);
+
+	public String serializar() {
+		String idActividadString = "";
+		String idElementoEvaluadoString = "";
+		if (idActividad >= 0) {
+			idActividadString = String.valueOf(idActividad);
 		}
 		if(idElementoEvaluado>=0){
 			idElementoEvaluadoString=String.valueOf(idElementoEvaluado);
@@ -73,7 +74,7 @@ public class Nota implements Serializable {
 	}
 	
 	@Override
-	public String getXml() {
+	public String realizarConsulta() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -85,10 +86,6 @@ public class Nota implements Serializable {
 	}
 	
 	/* METODOS PARA PRUEBAS */
-	public String testSerializar(){
-		return this.serializar();
-	}
-
 	public String getNota() {
 		return nota;
 	}

@@ -151,7 +151,7 @@ public class Actividad implements Serializable{
 	}
 
 	public void levantarEstado(){
-		descerializar(getXml());
+		descerializar(realizarConsulta());
 	}
 
 	/*
@@ -159,10 +159,9 @@ public class Actividad implements Serializable{
 	 * manda su xml a integracion, integracion devuelve un xml con los datos
 	 * completos de los campos vacios enviados
 	 */
-	public String getXml(long id) {
+	public String realizarConsulta() {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
-		this.id = id;
 		String xml = this.serializar();
 		//TODO llamar a integrar y conseguir el xml completo
 		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>"
@@ -181,8 +180,9 @@ public class Actividad implements Serializable{
 	 * metodo para realizar una consulta a integracion que dependa no solamente
 	 * del id de la actividad sino del estado interno de la actividad
 	 */
-	public String getXml() {
-		return getXml(-1);
+	public String getXml(long id) {
+		this.id = id;
+		return realizarConsulta();
 	}
 
 	public long getId() {

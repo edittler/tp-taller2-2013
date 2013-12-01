@@ -54,13 +54,13 @@ public class ActividadControlador {
 		if (tipoAmbito.equalsIgnoreCase("Ambito")) {
 			Actividad act = new Actividad();
 			act.setIdAmbitoSuperior(idAmbito);
-			String xml = act.getXml();
+			String xml = act.realizarConsulta();
 			// por ahora devolvemos los xml directamente
 			return xml;
 		} else if (tipoAmbito.equalsIgnoreCase("Actividad")) {
 			Actividad act = new Actividad();
 			act.setIdActividadSuperior(idAmbito);
-			String xml = act.getXml();
+			String xml = act.realizarConsulta();
 			// por ahora devolvemos los xml directamente
 			return xml;
 		}

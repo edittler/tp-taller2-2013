@@ -28,7 +28,7 @@ public class Grupo implements Serializable {
 		id=-1;
 		idParticipantes = new ArrayList<>();
 	}
-	public String getXml() {
+	public String realizarConsulta() {
 		return "no implementado";
 	}
 	private static String getValue(String tag, Element element) {
@@ -72,7 +72,7 @@ public class Grupo implements Serializable {
 		}
 		//System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
 	}
-	protected String serializar (){
+	public String serializar (){
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>" 	
 				+ "<IdGrupo>" + id + "</IdGrupo>";
 		for (int i = 0; i < idParticipantes.size(); ++i) {
@@ -97,10 +97,5 @@ public class Grupo implements Serializable {
 	}
 	public void setIdParticipantes(ArrayList<Long> idParticipantes) {
 		this.idParticipantes = idParticipantes;
-	}
-	
-	/* METODOS PARA PRUEBAS */
-	public String testSerializar(){
-		return this.serializar();
 	}
 }
