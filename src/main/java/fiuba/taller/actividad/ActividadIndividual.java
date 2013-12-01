@@ -1,6 +1,5 @@
 package fiuba.taller.actividad;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;

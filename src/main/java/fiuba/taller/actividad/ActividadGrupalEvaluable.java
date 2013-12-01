@@ -1,5 +1,7 @@
 package fiuba.taller.actividad;
 
+import java.util.List;
+
 public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		IEvaluable {
 
@@ -15,12 +17,12 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		// TODO Implementar
 	}
 
-	public String getNota(long idParticipante) {
+	public Nota getNota(long idParticipante) {
 		// TODO Implementar
 		return null;
 	}
 
-	public String getNotas() {
+	public List<Nota> getNotas() {
 		// TODO Implementar
 		return null;
 	}
