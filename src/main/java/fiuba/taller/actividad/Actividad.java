@@ -92,7 +92,7 @@ public class Actividad {
 							"idActividadSuperior", element));
 					this.nombre = getValue("nombre", element);
 					this.tipo = getValue("Tipo", element);
-					this.fechaInicio = getValue("fechaini", element);
+					this.fechaInicio = getValue("fechainicio", element);
 					this.fechaFin = getValue("fechafin", element);
 					this.descripcion = getValue("Descripcion", element);
 				}

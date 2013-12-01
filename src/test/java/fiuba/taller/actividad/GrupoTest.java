@@ -30,7 +30,7 @@ public class GrupoTest {
 		long idParticipante1 = 20;
 		long idParticipante2 = 88;
 		String xmlADescerializar =  "<?xml version=\"1.0\"?><WS><Grupo>"
-				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+"<IdGrupo>" + idGrupo + "</IdGrupo>"
 				+"<IdParticipante>"+ idParticipante1+ "</IdParticipante>"
 				+"<IdParticipante>"+ idParticipante2+ "</IdParticipante>"
 				+"</Grupo></WS>";
