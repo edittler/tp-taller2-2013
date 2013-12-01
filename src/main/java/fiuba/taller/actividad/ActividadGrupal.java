@@ -3,10 +3,13 @@ package fiuba.taller.actividad;
 public class ActividadGrupal extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_GRUPAL = "Grupal";
+	
+	protected boolean gruposExclusivos;
 
 	public ActividadGrupal() {
 		super();
 		tipo = TIPO_ACTIVIDAD_GRUPAL;
+		gruposExclusivos = false;
 	}
 
 	public void agregarGrupo(long idGrupo) {
