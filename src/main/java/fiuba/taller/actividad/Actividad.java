@@ -68,10 +68,9 @@ public class Actividad {
 	// Recibe el xml obtenido de integracion, cullo contenido es los datos de la
 	// clase actividad
 	// es privado pero por motivo de testing lo pongo publico
-	public String descerializar(String xml) {
+	public void descerializar(String xml) {
 		// procesar xml y asignar sus datos a los atributos internos de
 		// Actividad
-		String info = "";
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
@@ -101,7 +100,6 @@ public class Actividad {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return info;
 	}
 
 	// serializa a la actividad
@@ -129,8 +127,8 @@ public class Actividad {
 				+"<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
 				+"<nombre>" + nombre + "</nombre>"
 				+"<Tipo>" + tipo + "</Tipo>"
-				+"<Descripcion>" + descripcion +"</Descripcion>"
-				+"<fechaini>" + fechaInicio + "</fechaini>"
+				+"<Descripcion>" + descripcion + "</Descripcion>"
+				+"<fechainicio>" + fechaInicio + "</fechainicio>"
 				+"<fechafin>" + fechaFin + "</fechafin>" 
 				+"</Actividad></WS>";
 		return xml;
@@ -173,7 +171,7 @@ public class Actividad {
 				+ "<nombre>" + "pepe" + "</nombre>"
 				+ "<Tipo>"+ "ActividadIndividual" + "</Tipo>" 
 				+ "<Descripcion>"+ "esto es una descripcion" + "</Descripcion>" 
-				+ "<fechaini>"+ fechaInicio + "</fechaini>" 
+				+ "<fechainicio>"+ fechaInicio + "</fechainicio>" 
 				+ "<fechafin>"+ fechaFin + "</fechafin>" 
 				+ "</Actividad></WS>";
 		return xmlDevuelto;
