@@ -33,6 +33,17 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		return false;
 	}
 
+	public static ActividadIndividualEvaluable crearInstancia(String xmlPropiedades) {
+		ActividadIndividualEvaluable actividad = new ActividadIndividualEvaluable();
+		actividad.descerializar(xmlPropiedades);
+		// TODO(Pampa) Obtener un ID nuevo
+		// actividad.id = nuevoId;
+		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
+		// TODO(Pampa) Validar fecha y lanzar excepcion
+		actividad.guardarEstado();
+		return actividad;
+	}
+
 	public static ActividadIndividualEvaluable getActividad(long idActividad) {
 		ActividadIndividualEvaluable actividad = new ActividadIndividualEvaluable();
 		String xml = actividad.getXml(idActividad);

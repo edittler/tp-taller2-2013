@@ -56,46 +56,32 @@ public class ActividadControlador {
 	/**
 	 * Crea una actividad individual con las propiedades especificadas.
 	 * 
-	 * @param propiedadesXml
+	 * @param xmlPropiedades
 	 *            XML que contiene las propiedades de la actividad a crear
 	 * @return Identificador de la actividad creada
 	 */
-	public long crearActividadIndividual(String propiedadesXml) {
-		ActividadIndividual act = new ActividadIndividual();
-		act.descerializar(propiedadesXml);
-		// TODO Terminar de implementar
-		// [ ] chequeo de logica en propiedades ???
-		// [ ] chequeo de previa existencia ????
-		// [ ] asignacion de un unico id de Actividad ????
-		// [OK] se manda a persistir a integracion
-		act.guardarEstado();
-		return act.getId();
+	public long crearActividadIndividual(String xmlPropiedades) {
+		ActividadIndividual actividad = ActividadIndividual
+				.crearInstancia(xmlPropiedades);
+		return actividad.getId();
 	}
 
-	public long crearActividadGrupal(String propiedadesXml) {
-		// TODO Terminar de implementar
-		return 0;
+	public long crearActividadGrupal(String xmlPropiedades) {
+		ActividadGrupal actividad = ActividadGrupal
+				.crearInstancia(xmlPropiedades);
+		return actividad.getId();
 	}
 
-	public long crearActividadIndividualEvaluable(String propiedadesXml) {
-		// TODO Terminar de implementar
-		return 0;
+	public long crearActividadIndividualEvaluable(String xmlPropiedades) {
+		ActividadIndividualEvaluable actividad = ActividadIndividualEvaluable
+				.crearInstancia(xmlPropiedades);
+		return actividad.getId();
 	}
 
-	public long crearActividadGrupalEvaluable(String propiedades_xml) {
-		// TODO Terminar de implementar
-		return 0;
-	}
-
-	public long crearActividadGrupalEvaluableGruposExlusivos(
-			String propiedades_xml) {
-		/*
-		 * FIXME Este método no se estaría repitiendo con
-		 * "crearActividadGrupalEvaluable" ya que solo hay que setear distinto
-		 * un booleano?
-		 */
-
-		return 0;
+	public long crearActividadGrupalEvaluable(String xmlPropiedades) {
+		ActividadGrupalEvaluable actividad = ActividadGrupalEvaluable
+				.crearInstancia(xmlPropiedades);
+		return actividad.getId();
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */

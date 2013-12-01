@@ -29,12 +29,22 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	public static boolean esTipoValido(String xml) {
-		/*
-		 * TODO Implementar Se debe verificar que el tipo almacenado en el xml
-		 * contiene a TIPO_ACTIVIDAD_GRUPAL. No precisamente debe ser igual, ya
-		 * que pueden haber clases hijas, como ActividadGrupalEvaluable.
-		 */
-		return true;
+		Actividad actividad = new Actividad();
+		actividad.descerializar(xml);
+		if (actividad.tipo.contains((CharSequence) TIPO_ACTIVIDAD_GRUPAL))
+			return true;
+		return false;
+	}
+
+	public static ActividadGrupalEvaluable crearInstancia(String xmlPropiedades) {
+		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
+		actividad.descerializar(xmlPropiedades);
+		// TODO(Pampa) Obtener un ID nuevo
+		// actividad.id = nuevoId;
+		actividad.tipo = TIPO_ACTIVIDAD_GRUPAL;
+		// TODO(Pampa) Validar fecha y lanzar excepcion
+		actividad.guardarEstado();
+		return actividad;
 	}
 
 	public static ActividadGrupal getActividad(long idActividad) {
