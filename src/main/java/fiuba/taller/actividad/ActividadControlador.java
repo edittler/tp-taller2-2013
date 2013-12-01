@@ -1,5 +1,22 @@
 package fiuba.taller.actividad;
 
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
@@ -95,9 +112,61 @@ public class ActividadControlador {
 	public void eliminarParticipante(long idActividad, long idParticipante) {
 		// TODO Implementar
 	}
+	
+	// TODO: Refactorizar! Mover este metodo al lugar adecuado
+	public String getStringFromDocument(Document doc) 
+			throws TransformerException {
+	    DOMSource domSource = new DOMSource(doc);
+	    StringWriter writer = new StringWriter();
+	    StreamResult result = new StreamResult(writer);
+	    TransformerFactory tf = TransformerFactory.newInstance();
+	    Transformer transformer = tf.newTransformer();
+	    transformer.transform(domSource, result);
+	    return writer.toString();
+	}
 
-	public void getParticipantes(long idActividad) {
-		// TODO Implementar
+	public String getParticipantes(long idActividad) {
+		ActividadIndividual actInd = 
+				ActividadIndividual.getActividad(idActividad);
+		/* Se obtiene la lista de participantes inscriptos a la 
+		* actividad. TODO: Hay que ver que informacion nos dan!
+		* Por lo pronto manejaré solamente los IDs
+		*/
+		List<Long> participantes = actInd.getParticipantes();
+		
+		// Paso a un XML genérico la lista de participantes obtenida
+		Document docParticipantes = null;
+		try {
+			docParticipantes =  DocumentBuilderFactory.newInstance().
+					newDocumentBuilder().newDocument();
+		} catch(ParserConfigurationException e) {
+			// TODO: Do something Ferno!
+		}
+		
+		Element root = docParticipantes.createElement("Participantes");
+		for (Long idParticipante : participantes) {
+			
+			// Agrego un nodo al XML por cada participante
+			Element nodo = docParticipantes.createElement("Participante");
+			
+			// Por ahora solo devuelvo el ID como atributo del nodo
+			nodo.setAttribute("ID", idParticipante.toString());
+			
+			root.appendChild(nodo);
+		}
+		
+		// Asigno el nodo raiz con todos sus hijos al documento XML
+		docParticipantes.appendChild(root);
+		
+		// Convierto el documento a string XML para retornar
+		String xmlParticipantes = null;
+		try {
+			xmlParticipantes = this.getStringFromDocument(docParticipantes);
+		} catch (TransformerException e) {
+			// TODO Do something Ferno!
+		}
+		
+		return xmlParticipantes;
 	}
 
 	public void getParticipante(long idActividad, long idParticipante) {
@@ -114,8 +183,48 @@ public class ActividadControlador {
 		// TODO Implementar
 	}
 
-	public void getGrupos(long idActividad) {
-		// TODO Implementar
+	public String getGrupos(long idActividad) {
+		ActividadGrupal actGrup = 
+				ActividadGrupal.getActividad(idActividad);
+		/* Se obtiene la lista de grupos inscriptos a la 
+		* actividad. TODO: Hay que ver que informacion nos dan!
+		* Por lo pronto se maneja solo IDs
+		*/
+		List<Long> grupos = actGrup.getGrupos();
+
+		// Paso a un XML genérico la lista de participantes obtenida
+		Document docGrupos = null;
+		try {
+			docGrupos =  DocumentBuilderFactory.newInstance().
+					newDocumentBuilder().newDocument();
+		} catch(ParserConfigurationException e) {
+			// TODO: Do something Ferno!
+		}
+				
+		Element root = docGrupos.createElement("Grupos");
+		for (Long idGrupo : grupos) {
+					
+			// Agrego un nodo al XML por cada participante
+			Element nodo = docGrupos.createElement("Grupo");
+					
+			// Por ahora solo devuelvo el ID como atributo del nodo
+			nodo.setAttribute("ID", idGrupo.toString());
+					
+			root.appendChild(nodo);
+		}
+				
+		// Asigno el nodo raiz con todos sus hijos al documento XML
+		docGrupos.appendChild(root);
+		
+		String xmlGrupos = null;
+		
+		try {
+			xmlGrupos = this.getStringFromDocument(docGrupos);
+		} catch (TransformerException e) {
+			// TODO do something Ferno!
+		}
+				
+		return xmlGrupos;
 	}
 
 	public void getGrupo(long idActividad, long idGrupo) {

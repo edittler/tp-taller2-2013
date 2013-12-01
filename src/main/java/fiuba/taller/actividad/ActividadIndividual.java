@@ -1,5 +1,8 @@
 package fiuba.taller.actividad;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
@@ -24,6 +27,14 @@ public class ActividadIndividual extends Actividad {
 		 * TODO Implementar. Si no existe el participante, se debería lanzar una
 		 * excepcion.
 		 */
+	}
+	
+	public List<Long> getParticipantes() {
+		/* TODO: Implementar
+		* Agregar IDs de participantes (ver si hay que crear clase y
+		* agregar más información)
+		*/
+		return null;
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */

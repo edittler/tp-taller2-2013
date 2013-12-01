@@ -1,5 +1,7 @@
 package fiuba.taller.actividad;
 
+import java.util.List;
+
 public class ActividadGrupal extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_GRUPAL = "Grupal";
@@ -26,9 +28,10 @@ public class ActividadGrupal extends Actividad {
 		 */
 	}
 
-	// FIXME Se debe devolver algo. ¿un XML?
-	public void getGrupos() {
-
+	// FIXME Se devuelve, por lo pronto, una lista de IDs de grupo
+	public List<Long> getGrupos() {
+		// TODO: Implementar
+		return null;
 	}
 
 	public static boolean esTipoValido(String xml) {
