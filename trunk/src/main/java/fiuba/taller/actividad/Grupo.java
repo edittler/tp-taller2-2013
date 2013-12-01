@@ -52,16 +52,16 @@ public class Grupo implements Serializable {
 
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					this.id = Integer.valueOf(getValue("IdGrupo", element));
+					this.id = Long.valueOf(getValue("IdGrupo", element));
 
 					NodeList participantes = ((Element) node).getElementsByTagName("IdParticipante");
 					for (int j = 0; j < participantes.getLength(); j++) {
-						System.out.print("LARGO: "+participantes.getLength()+"\n");
+						//System.out.print("LARGO: "+participantes.getLength()+"\n");
 						Node nodde = participantes.item(j);
 						if(nodde .getNodeType() == Node.ELEMENT_NODE){
 							String valor = nodde.getChildNodes().item(0).getNodeValue();
 							
-							System.out.print("NODO: "+Long.valueOf(valor)+"\n");
+							//System.out.print("NODO: "+Long.valueOf(valor)+"\n");
 							this.idParticipantes.add(Long.valueOf(valor));
 						}
 					}
@@ -70,7 +70,17 @@ public class Grupo implements Serializable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
+		//System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
+	}
+	protected String serializar (){
+		String xml = "<?xml version=\"1.0\"?><WS><Grupo>" 	
+				+ "<IdGrupo>" + id + "</IdGrupo>";
+		for (int i = 0; i < idParticipantes.size(); ++i) {
+			xml += "<IdParticipante>" + idParticipantes.get(i)
+					+ "</IdParticipante>";
+		}
+		xml += "</Grupo></WS>";
+		return xml;
 	}
 
 	public void guardarEstado() {
@@ -87,5 +97,10 @@ public class Grupo implements Serializable {
 	}
 	public void setIdParticipantes(ArrayList<Long> idParticipantes) {
 		this.idParticipantes = idParticipantes;
+	}
+	
+	/* METODOS PARA PRUEBAS */
+	public String testSerializar(){
+		return this.serializar();
 	}
 }
