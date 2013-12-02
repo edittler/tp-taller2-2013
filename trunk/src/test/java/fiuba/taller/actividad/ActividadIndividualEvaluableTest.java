@@ -2,9 +2,14 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 public class ActividadIndividualEvaluableTest {
 
@@ -17,7 +22,7 @@ public class ActividadIndividualEvaluableTest {
 	}
 
 	@Test
-	public void testEsTipoValido() {
+	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
 		String tipo1="mangosta"+ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
 		String tipo2=ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
 		
