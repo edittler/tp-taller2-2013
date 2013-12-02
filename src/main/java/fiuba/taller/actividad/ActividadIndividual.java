@@ -1,6 +1,11 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
@@ -38,7 +43,7 @@ public class ActividadIndividual extends Actividad {
 
 	/* METODOS DE CLASE (ESTATICOS) */
 
-	public static boolean esTipoValido(String xml) {
+	public static boolean esTipoValido(String xml) throws ParserConfigurationException, SAXException, IOException {
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
 		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL)){
@@ -47,7 +52,7 @@ public class ActividadIndividual extends Actividad {
 		return false;
 	}
 
-	public static ActividadIndividual crearInstancia(String xmlPropiedades) {
+	public static ActividadIndividual crearInstancia(String xmlPropiedades) throws ParserConfigurationException, SAXException, IOException {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.descerializar(xmlPropiedades);
 		// TODO(Pampa) Obtener un ID nuevo
@@ -58,7 +63,7 @@ public class ActividadIndividual extends Actividad {
 		return actividad;
 	}
 
-	public static ActividadIndividual getActividad(long idActividad) {
+	public static ActividadIndividual getActividad(long idActividad) throws ParserConfigurationException, SAXException, IOException {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.setId(idActividad);
 		actividad.levantarEstado();
