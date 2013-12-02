@@ -41,8 +41,9 @@ public class ActividadIndividual extends Actividad {
 	public static boolean esTipoValido(String xml) {
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
-		if (actividad.tipo.contains((CharSequence) TIPO_ACTIVIDAD_INDIVIDUAL))
+		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL)){
 			return true;
+		}
 		return false;
 	}
 
