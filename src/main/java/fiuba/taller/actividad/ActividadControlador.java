@@ -234,7 +234,7 @@ public class ActividadControlador {
 	// actividad es ind o grupal
 	public void evaluar(long idActividad, long idEvaluado, String nota) {
 		Actividad actividad = new Actividad();
-		String xml = actividad.getXml(idActividad);
+		String xml = actividad.realizarConsulta(idActividad);
 		IEvaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			evaluable = ActividadIndividualEvaluable.getActividad(idActividad);
@@ -251,7 +251,7 @@ public class ActividadControlador {
 	public IEvaluable encontrarActividadEvaluable(long idActividad) {
 		// TODO Refactorizar la busqueda de actividades evaluables
 		Actividad actividad = new Actividad();
-		String xml = actividad.getXml(idActividad);
+		String xml = actividad.realizarConsulta(idActividad);
 		IEvaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			return ActividadIndividualEvaluable.getActividad(idActividad);

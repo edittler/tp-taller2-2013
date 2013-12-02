@@ -30,8 +30,9 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	public static boolean esTipoValido(String xml) {
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
-		if (actividad.tipo.contains((CharSequence) TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE))
+		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE)){
 			return true;
+		}
 		return false;
 	}
 
@@ -48,7 +49,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 
 	public static ActividadIndividualEvaluable getActividad(long idActividad) {
 		ActividadIndividualEvaluable actividad = new ActividadIndividualEvaluable();
-		String xml = actividad.getXml(idActividad);
+		String xml = actividad.realizarConsulta(idActividad);
 		actividad.descerializar(xml);
 		return actividad;
 	}

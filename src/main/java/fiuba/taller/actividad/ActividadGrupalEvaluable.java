@@ -30,8 +30,9 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	public static boolean esTipoValido(String xml) {
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
-		if (actividad.tipo.contains((CharSequence) TIPO_ACTIVIDAD_GRUPAL_EVALUABLE))
+		if (actividad.tipo.equals(TIPO_ACTIVIDAD_GRUPAL_EVALUABLE)){
 			return true;
+		}
 		return false;
 	}
 
@@ -48,7 +49,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 
 	public static ActividadGrupalEvaluable getActividad(long idActividad) {
 		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
-		String xml = actividad.getXml(idActividad);
+		String xml = actividad.realizarConsulta(idActividad);
 		actividad.descerializar(xml);
 		return actividad;
 	}

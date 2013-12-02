@@ -180,7 +180,7 @@ public class Actividad implements Serializable{
 	 * metodo para realizar una consulta a integracion que dependa no solamente
 	 * del id de la actividad sino del estado interno de la actividad
 	 */
-	public String getXml(long id) {
+	public String realizarConsulta(long id) {
 		this.id = id;
 		return realizarConsulta();
 	}
