@@ -2,9 +2,14 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import fiuba.taller.actividad.Actividad;
 
@@ -20,7 +25,7 @@ public class PruebasActividad {
 	}
 
 	@Test
-	public void testDescerializar() {
+	public void testDescerializar() throws ParserConfigurationException, SAXException, IOException {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -71,7 +76,7 @@ public class PruebasActividad {
 	}
 
 	@Test
-	public void testSerializar() {
+	public void testSerializar() throws ParserConfigurationException, SAXException, IOException {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;

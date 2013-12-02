@@ -1,10 +1,17 @@
 package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import fiuba.taller.actividad.AuxiliarPruebas;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 public class ActividadGrupalTest {
 	ActividadGrupal actGrup;
@@ -33,7 +40,7 @@ public class ActividadGrupalTest {
 	}
 
 	@Test
-	public void testEsTipoValido() {
+	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
 		String tipo1="mangosta"+ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
 		String tipo2=ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
 		
