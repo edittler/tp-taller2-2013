@@ -1,6 +1,11 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		IEvaluable {
@@ -27,7 +32,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		return null;
 	}
 
-	public static boolean esTipoValido(String xml) {
+	public static boolean esTipoValido(String xml) throws ParserConfigurationException, SAXException, IOException {
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
 		if (actividad.tipo.equals(TIPO_ACTIVIDAD_GRUPAL_EVALUABLE)){
@@ -36,7 +41,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		return false;
 	}
 
-	public static ActividadGrupalEvaluable crearInstancia(String xmlPropiedades) {
+	public static ActividadGrupalEvaluable crearInstancia(String xmlPropiedades) throws ParserConfigurationException, SAXException, IOException {
 		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
 		actividad.descerializar(xmlPropiedades);
 		// TODO(Pampa) Obtener un ID nuevo
@@ -47,7 +52,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		return actividad;
 	}
 
-	public static ActividadGrupalEvaluable getActividad(long idActividad) {
+	public static ActividadGrupalEvaluable getActividad(long idActividad) throws ParserConfigurationException, SAXException, IOException {
 		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
 		String xml = actividad.realizarConsulta(idActividad);
 		actividad.descerializar(xml);

@@ -1,5 +1,11 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 public interface Serializable {
 	/*
 	 * A partir de los valores de los parametros internos de la instancia, genera un xml
@@ -16,7 +22,7 @@ public interface Serializable {
 	/* 
 	 * absorbe los valores del xml y los asigna a sus atributos internos
 	 */
-	public void descerializar(String xml);
+	public void descerializar(String xml) throws ParserConfigurationException, SAXException, IOException;
 	/*
 	 * guarda el estado de la instacia en integracion
 	 */

@@ -1,11 +1,13 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis2.AxisFault;
 import org.w3c.dom.Document;
@@ -13,6 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 //import com.ws.services.*;
 
@@ -68,10 +71,9 @@ public class Actividad implements Serializable{
 	// Recibe el xml obtenido de integracion, cullo contenido es los datos de la
 	// clase actividad
 	// es privado pero por motivo de testing lo pongo publico
-	public void descerializar(String xml) {
+	public void descerializar(String xml) throws ParserConfigurationException, SAXException, IOException {
 		// procesar xml y asignar sus datos a los atributos internos de
 		// Actividad
-		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -97,9 +99,6 @@ public class Actividad implements Serializable{
 					this.descripcion = getValue("Descripcion", element);
 				}
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	// serializa a la actividad
@@ -150,7 +149,7 @@ public class Actividad implements Serializable{
 		 */
 	}
 
-	public void levantarEstado(){
+	public void levantarEstado() throws ParserConfigurationException, SAXException, IOException{
 		descerializar(realizarConsulta());
 	}
 
@@ -219,7 +218,7 @@ public class Actividad implements Serializable{
 
 	/*  METODOS DE CLASE (ESTATICOS)  */
 
-	public static Actividad getActividad(long idActividad) {
+	public static Actividad getActividad(long idActividad) throws ParserConfigurationException, SAXException, IOException {
 		Actividad actividad = new Actividad();
 		actividad.setId(idActividad);
 		actividad.levantarEstado();
