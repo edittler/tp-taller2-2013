@@ -1,6 +1,5 @@
 package fiuba.taller.actividad;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -14,7 +13,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
+
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadControlador {
 
@@ -24,11 +24,9 @@ public class ActividadControlador {
 	 * @param idActividad
 	 *            Identificador de la actividad
 	 * @return String con el nombre de la actividad
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
+	 * @throws XmlErroneoExcepcion 
 	 */
-	public String getNombre(long idActividad) throws ParserConfigurationException, SAXException, IOException {
+	public String getNombre(long idActividad) throws XmlErroneoExcepcion {
 		Actividad actividad = Actividad.getActividad(idActividad);
 		return actividad.getNombre();
 	}
@@ -38,11 +36,10 @@ public class ActividadControlador {
 	 *            Identificador de la actividad
 	 * @param nombre
 	 *            Nuevo nombre a asignar a la actividad
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
+	 * @throws XmlErroneoExcepcion
 	 */
-	public void setNombre(long idActividad, String nombre) throws ParserConfigurationException, SAXException, IOException {
+	public void setNombre(long idActividad, String nombre)
+			throws XmlErroneoExcepcion {
 		Actividad actividad = Actividad.getActividad(idActividad);
 		actividad.setNombre(nombre);
 		actividad.guardarEstado();
@@ -81,29 +78,31 @@ public class ActividadControlador {
 	 * @param xmlPropiedades
 	 *            XML que contiene las propiedades de la actividad a crear
 	 * @return Identificador de la actividad creada
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
+	 * @throws XmlErroneoExcepcion
 	 */
-	public long crearActividadIndividual(String xmlPropiedades) throws ParserConfigurationException, SAXException, IOException {
+	public long crearActividadIndividual(String xmlPropiedades)
+			throws XmlErroneoExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.crearInstancia(xmlPropiedades);
 		return actividad.getId();
 	}
 
-	public long crearActividadGrupal(String xmlPropiedades) throws ParserConfigurationException, SAXException, IOException {
+	public long crearActividadGrupal(String xmlPropiedades)
+			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
 				.crearInstancia(xmlPropiedades);
 		return actividad.getId();
 	}
 
-	public long crearActividadIndividualEvaluable(String xmlPropiedades) throws ParserConfigurationException, SAXException, IOException {
+	public long crearActividadIndividualEvaluable(String xmlPropiedades)
+			throws XmlErroneoExcepcion {
 		ActividadIndividualEvaluable actividad = ActividadIndividualEvaluable
 				.crearInstancia(xmlPropiedades);
 		return actividad.getId();
 	}
 
-	public long crearActividadGrupalEvaluable(String xmlPropiedades) throws ParserConfigurationException, SAXException, IOException {
+	public long crearActividadGrupalEvaluable(String xmlPropiedades)
+			throws XmlErroneoExcepcion {
 		ActividadGrupalEvaluable actividad = ActividadGrupalEvaluable
 				.crearInstancia(xmlPropiedades);
 		return actividad.getId();
@@ -112,8 +111,10 @@ public class ActividadControlador {
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
 	// metodo que levanta una excepcion (FALTA HACER)
-	public void agregarParticipante(long idActividad, long idParticipante) throws ParserConfigurationException, SAXException, IOException {
-		ActividadIndividual actividad = ActividadIndividual.getActividad(idActividad);
+	public void agregarParticipante(long idActividad, long idParticipante)
+			throws XmlErroneoExcepcion {
+		ActividadIndividual actividad = ActividadIndividual
+				.getActividad(idActividad);
 		actividad.agregarParticipante(idParticipante);
 	}
 
@@ -133,7 +134,7 @@ public class ActividadControlador {
 	    return writer.toString();
 	}
 
-	public String getParticipantes(long idActividad) throws ParserConfigurationException, SAXException, IOException {
+	public String getParticipantes(long idActividad) throws XmlErroneoExcepcion {
 		ActividadIndividual actInd = 
 				ActividadIndividual.getActividad(idActividad);
 		/* Se obtiene la lista de participantes inscriptos a la 
@@ -191,14 +192,13 @@ public class ActividadControlador {
 		// TODO Implementar
 	}
 
-	public String getGrupos(long idActividad) throws ParserConfigurationException, SAXException, IOException {
-		ActividadGrupal actGrup = 
-				ActividadGrupal.getActividad(idActividad);
+	public String getGrupos(long idActividad) throws XmlErroneoExcepcion {
+		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
 		/* Se obtiene la lista de grupos inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
 		* Por lo pronto se maneja solo IDs
 		*/
-		List<Long> grupos = actGrup.getGrupos();
+		List<Long> grupos = actividad.getGrupos();
 
 		// Paso a un XML genérico la lista de participantes obtenida
 		Document docGrupos = null;
@@ -243,7 +243,7 @@ public class ActividadControlador {
 
 	// Evaluado puede ser un participante o un grupo, dependiendo si la
 	// actividad es ind o grupal
-	public void evaluar(long idActividad, long idEvaluado, String nota) throws ParserConfigurationException, SAXException, IOException {
+	public void evaluar(long idActividad, long idEvaluado, String nota) throws XmlErroneoExcepcion {
 		Actividad actividad = new Actividad();
 		String xml = actividad.realizarConsulta(idActividad);
 		IEvaluable evaluable = null;
@@ -259,7 +259,7 @@ public class ActividadControlador {
 	}
 	
 	// TODO: Refactorizar
-	public IEvaluable encontrarActividadEvaluable(long idActividad) throws ParserConfigurationException, SAXException, IOException {
+	private IEvaluable encontrarActividadEvaluable(long idActividad) throws XmlErroneoExcepcion {
 		// TODO Refactorizar la busqueda de actividades evaluables
 		Actividad actividad = new Actividad();
 		String xml = actividad.realizarConsulta(idActividad);
@@ -273,7 +273,7 @@ public class ActividadControlador {
 		}
 	}
 
-	public String getNota(long idActividad, long idEvaluado) throws ParserConfigurationException, SAXException, IOException {
+	public String getNota(long idActividad, long idEvaluado) throws XmlErroneoExcepcion {
 		IEvaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
@@ -320,7 +320,7 @@ public class ActividadControlador {
 	}
 
 	// Verificar que la actividad sea evaluable
-	public String getNotas(long idActividad) throws ParserConfigurationException, SAXException, IOException {
+	public String getNotas(long idActividad) throws XmlErroneoExcepcion {
 		IEvaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
