@@ -2,6 +2,11 @@ package fiuba.taller.actividad;
 
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadGrupal extends Actividad {
@@ -14,6 +19,12 @@ public class ActividadGrupal extends Actividad {
 		super();
 		tipo = TIPO_ACTIVIDAD_GRUPAL;
 		gruposExclusivos = false;
+	}
+
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
+		Document doc = getDocumentElement(xml);
+		super.descerializar(doc);
+		
 	}
 
 	public void agregarGrupo(long idGrupo) {
@@ -70,5 +81,16 @@ public class ActividadGrupal extends Actividad {
 		ActividadGrupal actividad = new ActividadGrupal();
 		actividad.levantarEstado(idActividad);
 		return actividad;
+	}
+	
+	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+		NodeList nodes = doc.getElementsByTagName("Actividad");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) node;
+				this.gruposExclusivos = Boolean.valueOf(getValue("GruposExclusivos", element));
+			}
+		}
 	}
 }

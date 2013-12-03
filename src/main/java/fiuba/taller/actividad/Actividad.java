@@ -22,6 +22,12 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 //import com.ws.services.*;
 
 @SuppressWarnings("unused")
+enum AmbitoSuperior {
+	AMBITO,
+	ACTIVIDAD
+}
+
+@SuppressWarnings("unused")
 public class Actividad implements Serializable{
 
 	protected long id;
@@ -75,28 +81,8 @@ public class Actividad implements Serializable{
 	// clase actividad
 	// es privado pero por motivo de testing lo pongo publico
 	public void descerializar(String xml) throws XmlErroneoExcepcion {
-		// procesar xml y asignar sus datos a los atributos internos de
-		// Actividad
-			Document doc = getDocumentElement(xml);
-
-			NodeList nodes = doc.getElementsByTagName("Actividad");
-			for (int i = 0; i < nodes.getLength(); i++) {
-				Node node = nodes.item(i);
-
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) node;
-					this.id = Long.valueOf(getValue("id", element));
-					this.idAmbitoSuperior = Long.valueOf(getValue(
-							"idAmbitoSuperior", element));
-					this.idActividadSuperior = Long.valueOf(getValue(
-							"idActividadSuperior", element));
-					this.nombre = getValue("nombre", element);
-					this.tipo = getValue("Tipo", element);
-					this.fechaInicio = getValue("fechainicio", element);
-					this.fechaFin = getValue("fechafin", element);
-					this.descripcion = getValue("Descripcion", element);
-				}
-			}
+		Document doc = getDocumentElement(xml);
+		descerializar(doc);
 	}
 
 	// serializa a la actividad
@@ -119,14 +105,14 @@ public class Actividad implements Serializable{
 			idActSupStr = String.valueOf(idActividadSuperior);
 		}
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+"<id>" + identif + "</id>"
-				+"<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
-				+"<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
-				+"<nombre>" + nombre + "</nombre>"
+				+"<Id>" + identif + "</Id>"
+				+"<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
+				+"<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+"<Nombre>" + nombre + "</Nombre>"
 				+"<Tipo>" + tipo + "</Tipo>"
 				+"<Descripcion>" + descripcion + "</Descripcion>"
-				+"<fechainicio>" + fechaInicio + "</fechainicio>"
-				+"<fechafin>" + fechaFin + "</fechafin>" 
+				+"<FechaInicio>" + fechaInicio + "</FechaInicio>"
+				+"<FechaFin>" + fechaFin + "</FechaFin>" 
 				+"</Actividad></WS>";
 		return xml;
 	}
@@ -158,13 +144,13 @@ public class Actividad implements Serializable{
 		String xml = this.serializar();
 		//TODO llamar a integrar y conseguir el xml completo
 		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<id>" + 45 + "</id>" 
-				+ "<idSuperior>" + 88 + "</idSuperior>"
-				+ "<nombre>" + "pepe" + "</nombre>"
+				+ "<Id>" + 45 + "</Id>" 
+				+ "<IdSuperior>" + 88 + "</IdSuperior>"
+				+ "<Nombre>" + "pepe" + "</Nombre>"
 				+ "<Tipo>"+ "ActividadIndividual" + "</Tipo>" 
 				+ "<Descripcion>"+ "esto es una descripcion" + "</Descripcion>" 
-				+ "<fechainicio>"+ fechaInicio + "</fechainicio>" 
-				+ "<fechafin>"+ fechaFin + "</fechafin>" 
+				+ "<FechaInicio>"+ fechaInicio + "</FechaInicio>" 
+				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
 				+ "</Actividad></WS>";
 		return xmlDevuelto;
 	}
@@ -223,18 +209,32 @@ public class Actividad implements Serializable{
 		return actividad;
 	}
 
-	public static String getActividades(long idAmbito, String tipoAmbito) {
-		if (tipoAmbito.equalsIgnoreCase("Ambito")) {
-			return "Usted pidio las actividades que contiene un Ambito\n";
-		} else if(tipoAmbito.equalsIgnoreCase("Actividad")) {
-			return "usted pidio las actividades que contiene una actividad\n";
+	public static String getActividades(long idAmbito, AmbitoSuperior tipo) {
+		String xml = "";
+		switch (tipo) {
+		case AMBITO:
+			xml = getActividadesDeAmbito(idAmbito);
+			break;
+		case ACTIVIDAD:
+			xml = getActividadesDeActividad(idAmbito);
+			break;
+		default:
+			xml = "";
+			break;
 		}
-		// TODO Hacer que devuelva el xml de actividades
-		return "tipo de ambito no valido : "+tipoAmbito;
+		return xml;
 	}
 
 	/* METODOS PROTEGIDOS AUXILIARES */
-	
+
+	// metodo interno de ayuda para el parseo
+	protected static String getValue(String tag, Element element) {
+		NodeList nodes = element.getElementsByTagName(tag).item(0)
+				.getChildNodes();
+		Node node = (Node) nodes.item(0);
+		return node.getNodeValue();
+	}
+
 	protected void levantarEstado(long idActividad) throws XmlErroneoExcepcion {
 		descerializar(realizarConsulta(idActividad));
 	}
@@ -254,14 +254,36 @@ public class Actividad implements Serializable{
 		return doc;
 	}
 
+	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+		NodeList nodes = doc.getElementsByTagName("Actividad");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) node;
+				this.id = Long.valueOf(getValue("Id", element));
+				this.idAmbitoSuperior = Long.valueOf(getValue(
+						"IdAmbitoSuperior", element));
+				this.idActividadSuperior = Long.valueOf(getValue(
+						"IdActividadSuperior", element));
+				this.nombre = getValue("Nombre", element);
+				this.tipo = getValue("Tipo", element);
+				this.fechaInicio = getValue("FechaInicio", element);
+				this.fechaFin = getValue("FechaFin", element);
+				this.descripcion = getValue("Descripcion", element);
+			}
+		}
+	}
+
 	/* METODOS PRIVADOS AUXILIARES */
 
-	// metodo interno de ayuda para el parseo
-	private static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0)
-				.getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
+	private static String getActividadesDeAmbito(long idAmbito) {
+		// TODO implementar
+		return "";
+	}
+	
+	private static String getActividadesDeActividad(long idActividad) {
+		// TODO implementar
+		return "";
 	}
 
 	/*  METODOS PUBLICOS DE TESTING  */

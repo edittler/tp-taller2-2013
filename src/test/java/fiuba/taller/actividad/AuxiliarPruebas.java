@@ -11,14 +11,14 @@ public class AuxiliarPruebas {
 		String fechaFin = "12/12/12";
 		
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<id>" + idPrueba + "</id>" 
-				+ "<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
-				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
-				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<Id>" + idPrueba + "</Id>" 
+				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
+				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+ "<Nombre>" + nombrePrueba + "</Nombre>"
 				+ "<Tipo>"+ tipo + "</Tipo>" 
 				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<fechainicio>"+ fechaIni + "</fechainicio>" 
-				+ "<fechafin>"+ fechaFin + "</fechafin>" 
+				+ "<FechaInicio>"+ fechaIni + "</FechaInicio>" 
+				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
 				+ "</Actividad></WS>";
 		return xml;
 	}

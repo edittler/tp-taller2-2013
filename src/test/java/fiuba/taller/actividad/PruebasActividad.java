@@ -1,17 +1,12 @@
 package fiuba.taller.actividad;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
-import fiuba.taller.actividad.Actividad;
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class PruebasActividad {
 	Actividad act;
@@ -25,7 +20,7 @@ public class PruebasActividad {
 	}
 
 	@Test
-	public void testDescerializar() throws ParserConfigurationException, SAXException, IOException {
+	public void testDescerializar() throws XmlErroneoExcepcion {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -36,14 +31,14 @@ public class PruebasActividad {
 		String fechaFin = "12/12/12";
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<id>" + idPrueba + "</id>" 
-				+ "<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
-				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
-				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<Id>" + idPrueba + "</Id>" 
+				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
+				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+ "<Nombre>" + nombrePrueba + "</Nombre>"
 				+ "<Tipo>"+ tipo + "</Tipo>" 
 				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<fechainicio>"+ fechaIni + "</fechainicio>" 
-				+ "<fechafin>"+ fechaFin + "</fechafin>" 
+				+ "<FechaInicio>"+ fechaIni + "</FechaInicio>" 
+				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
 				+ "</Actividad></WS>";
 		
 		act.descerializar(xmlADescerializar);
@@ -76,7 +71,7 @@ public class PruebasActividad {
 	}
 
 	@Test
-	public void testSerializar() throws ParserConfigurationException, SAXException, IOException {
+	public void testSerializar() throws XmlErroneoExcepcion {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -87,14 +82,14 @@ public class PruebasActividad {
 		String fechaFin = "12/12/12";
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<id>" + idPrueba + "</id>" 
-				+"<idAmbitoSuperior>" + idAmbSupStr + "</idAmbitoSuperior>"
-				+ "<idActividadSuperior>" + idActSupStr + "</idActividadSuperior>"
-				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<Id>" + idPrueba + "</Id>" 
+				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
+				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+ "<Nombre>" + nombrePrueba + "</Nombre>"
 				+ "<Tipo>"+ tipo + "</Tipo>" 
 				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<fechainicio>"+ fechaIni + "</fechainicio>" 
-				+ "<fechafin>"+ fechaFin + "</fechafin>" 
+				+ "<FechaInicio>"+ fechaIni + "</FechaInicio>" 
+				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
 				+ "</Actividad></WS>";
 		
 		act.descerializar(xmlADescerializar);
