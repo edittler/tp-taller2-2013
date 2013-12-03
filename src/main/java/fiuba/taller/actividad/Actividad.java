@@ -17,6 +17,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
+
 //import com.ws.services.*;
 
 @SuppressWarnings("unused")
@@ -49,6 +51,7 @@ public class Actividad implements Serializable{
 		tipo = "";
 	}
 
+	@Deprecated
 	public String pruebaIntegracion() {
 		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
 		/*GuardarDatosResponse response = new GuardarDatosResponse();
@@ -71,15 +74,10 @@ public class Actividad implements Serializable{
 	// Recibe el xml obtenido de integracion, cullo contenido es los datos de la
 	// clase actividad
 	// es privado pero por motivo de testing lo pongo publico
-	public void descerializar(String xml) throws ParserConfigurationException, SAXException, IOException {
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
 		// procesar xml y asignar sus datos a los atributos internos de
 		// Actividad
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			Document doc = builder.parse(is);
-			doc.getDocumentElement().normalize();
+			Document doc = getDocumentElement(xml);
 
 			NodeList nodes = doc.getElementsByTagName("Actividad");
 			for (int i = 0; i < nodes.getLength(); i++) {
@@ -149,10 +147,6 @@ public class Actividad implements Serializable{
 		 */
 	}
 
-	public void levantarEstado() throws ParserConfigurationException, SAXException, IOException{
-		descerializar(realizarConsulta());
-	}
-
 	/*
 	 * Con el estado interno actual que tiene la instancia , la serializa y
 	 * manda su xml a integracion, integracion devuelve un xml con los datos
@@ -218,10 +212,14 @@ public class Actividad implements Serializable{
 
 	/*  METODOS DE CLASE (ESTATICOS)  */
 
-	public static Actividad getActividad(long idActividad) throws ParserConfigurationException, SAXException, IOException {
+	public static Actividad getActividad(long idActividad)
+			throws XmlErroneoExcepcion {
+		/*
+		 * FIXME Si no existe la actividad con el ID especificado, se debe
+		 * lanzar la excepcion ActividadInexistenteExcepcion
+		 */
 		Actividad actividad = new Actividad();
-		actividad.setId(idActividad);
-		actividad.levantarEstado();
+		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
 
@@ -233,6 +231,27 @@ public class Actividad implements Serializable{
 		}
 		// TODO Hacer que devuelva el xml de actividades
 		return "tipo de ambito no valido : "+tipoAmbito;
+	}
+
+	/* METODOS PROTEGIDOS AUXILIARES */
+	
+	protected void levantarEstado(long idActividad) throws XmlErroneoExcepcion {
+		descerializar(realizarConsulta(idActividad));
+	}
+
+	protected static Document getDocumentElement(String xml)
+			throws XmlErroneoExcepcion {
+		Document doc = null;
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			InputSource is = new InputSource(new StringReader(xml));
+			doc = builder.parse(is);
+			doc.getDocumentElement().normalize();
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			throw new XmlErroneoExcepcion("Error al parsear el XML.");
+		}
+		return doc;
 	}
 
 	/* METODOS PRIVADOS AUXILIARES */
