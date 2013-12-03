@@ -94,7 +94,7 @@ public class Actividad implements Serializable{
 	public String serializar() {
 		String identif = "";
 		String idAmbSupStr = "";
-		String idActSupStr = "ninguna";
+		String idActSupStr = "";
 		if (id >= 0) {
 			identif = String.valueOf(id);
 		}
@@ -188,14 +188,6 @@ public class Actividad implements Serializable{
 		this.idActividadSuperior = idActividadSuperior;
 	}
 
-	// esta devuelve un xml
-	public String getPropiedades(int IdActividad) {
-		// cargo datos de integracion
-		// devuelvo la clase serializada(necesario, no combiene directamente
-		// enviar xml que devuelve integracion??)
-		return serializar();
-	}
-
 	/*  METODOS DE CLASE (ESTATICOS)  */
 
 	public static Actividad getActividad(long idActividad)
@@ -256,21 +248,23 @@ public class Actividad implements Serializable{
 
 	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
 		NodeList nodes = doc.getElementsByTagName("Actividad");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node node = nodes.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) node;
-				this.id = Long.valueOf(getValue("Id", element));
-				this.idAmbitoSuperior = Long.valueOf(getValue(
-						"IdAmbitoSuperior", element));
-				this.idActividadSuperior = Long.valueOf(getValue(
-						"IdActividadSuperior", element));
-				this.nombre = getValue("Nombre", element);
-				this.tipo = getValue("Tipo", element);
-				this.fechaInicio = getValue("FechaInicio", element);
-				this.fechaFin = getValue("FechaFin", element);
-				this.descripcion = getValue("Descripcion", element);
-			}
+		if (nodes.getLength() != 1) {
+			throw new XmlErroneoExcepcion(
+					"Debe haber solamente un nodo Actividad");
+		}
+		Node node = nodes.item(0);
+		if (node.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) node;
+			this.id = Long.valueOf(getValue("Id", element));
+			this.idAmbitoSuperior = Long.valueOf(getValue("IdAmbitoSuperior",
+					element));
+			this.idActividadSuperior = Long.valueOf(getValue(
+					"IdActividadSuperior", element));
+			this.nombre = getValue("Nombre", element);
+			this.tipo = getValue("Tipo", element);
+			this.fechaInicio = getValue("FechaInicio", element);
+			this.fechaFin = getValue("FechaFin", element);
+			this.descripcion = getValue("Descripcion", element);
 		}
 	}
 

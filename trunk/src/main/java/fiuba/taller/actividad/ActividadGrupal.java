@@ -24,7 +24,7 @@ public class ActividadGrupal extends Actividad {
 	public void descerializar(String xml) throws XmlErroneoExcepcion {
 		Document doc = getDocumentElement(xml);
 		super.descerializar(doc);
-		
+		descerializar(doc);
 	}
 
 	public void agregarGrupo(long idGrupo) {
@@ -82,15 +82,18 @@ public class ActividadGrupal extends Actividad {
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
-	
+
 	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
 		NodeList nodes = doc.getElementsByTagName("Actividad");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node node = nodes.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) node;
-				this.gruposExclusivos = Boolean.valueOf(getValue("GruposExclusivos", element));
-			}
+		if (nodes.getLength() != 1) {
+			throw new XmlErroneoExcepcion(
+					"Debe haber solamente un nodo Actividad");
+		}
+		Node node = nodes.item(0);
+		if (node.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) node;
+			this.gruposExclusivos = Boolean.valueOf(getValue(
+					"GruposExclusivos", element));
 		}
 	}
 }
