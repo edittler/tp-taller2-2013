@@ -5,7 +5,7 @@ import java.util.List;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadIndividualEvaluable extends ActividadIndividual implements
-		IEvaluable {
+		Evaluable {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE = TIPO_ACTIVIDAD_INDIVIDUAL
 			+ " Evaluable";
@@ -15,16 +15,20 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
 	}
 
+	@Override
 	public void evaluar(long idEvaluado, String nota) {
-		// TODO Implementar
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
 	public String getNota(long idParticipante) {
 		// TODO Implementar
-		return null;
+		return "";
 	}
 
-	public String getNotas() {
+	@Override
+	public List<Nota> getNotas() {
 		// TODO Implementar
 		return null;
 	}

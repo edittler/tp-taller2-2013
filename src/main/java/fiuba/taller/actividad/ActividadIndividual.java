@@ -28,7 +28,7 @@ public class ActividadIndividual extends Actividad {
 		 */
 	}
 	
-	public String getParticipantes() {
+	public List<Miembro> getParticipantes() {
 		/* TODO: Implementar
 		 * En teoria devuelve el XML que devuelve integracion directamente
 		*/

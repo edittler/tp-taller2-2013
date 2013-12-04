@@ -117,6 +117,9 @@ public class Actividad implements Serializable{
 		return xml;
 	}
 
+	/**
+	 * Guarda el estado actual del objeto a la base de datos.
+	 */
 	public void guardarEstado() {
 		/* GuardarDatosResponse response = new GuardarDatosResponse();
 		 GuardarDatos envio = new GuardarDatos();
@@ -133,10 +136,12 @@ public class Actividad implements Serializable{
 		 */
 	}
 
-	/*
-	 * Con el estado interno actual que tiene la instancia , la serializa y
-	 * manda su xml a integracion, integracion devuelve un xml con los datos
-	 * completos de los campos vacios enviados
+	/**
+	 * A partir de los valores de los atributos internos de la instancia, 
+	 * genera un XML que es enviado a Integracion. Integracion devuelve un XML 
+	 * con todos los datos y este es devuelto.
+	 * NOTA: integracion puede devolver mas de 1 XML según los valores de los 
+	 * parametros internos de la instancia.
 	 */
 	public String realizarConsulta() {
 		// "No implementado todavia :)";

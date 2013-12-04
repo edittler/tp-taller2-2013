@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,14 +24,17 @@ import org.xml.sax.InputSource;
 
 public class Grupo implements Serializable {
 	long id;
-	ArrayList <Long> idParticipantes;
+	List <Long> idParticipantes;
+
 	public Grupo() {
 		id=-1;
 		idParticipantes = new ArrayList<>();
 	}
+
 	public String realizarConsulta() {
 		return "no implementado";
 	}
+
 	private static String getValue(String tag, Element element) {
 		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
 		Node node = (Node) nodes.item(0);
@@ -72,6 +76,7 @@ public class Grupo implements Serializable {
 		}
 		//System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
 	}
+
 	public String serializar (){
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>" 	
 				+ "<IdGrupo>" + id + "</IdGrupo>";
@@ -86,15 +91,19 @@ public class Grupo implements Serializable {
 	public void guardarEstado() {
 		// manda a guardar la informacion a integracion
 	}
+
 	public long getId() {
 		return id;
 	}
-	public ArrayList<Long> getIdParticipantes() {
+
+	public List<Long> getIdParticipantes() {
 		return idParticipantes;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	public void setIdParticipantes(ArrayList<Long> idParticipantes) {
 		this.idParticipantes = idParticipantes;
 	}

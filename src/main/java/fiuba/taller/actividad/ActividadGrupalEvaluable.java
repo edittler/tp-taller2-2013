@@ -5,7 +5,7 @@ import java.util.List;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadGrupalEvaluable extends ActividadGrupal implements
-		IEvaluable {
+		Evaluable {
 
 	protected static final String TIPO_ACTIVIDAD_GRUPAL_EVALUABLE = TIPO_ACTIVIDAD_GRUPAL
 			+ " Evaluable";
@@ -24,7 +24,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		return null;
 	}
 
-	public String getNotas() {
+	public List<Nota> getNotas() {
 		// TODO Implementar
 		return null;
 	}
