@@ -15,10 +15,10 @@ public class Nota implements Serializable {
 	String nota;
 	String observaciones;
 	long idActividad;
-	long idElementoEvaluado;
+	long idEvaluado;
 	
 	public Nota(){
-		idElementoEvaluado = -1;
+		idEvaluado = -1;
 		nota="";
 		idActividad=-1;
 		observaciones="";
@@ -39,7 +39,7 @@ public class Nota implements Serializable {
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
 					idActividad=Long.valueOf(getValue("IdActividad",element));
-					idElementoEvaluado = Long.valueOf(getValue("IdElementoEvaluado",element));
+					idEvaluado = Long.valueOf(getValue("IdEvaluado",element));
 					nota = getValue("ValorNota",element);
 					observaciones= getValue("Observaciones",element);
 				}
@@ -56,12 +56,12 @@ public class Nota implements Serializable {
 		if (idActividad >= 0) {
 			idActividadString = String.valueOf(idActividad);
 		}
-		if(idElementoEvaluado>=0){
-			idElementoEvaluadoString=String.valueOf(idElementoEvaluado);
+		if(idEvaluado>=0){
+			idElementoEvaluadoString=String.valueOf(idEvaluado);
 		}
 		return "<?xml version=\"1.0\"?><WS><Nota>"
 				+"<IdActividad>"+idActividadString+"</IdActividad>"
-				+"<IdElementoEvaluado>"+idElementoEvaluadoString+"</IdElementoEvaluado>"
+				+"<IdEvaluado>"+idElementoEvaluadoString+"</IdEvaluado>"
 				+"<ValorNota>"+nota+"</ValorNota>"
 				+"<Observaciones>"+observaciones+"</Observaciones>"
 				+"</Nota></WS>";
@@ -71,18 +71,6 @@ public class Nota implements Serializable {
 		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
 		Node node = (Node) nodes.item(0);
 		return node.getNodeValue();
-	}
-	
-	@Override
-	public String realizarConsulta() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void guardarEstado() {
-		// TODO Auto-generated method stub
-
 	}
 	
 	/* METODOS PARA PRUEBAS */
@@ -99,6 +87,6 @@ public class Nota implements Serializable {
 	}
 
 	public long getIdElementoEvaluado() {
-		return idElementoEvaluado;
+		return idEvaluado;
 	}
 }

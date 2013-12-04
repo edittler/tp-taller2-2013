@@ -2,7 +2,7 @@ package fiuba.taller.actividad;
 
 import java.util.List;
 
-public interface IEvaluable {
+public interface Evaluable {
 
 	/*
 	 * idEvaluado: Puede representar tanto a un participante como a un grupo
@@ -15,10 +15,10 @@ public interface IEvaluable {
 	/*
 	 * 
 	 * */
-	public String getNota(long idParticipante);
+	public String getNota(long idEvaluado);
 	
 	/*
 	 * 
 	 * */
-	public String getNotas();
+	public List<Nota> getNotas();
 }

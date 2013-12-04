@@ -215,8 +215,8 @@ public class ActividadControlador {
 	public String getParticipantes(long idActividad) throws XmlErroneoExcepcion {
 		ActividadIndividual actInd = 
 				ActividadIndividual.getActividad(idActividad);
-		
-		return actInd.getParticipantes();
+		actInd.getParticipantes();
+		return "blabla"; // FIXME Fer, volvemos para atras  --Pampa
 		
 		/* Se obtiene la lista de participantes inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
@@ -283,7 +283,8 @@ public class ActividadControlador {
 
 	public String getGrupos(long idActividad) throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
-		return actividad.getGrupos();
+		actividad.getGrupos();
+		return ""; // FIXME Fer, volvemos para atrás --Pampa
 		/* Se obtiene la lista de grupos inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
 		* Por lo pronto se maneja solo IDs
@@ -340,7 +341,7 @@ public class ActividadControlador {
 	public void evaluar(long idActividad, long idEvaluado, String nota) throws XmlErroneoExcepcion {
 		Actividad actividad = new Actividad();
 		String xml = actividad.realizarConsulta(idActividad);
-		IEvaluable evaluable = null;
+		Evaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			evaluable = ActividadIndividualEvaluable.getActividad(idActividad);
 		} else if (ActividadGrupalEvaluable.esTipoValido(xml)) {
@@ -353,11 +354,11 @@ public class ActividadControlador {
 	}
 	
 	// TODO: Refactorizar
-	private IEvaluable encontrarActividadEvaluable(long idActividad) throws XmlErroneoExcepcion {
+	private Evaluable encontrarActividadEvaluable(long idActividad) throws XmlErroneoExcepcion {
 		// TODO Refactorizar la busqueda de actividades evaluables
 		Actividad actividad = new Actividad();
 		String xml = actividad.realizarConsulta(idActividad);
-		IEvaluable evaluable = null;
+		Evaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			return ActividadIndividualEvaluable.getActividad(idActividad);
 		} else if (ActividadGrupalEvaluable.esTipoValido(xml)) {
@@ -368,7 +369,7 @@ public class ActividadControlador {
 	}
 
 	public String getNota(long idActividad, long idEvaluado) throws XmlErroneoExcepcion {
-		IEvaluable evaluable = encontrarActividadEvaluable(idActividad);
+		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
 		}
@@ -418,13 +419,13 @@ public class ActividadControlador {
 
 	// Verificar que la actividad sea evaluable
 	public String getNotas(long idActividad) throws XmlErroneoExcepcion {
-		IEvaluable evaluable = encontrarActividadEvaluable(idActividad);
+		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
 		}
 		
-		return evaluable.getNotas();
-		
+		evaluable.getNotas();
+		return ""; //FIXME Fer, volvemos para atras  --Pampa
 		/*List<Nota> notas = evaluable.getNotas();
 		
 		// Creo el Documento a crear el XML

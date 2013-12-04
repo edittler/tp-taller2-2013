@@ -46,7 +46,7 @@ public class ActividadGrupal extends Actividad {
 		return null;
 	}
 
-	public String getGrupos() {
+	public List<Grupo> getGrupos() {
 		// TODO: Implementar
 		return null;
 	}
