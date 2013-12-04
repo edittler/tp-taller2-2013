@@ -15,10 +15,10 @@ public interface IEvaluable {
 	/*
 	 * 
 	 * */
-	public Nota getNota(long idParticipante);
+	public String getNota(long idParticipante);
 	
 	/*
 	 * 
 	 * */
-	public List<Nota> getNotas();
+	public String getNotas();
 }

@@ -1,8 +1,11 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -13,12 +16,85 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
+
+	// Devuelve un XML con TODAS las propiedades de una actividad particular
+	public String getPropiedades(long idActividad) throws XmlErroneoExcepcion {
+		Actividad actividad = null;
+		try {
+			actividad = Actividad.getActividad(idActividad);
+		} catch (XmlErroneoExcepcion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Document docActividad = readXml(actividad.serializar());
+		// FIXME Hardcodeo de tag
+		Element elemActividad= docActividad.getElementById("Actividad");
+		
+		// Debo concatenar los XML de los participantes y sus notas
+		try {
+			this.concatenateElementsXml(this.getParticipantes(idActividad), elemActividad);
+		} catch (XmlErroneoExcepcion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Reemplazo el viejo nodo con el nuevo con los datos concatenados FIXME hardcodeo
+		docActividad.replaceChild(elemActividad, docActividad.getElementById("Actividad"));
+		
+		String xmlActividad = null;
+		try {
+			xmlActividad = this.getStringFromDocument(docActividad);
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return xmlActividad;
+	}
+	
+	private Document readXml(String xml) {
+		DocumentBuilder db = null;
+		try {
+			db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		} catch (ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    InputSource is = new InputSource();
+	    is.setCharacterStream(new StringReader(xml));
+		    
+	    Document doc = null;;
+		try {
+			doc = db.parse(is);
+		} catch (SAXException | IOException e) {
+			// TODO do something with the exception, Ferno!
+		}
+		
+		return doc;
+	}
+	
+	// Se concatena al elementoPadre todos los elementos de xml (sin contar la raiz del doc)
+	private void concatenateElementsXml(String xml, Element elementoPadre) {
+		Document doc = readXml(xml);
+		// TODO: Definir el raiz!
+	    NodeList nodes = doc.getElementsByTagName("WS");
+	    
+	    for (int i = 0; i < nodes.getLength(); i++) {
+	        Element element = (Element) nodes.item(i);
+	        elementoPadre.appendChild(element);
+	    }
+	}
+	
 
 	/**
 	 * @param idActividad
@@ -110,7 +186,6 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
-	// metodo que levanta una excepcion (FALTA HACER)
 	public void agregarParticipante(long idActividad, long idParticipante)
 			throws XmlErroneoExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
@@ -118,8 +193,11 @@ public class ActividadControlador {
 		actividad.agregarParticipante(idParticipante);
 	}
 
-	public void eliminarParticipante(long idActividad, long idParticipante) {
-		// TODO Implementar
+	public void eliminarParticipante(long idActividad, long idParticipante) 
+			throws XmlErroneoExcepcion, ParticipanteInexistenteExcepcion {
+		ActividadIndividual actividad = ActividadIndividual
+				.getActividad(idActividad);
+		actividad.eliminarParticipante(idParticipante);
 	}
 	
 	// TODO: Refactorizar! Mover este metodo al lugar adecuado
@@ -137,10 +215,15 @@ public class ActividadControlador {
 	public String getParticipantes(long idActividad) throws XmlErroneoExcepcion {
 		ActividadIndividual actInd = 
 				ActividadIndividual.getActividad(idActividad);
+		
+		return actInd.getParticipantes();
+		
 		/* Se obtiene la lista de participantes inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
 		* Por lo pronto manejaré solamente los IDs
 		*/
+		
+		/*
 		List<Long> participantes = actInd.getParticipantes();
 		
 		// Paso a un XML genérico la lista de participantes obtenida
@@ -175,30 +258,37 @@ public class ActividadControlador {
 			// TODO Do something Ferno!
 		}
 		
-		return xmlParticipantes;
+		return xmlParticipantes;*/
 	}
 
 	public void getParticipante(long idActividad, long idParticipante) {
-		// TODO Implementar getParticipante (¿comunicarse con Participacion?)
+		// TODO: Implementar
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
 
-	public void agregarGrupo(long idActividad, long idGrupo) {
-		// TODO Implementar
+	public void agregarGrupo(long idActividad, long idGrupo) 
+			throws XmlErroneoExcepcion {
+		ActividadGrupal actividad = ActividadGrupal
+				.getActividad(idActividad);
+		actividad.agregarGrupo(idGrupo);
 	}
 
-	public void eliminarGrupo(long idActividad, long idGrupo) {
-		// TODO Implementar
+	public void eliminarGrupo(long idActividad, long idGrupo) 
+			throws XmlErroneoExcepcion {
+		ActividadGrupal actividad = ActividadGrupal
+				.getActividad(idActividad);
+		actividad.eliminarGrupo(idGrupo);
 	}
 
 	public String getGrupos(long idActividad) throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
+		return actividad.getGrupos();
 		/* Se obtiene la lista de grupos inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
 		* Por lo pronto se maneja solo IDs
 		*/
-		List<Long> grupos = actividad.getGrupos();
+		/*List<Long> grupos = actividad.getGrupos();
 
 		// Paso a un XML genérico la lista de participantes obtenida
 		Document docGrupos = null;
@@ -232,11 +322,15 @@ public class ActividadControlador {
 			// TODO do something Ferno!
 		}
 				
-		return xmlGrupos;
+		return xmlGrupos;*/
 	}
 
-	public void getGrupo(long idActividad, long idGrupo) {
+	public String getGrupo(long idActividad, long idGrupo) 
+			throws XmlErroneoExcepcion {
 		// TODO Implementar getGrupo (¿comunicarse con Participacion?)
+		ActividadGrupal actGrupal = ActividadGrupal
+				.getActividad(idActividad);
+		return actGrupal.getGrupo(idGrupo);
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES EVALUABLES */
@@ -278,7 +372,10 @@ public class ActividadControlador {
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
 		}
-		Nota nota = evaluable.getNota(idEvaluado);
+		
+		return evaluable.getNota(idEvaluado);
+		
+		/*Nota nota = evaluable.getNota(idEvaluado);
 		// TODO: ¿Muy C? Refactorizar, quizas...
 		if (nota != null) {
 			// Armo el XML correspondiente a la nota
@@ -316,7 +413,7 @@ public class ActividadControlador {
 		}
 		
 		// TODO: Retornar algun tipo de Excepcion!
-		return null;
+		return null;*/
 	}
 
 	// Verificar que la actividad sea evaluable
@@ -326,7 +423,9 @@ public class ActividadControlador {
 			//TODO: Lanzar alguna excepcion
 		}
 		
-		List<Nota> notas = evaluable.getNotas();
+		return evaluable.getNotas();
+		
+		/*List<Nota> notas = evaluable.getNotas();
 		
 		// Creo el Documento a crear el XML
 		Document docNotas = null;
@@ -366,6 +465,7 @@ public class ActividadControlador {
 			// TODO add exceptions magic here, Ferno :)
 		}
 		
-		return xmlNotas;
+		return xmlNotas;*/
 	}
+	
 }

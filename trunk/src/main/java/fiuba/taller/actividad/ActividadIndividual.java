@@ -28,10 +28,9 @@ public class ActividadIndividual extends Actividad {
 		 */
 	}
 	
-	public List<Long> getParticipantes() {
+	public String getParticipantes() {
 		/* TODO: Implementar
-		* Agregar IDs de participantes (ver si hay que crear clase y
-		* agregar más información)
+		 * En teoria devuelve el XML que devuelve integracion directamente
 		*/
 		return null;
 	}
