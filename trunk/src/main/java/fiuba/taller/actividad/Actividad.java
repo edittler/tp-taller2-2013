@@ -41,7 +41,7 @@ public class Actividad implements Serializable{
 	// - foro : Foro
 	// - actividadesInternas : ArrayList<Actividad>
 	// - chat : Chat (necesario ??)
-	// usar desp tipo de dato correcto en fechas
+	//  usar desp tipo de dato correcto en fechas
 	protected String fechaInicio;
 	protected String fechaFin;
 
