@@ -40,9 +40,13 @@ public class ActividadGrupal extends Actividad {
 		 * ese caso de que no exista, se debe lanzar una excepcion.
 		 */
 	}
+	
+	public String getGrupo(long idGrupo) {
+		// TODO: Implementar!
+		return null;
+	}
 
-	// FIXME Se devuelve, por lo pronto, una lista de IDs de grupo
-	public List<Long> getGrupos() {
+	public String getGrupos() {
 		// TODO: Implementar
 		return null;
 	}

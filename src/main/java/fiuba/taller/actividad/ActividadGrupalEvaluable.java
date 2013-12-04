@@ -19,12 +19,12 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		// TODO Implementar
 	}
 
-	public Nota getNota(long idParticipante) {
+	public String getNota(long idParticipante) {
 		// TODO Implementar
 		return null;
 	}
 
-	public List<Nota> getNotas() {
+	public String getNotas() {
 		// TODO Implementar
 		return null;
 	}
