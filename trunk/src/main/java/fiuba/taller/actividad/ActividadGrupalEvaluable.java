@@ -9,12 +9,25 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 
 	protected static final String TIPO_ACTIVIDAD_GRUPAL_EVALUABLE = TIPO_ACTIVIDAD_GRUPAL
 			+ " Evaluable";
+	protected String escala;
 
 	public ActividadGrupalEvaluable() {
 		super();
 		tipo = TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
+		escala = "";
 	}
 
+	@Override
+	public String getEscala() {
+		return escala;
+	}
+
+	@Override
+	public void setEscala(String escala) {
+		this.escala = escala;
+	}
+
+	@Override
 	public void evaluar(long idEvaluado, String nota) {
 		// TODO Implementar
 	}

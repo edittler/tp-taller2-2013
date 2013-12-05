@@ -12,6 +12,14 @@ public class Miembro implements Serializable {
 		nombre = "";
 	}
 	
+	public long getId() {
+		return id;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
 	@Override
 	public String serializar() {
 		// TODO Auto-generated method stub

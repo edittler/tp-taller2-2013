@@ -140,6 +140,14 @@ public class Actividad implements Serializable {
 		return fechaFin;
 	}
 
+	public void setFecha(String fechaInicio) {
+		/*
+		 * TODO(Pampa) Implementar Hay que validad si las fecha se encuentra en 
+		 * el formato correcto. Si no, lanzar una excepcion.
+		 * La fecha de fin se setea igual a la fecha de inicio.
+		 */
+	}
+
 	public void setFecha(String fechaInicio, String fechaFin) {
 		/*
 		 * TODO(Pampa) Implementar Hay que validad si las fechas se encuentran
@@ -239,15 +247,6 @@ public class Actividad implements Serializable {
 		return xmlDevuelto;
 	}
 
-	/*
-	 * metodo para realizar una consulta a integracion que dependa no solamente
-	 * del id de la actividad sino del estado interno de la actividad
-	 */
-	public String realizarConsulta(long id) {
-		this.id = id;
-		return realizarConsulta();
-	}
-
 	/* METODOS DE CLASE (ESTATICOS) */
 
 	public static Actividad getActividad(long idActividad)
@@ -276,7 +275,8 @@ public class Actividad implements Serializable {
 	}
 
 	protected void levantarEstado(long idActividad) throws XmlErroneoExcepcion {
-		descerializar(realizarConsulta(idActividad));
+		id = idActividad;
+		descerializar(realizarConsulta());
 	}
 
 	protected static Document getDocumentElement(String xml)

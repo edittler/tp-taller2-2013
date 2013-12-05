@@ -9,16 +9,27 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE = TIPO_ACTIVIDAD_INDIVIDUAL
 			+ " Evaluable";
+	protected String escala;
 
 	public ActividadIndividualEvaluable() {
 		super();
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
+		escala = "";
+	}
+
+	@Override
+	public String getEscala() {
+		return escala;
+	}
+
+	@Override
+	public void setEscala(String escala) {
+		this.escala = escala;
 	}
 
 	@Override
 	public void evaluar(long idEvaluado, String nota) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
