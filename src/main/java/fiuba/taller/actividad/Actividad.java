@@ -3,7 +3,8 @@ package fiuba.taller.actividad;
 import java.io.IOException;
 import java.io.StringReader;
 import java.rmi.RemoteException;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,30 +23,23 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 //import com.ws.services.*;
 
 @SuppressWarnings("unused")
-enum AmbitoSuperior {
-	AMBITO,
-	ACTIVIDAD
-}
-
-@SuppressWarnings("unused")
 public class Actividad implements Serializable{
 
 	protected long id;
 	protected String nombre;
-	protected String tipo;
 	protected String descripcion;
 	protected long idAmbitoSuperior;
 	protected long idActividadSuperior;
-	// - coordinadores : ArrayList<Miembro>
-	// - cartelera : Cartelera
-	// - foro : Foro
-	// - actividadesInternas : ArrayList<Actividad>
-	// - chat : Chat (necesario ??)
-	//  usar desp tipo de dato correcto en fechas
+	protected List<Long> coordinadores;
+	protected long idMuro;
+	protected long idCartelera;
+	protected long idForo;
+	protected List<Long> actividadesInternas;
+	protected long idChat;
+	protected String tipo;
 	protected String fechaInicio;
 	protected String fechaFin;
 
-	// - muroSuperior : Informable
 	public Actividad() {
 		id = -1;
 		idAmbitoSuperior = -1;
@@ -55,6 +49,104 @@ public class Actividad implements Serializable{
 		fechaInicio = "";
 		descripcion = "";
 		tipo = "";
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	@Deprecated
+	public long getIdAmbitoSuperior() {
+		return idAmbitoSuperior;
+	}
+
+	@Deprecated
+	public void setIdAmbitoSuperior(long idAmbitoSuperior) {
+		this.idAmbitoSuperior = idAmbitoSuperior;
+	}
+
+	@Deprecated
+	public long getIdActividadSuperior() {
+		return idActividadSuperior;
+	}
+
+	@Deprecated
+	public void setIdActividadSuperior(long idActividadSuperior) {
+		this.idActividadSuperior = idActividadSuperior;
+	}
+
+	public List<Miembro> getCoordinadores() {
+		// TODO(Pampa) Implementar
+		return new ArrayList<>();
+	}
+
+	public void agregarCoordinador(long idCoordinador) {
+		/*
+		 * TODO(Pampa) Implementar.
+		 * Si el id ya existe, debe lanzar una excepcion.
+		 */
+	}
+
+	public void eliminarCoordinador(long idCoordinador) {
+		/*
+		 * TODO(Pampa) Implementar.
+		 * Si el id no existe, debe lanzar una excepcion.
+		 * Si es el único coordinador, no se puede borrar. Lanzar una excepcion.
+		 */
+	}
+
+	public long getIdMuro() {
+		return idMuro;
+	}
+
+	public long getIdCartelera() {
+		return idCartelera;
+	}
+
+	public long getIdForo() {
+		return idForo;
+	}
+
+	public List<Actividad> getActividades() {
+		// TODO(Pampa) Implementar
+		return new ArrayList<>();
+	}
+
+	public long getIdChat() {
+		return idChat;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public String getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+	
+	public void setFecha(String fechaInicio, String fechaFin) {
+		/*
+		 * TODO(Pampa) Implementar
+		 * Hay que validad si las fechas se encuentran en el formato correcto y 
+		 * si la fecha de inicio es menor a la fecha de fin.
+		 * Si no, lanzar una excepcion
+		 */
 	}
 
 	@Deprecated
@@ -80,6 +172,7 @@ public class Actividad implements Serializable{
 	// Recibe el xml obtenido de integracion, cullo contenido es los datos de la
 	// clase actividad
 	// es privado pero por motivo de testing lo pongo publico
+	@Override
 	public void descerializar(String xml) throws XmlErroneoExcepcion {
 		Document doc = getDocumentElement(xml);
 		descerializar(doc);
@@ -91,6 +184,7 @@ public class Actividad implements Serializable{
 	// -> se envian las propiedades de la actividad a presentacion
 	// -> se guardan los datos a integracion y se envian los datos de consulta a
 	// integracion
+	@Override
 	public String serializar() {
 		String identif = "";
 		String idAmbSupStr = "";
@@ -169,30 +263,6 @@ public class Actividad implements Serializable{
 		return realizarConsulta();
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public void setIdAmbitoSuperior(long idAmbitoSuperior) {
-		this.idAmbitoSuperior = idAmbitoSuperior;
-	}
-
-	public void setIdActividadSuperior(long idActividadSuperior) {
-		this.idActividadSuperior = idActividadSuperior;
-	}
-
 	/*  METODOS DE CLASE (ESTATICOS)  */
 
 	public static Actividad getActividad(long idActividad)
@@ -206,23 +276,11 @@ public class Actividad implements Serializable{
 		return actividad;
 	}
 
-	public static String getActividades(long idAmbito, AmbitoSuperior tipo) {
-		String xml = "";
-		switch (tipo) {
-		case AMBITO:
-			xml = getActividadesDeAmbito(idAmbito);
-			break;
-		case ACTIVIDAD:
-			xml = getActividadesDeActividad(idAmbito);
-			break;
-		default:
-			xml = "";
-			break;
-		}
-		return xml;
-	}
-
 	/* METODOS PROTEGIDOS AUXILIARES */
+
+	protected void setId(long id) {
+		this.id = id;
+	}
 
 	// metodo interno de ayuda para el parseo
 	protected static String getValue(String tag, Element element) {
@@ -295,29 +353,5 @@ public class Actividad implements Serializable{
 				+"FECHA FIN: "+ this.fechaFin + "\n"
 				+"DESCRIPCION: "+ this.descripcion + "\n";
 		
-	}
-
-	public long getIdAmbitoSuperior(){
-		return idAmbitoSuperior;
-	}
-
-	public long getIdActividadSuperior(){
-		return idActividadSuperior;
-	}
-
-	public String getTipo(){
-		return tipo;
-	}
-
-	public String getDescripcion(){
-		return descripcion;
-	}
-
-	public String getFechaInicio(){
-		return fechaInicio;
-	}
-
-	public String getFechaFin(){
-		return fechaFin;
 	}
 }
