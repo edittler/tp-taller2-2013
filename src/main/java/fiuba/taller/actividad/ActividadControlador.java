@@ -336,8 +336,8 @@ public class ActividadControlador {
 	// Evaluado puede ser un participante o un grupo, dependiendo si la
 	// actividad es ind o grupal
 	public void evaluar(long idActividad, long idEvaluado, String nota) throws XmlErroneoExcepcion {
-		Actividad actividad = new Actividad();
-		String xml = actividad.realizarConsulta(idActividad);
+		Actividad actividad = Actividad.getActividad(idActividad);
+		String xml = actividad.serializar();
 		Evaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			evaluable = ActividadIndividualEvaluable.getActividad(idActividad);
@@ -353,8 +353,8 @@ public class ActividadControlador {
 	// TODO: Refactorizar
 	private Evaluable encontrarActividadEvaluable(long idActividad) throws XmlErroneoExcepcion {
 		// TODO Refactorizar la busqueda de actividades evaluables
-		Actividad actividad = new Actividad();
-		String xml = actividad.realizarConsulta(idActividad);
+		Actividad actividad = Actividad.getActividad(idActividad);
+		String xml = actividad.serializar();
 		Evaluable evaluable = null;
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			return ActividadIndividualEvaluable.getActividad(idActividad);
