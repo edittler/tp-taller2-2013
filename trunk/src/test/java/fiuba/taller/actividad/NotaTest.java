@@ -38,10 +38,10 @@ public class NotaTest {
 			fail("IdActividad esperado: " + idActividad
 					+ " idActividad encontrado: " + nota.getIdActividad());
 		}
-		if (nota.getIdElementoEvaluado() != idElemento) {
+		if (nota.getIdEvaluado() != idElemento) {
 			fail("IdElementoEvaluado  esperado: " + idElemento
 					+ "IdElementoEvaluado encontrado: "
-					+ nota.getIdElementoEvaluado());
+					+ nota.getIdEvaluado());
 		}
 		if (!nota.getNota().equals(valorNota)) {
 			fail("ValorNota  esperado: " + valorNota + "ValorNota encontrado: "

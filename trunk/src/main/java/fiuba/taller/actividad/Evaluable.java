@@ -31,6 +31,18 @@ public interface Evaluable {
 	public void evaluar(long idEvaluado, String nota);
 
 	/**
+	 * Asigna una nota al evaluado correspondiente.
+	 * 
+	 * @param idEvaluado
+	 *            Identificador del evaluado.
+	 * @param nota
+	 *            String con la nota asignada al evaluado.
+	 * @param observaciones
+	 *            String con las observaciones realizadas al evaluado.
+	 */
+	public void evaluar(long idEvaluado, String nota, String observaciones);
+
+	/**
 	 * Devuelve la nota del evaluado.
 	 * 
 	 * @param idEvaluado

@@ -32,6 +32,11 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		// TODO Implementar
 	}
 
+	@Override
+	public void evaluar(long idEvaluado, String nota, String observaciones) {
+		// TODO Implementar
+	}
+
 	public String getNota(long idParticipante) {
 		// TODO Implementar
 		return null;
