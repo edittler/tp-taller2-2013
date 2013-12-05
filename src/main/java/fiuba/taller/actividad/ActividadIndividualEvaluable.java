@@ -33,6 +33,11 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	@Override
+	public void evaluar(long idEvaluado, String nota, String observaciones) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public String getNota(long idParticipante) {
 		// TODO Implementar
 		return "";
