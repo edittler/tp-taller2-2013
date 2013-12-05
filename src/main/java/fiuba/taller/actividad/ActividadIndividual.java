@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.util.List;
 
+import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
@@ -15,14 +16,16 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	public List<Miembro> getParticipantes() {
-		/* TODO: Implementar
+		/*
+		 * TODO: Implementar
 		 */
 		return null;
 	}
 
-	public void agregarParticipante(long idParticipante) {
-		/* TODO Implementar.
-		 * Si ya existe el participante, lanzar excepcion.
+	public void agregarParticipante(long idParticipante)
+			throws ParticipanteExistenteExcepcion {
+		/*
+		 * TODO Implementar. Si ya existe el participante, lanzar excepcion.
 		 */
 	}
 
@@ -43,7 +46,7 @@ public class ActividadIndividual extends Actividad {
 		} catch (XmlErroneoExcepcion e) {
 			return false;
 		}
-		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL)){
+		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL)) {
 			return true;
 		}
 		return false;

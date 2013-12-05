@@ -23,7 +23,7 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 //import com.ws.services.*;
 
 @SuppressWarnings("unused")
-public class Actividad implements Serializable{
+public class Actividad implements Serializable {
 
 	protected long id;
 	protected String nombre;
@@ -94,16 +94,16 @@ public class Actividad implements Serializable{
 
 	public void agregarCoordinador(long idCoordinador) {
 		/*
-		 * TODO(Pampa) Implementar.
-		 * Si el id ya existe, debe lanzar una excepcion.
+		 * TODO(Pampa) Implementar. Si el id ya existe, debe lanzar una
+		 * excepcion.
 		 */
 	}
 
 	public void eliminarCoordinador(long idCoordinador) {
 		/*
-		 * TODO(Pampa) Implementar.
-		 * Si el id no existe, debe lanzar una excepcion.
-		 * Si es el único coordinador, no se puede borrar. Lanzar una excepcion.
+		 * TODO(Pampa) Implementar. Si el id no existe, debe lanzar una
+		 * excepcion. Si es el único coordinador, no se puede borrar. Lanzar una
+		 * excepcion.
 		 */
 	}
 
@@ -139,37 +139,32 @@ public class Actividad implements Serializable{
 	public String getFechaFin() {
 		return fechaFin;
 	}
-	
+
 	public void setFecha(String fechaInicio, String fechaFin) {
 		/*
-		 * TODO(Pampa) Implementar
-		 * Hay que validad si las fechas se encuentran en el formato correcto y 
-		 * si la fecha de inicio es menor a la fecha de fin.
-		 * Si no, lanzar una excepcion
+		 * TODO(Pampa) Implementar Hay que validad si las fechas se encuentran
+		 * en el formato correcto y si la fecha de inicio es menor a la fecha de
+		 * fin. Si no, lanzar una excepcion
 		 */
 	}
 
 	@Deprecated
 	public String pruebaIntegracion() {
 		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
-		/*GuardarDatosResponse response = new GuardarDatosResponse();
-		 GuardarDatos envio = new GuardarDatos();
-		 envio.setXml(xml);
-		 IntegracionStub servicio;
-		 try {
-		 servicio = new IntegracionStub();
-		 response = servicio.guardarDatos(envio);
-		 } catch (RemoteException e) {
-		 System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n");
-		 e.printStackTrace();
-		 return "ERROR";
-		 }
-		*/
+		/*
+		 * GuardarDatosResponse response = new GuardarDatosResponse();
+		 * GuardarDatos envio = new GuardarDatos(); envio.setXml(xml);
+		 * IntegracionStub servicio; try { servicio = new IntegracionStub();
+		 * response = servicio.guardarDatos(envio); } catch (RemoteException e)
+		 * {
+		 * System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n"
+		 * ); e.printStackTrace(); return "ERROR"; }
+		 */
 		return "Integracion Contesto";// +response.get_return()+"\n";
 
 	}
 
-	// Recibe el xml obtenido de integracion, cullo contenido es los datos de la
+	// Recibe el xml obtenido de integracion, cuyo contenido es los datos de la
 	// clase actividad
 	// es privado pero por motivo de testing lo pongo publico
 	@Override
@@ -180,7 +175,7 @@ public class Actividad implements Serializable{
 
 	// serializa a la actividad
 	// devuelve xml
-	// este metodo intente ser util tanto para cuando:
+	// este metodo intenta ser util tanto para cuando:
 	// -> se envian las propiedades de la actividad a presentacion
 	// -> se guardan los datos a integracion y se envian los datos de consulta a
 	// integracion
@@ -198,16 +193,14 @@ public class Actividad implements Serializable{
 		if (idActividadSuperior >= 0) {
 			idActSupStr = String.valueOf(idActividadSuperior);
 		}
-		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+"<Id>" + identif + "</Id>"
-				+"<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+"<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+"<Nombre>" + nombre + "</Nombre>"
-				+"<Tipo>" + tipo + "</Tipo>"
-				+"<Descripcion>" + descripcion + "</Descripcion>"
-				+"<FechaInicio>" + fechaInicio + "</FechaInicio>"
-				+"<FechaFin>" + fechaFin + "</FechaFin>" 
-				+"</Actividad></WS>";
+		String xml = "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>"
+				+ identif + "</Id>" + "<IdAmbitoSuperior>" + idAmbSupStr
+				+ "</IdAmbitoSuperior>" + "<IdActividadSuperior>" + idActSupStr
+				+ "</IdActividadSuperior>" + "<Nombre>" + nombre + "</Nombre>"
+				+ "<Tipo>" + tipo + "</Tipo>" + "<Descripcion>" + descripcion
+				+ "</Descripcion>" + "<FechaInicio>" + fechaInicio
+				+ "</FechaInicio>" + "<FechaFin>" + fechaFin + "</FechaFin>"
+				+ "</Actividad></WS>";
 		return xml;
 	}
 
@@ -215,42 +208,34 @@ public class Actividad implements Serializable{
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */
 	public void guardarEstado() {
-		/* GuardarDatosResponse response = new GuardarDatosResponse();
-		 GuardarDatos envio = new GuardarDatos();
-		 envio.setXml(serializar());
-		 IntegracionStub servicio;
-		 try {
-		 servicio = new IntegracionStub();
-		 response = servicio.guardarDatos(envio);
-		 } catch (RemoteException e) {
-		 System.out.print("Ocurrio un Error en el metodo setNombre\n");
-		 e.printStackTrace();
-		 }
-		 System.out.print(response.get_return());
+		/*
+		 * GuardarDatosResponse response = new GuardarDatosResponse();
+		 * GuardarDatos envio = new GuardarDatos(); envio.setXml(serializar());
+		 * IntegracionStub servicio; try { servicio = new IntegracionStub();
+		 * response = servicio.guardarDatos(envio); } catch (RemoteException e)
+		 * { System.out.print("Ocurrio un Error en el metodo setNombre\n");
+		 * e.printStackTrace(); } System.out.print(response.get_return());
 		 */
 	}
 
 	/**
-	 * A partir de los valores de los atributos internos de la instancia, 
-	 * genera un XML que es enviado a Integracion. Integracion devuelve un XML 
-	 * con todos los datos y este es devuelto.
-	 * NOTA: integracion puede devolver mas de 1 XML según los valores de los 
-	 * parametros internos de la instancia.
+	 * A partir de los valores de los atributos internos de la instancia, genera
+	 * un XML que es enviado a Integracion. Integracion devuelve un XML con
+	 * todos los datos y este es devuelto. NOTA: integracion puede devolver mas
+	 * de 1 XML según los valores de los parametros internos de la instancia.
 	 */
 	public String realizarConsulta() {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
 		String xml = this.serializar();
-		//TODO llamar a integrar y conseguir el xml completo
-		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<Id>" + 45 + "</Id>" 
-				+ "<IdSuperior>" + 88 + "</IdSuperior>"
-				+ "<Nombre>" + "pepe" + "</Nombre>"
-				+ "<Tipo>"+ "ActividadIndividual" + "</Tipo>" 
-				+ "<Descripcion>"+ "esto es una descripcion" + "</Descripcion>" 
-				+ "<FechaInicio>"+ fechaInicio + "</FechaInicio>" 
-				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
-				+ "</Actividad></WS>";
+		// TODO llamar a integrar y conseguir el xml completo
+		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>"
+				+ 45 + "</Id>" + "<IdSuperior>" + 88 + "</IdSuperior>"
+				+ "<Nombre>" + "pepe" + "</Nombre>" + "<Tipo>"
+				+ "ActividadIndividual" + "</Tipo>" + "<Descripcion>"
+				+ "esto es una descripcion" + "</Descripcion>"
+				+ "<FechaInicio>" + fechaInicio + "</FechaInicio>"
+				+ "<FechaFin>" + fechaFin + "</FechaFin>" + "</Actividad></WS>";
 		return xmlDevuelto;
 	}
 
@@ -263,7 +248,7 @@ public class Actividad implements Serializable{
 		return realizarConsulta();
 	}
 
-	/*  METODOS DE CLASE (ESTATICOS)  */
+	/* METODOS DE CLASE (ESTATICOS) */
 
 	public static Actividad getActividad(long idActividad)
 			throws XmlErroneoExcepcion {
@@ -337,21 +322,20 @@ public class Actividad implements Serializable{
 		// TODO implementar
 		return "";
 	}
-	
+
 	private static String getActividadesDeActividad(long idActividad) {
 		// TODO implementar
 		return "";
 	}
 
-	/*  METODOS PUBLICOS DE TESTING  */
+	/* METODOS PUBLICOS DE TESTING */
 
 	public String toString() {
-		return "ID: "+ this.id+ "\n"
-				+"ID AMBITO SUP: " +this.idAmbitoSuperior+"\n"
-				+"NOMBRE: "+ this.nombre + "\n"
-				+"FECHA INI: "+ this.fechaInicio + "\n"
-				+"FECHA FIN: "+ this.fechaFin + "\n"
-				+"DESCRIPCION: "+ this.descripcion + "\n";
-		
+		return "ID: " + this.id + "\n" + "ID AMBITO SUP: "
+				+ this.idAmbitoSuperior + "\n" + "NOMBRE: " + this.nombre
+				+ "\n" + "FECHA INI: " + this.fechaInicio + "\n"
+				+ "FECHA FIN: " + this.fechaFin + "\n" + "DESCRIPCION: "
+				+ this.descripcion + "\n";
+
 	}
 }
