@@ -14,9 +14,15 @@ public class ActividadIndividual extends Actividad {
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
 	}
 
+	public List<Miembro> getParticipantes() {
+		/* TODO: Implementar
+		 */
+		return null;
+	}
+
 	public void agregarParticipante(long idParticipante) {
 		/* TODO Implementar.
-		 * Si ya existe el participante, no se realiza nada?
+		 * Si ya existe el participante, lanzar excepcion.
 		 */
 	}
 
@@ -26,13 +32,6 @@ public class ActividadIndividual extends Actividad {
 		 * TODO Implementar. Si no existe el participante, se debería lanzar una
 		 * excepcion.
 		 */
-	}
-	
-	public List<Miembro> getParticipantes() {
-		/* TODO: Implementar
-		 * En teoria devuelve el XML que devuelve integracion directamente
-		*/
-		return null;
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */

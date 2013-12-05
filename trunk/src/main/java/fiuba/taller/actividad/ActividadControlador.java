@@ -326,14 +326,6 @@ public class ActividadControlador {
 		return xmlGrupos;*/
 	}
 
-	public String getGrupo(long idActividad, long idGrupo) 
-			throws XmlErroneoExcepcion {
-		// TODO Implementar getGrupo (¿comunicarse con Participacion?)
-		ActividadGrupal actGrupal = ActividadGrupal
-				.getActividad(idActividad);
-		return actGrupal.getGrupo(idGrupo);
-	}
-
 	/* METODOS COMUNES A LAS ACTIVIDADES EVALUABLES */
 
 	// Evaluado puede ser un participante o un grupo, dependiendo si la

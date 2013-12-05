@@ -21,10 +21,9 @@ public class ActividadGrupal extends Actividad {
 		gruposExclusivos = false;
 	}
 
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
-		Document doc = getDocumentElement(xml);
-		super.descerializar(doc);
-		descerializar(doc);
+	public List<Grupo> getGrupos() {
+		// TODO: Implementar
+		return null;
 	}
 
 	public void agregarGrupo(long idGrupo) {
@@ -40,16 +39,15 @@ public class ActividadGrupal extends Actividad {
 		 * ese caso de que no exista, se debe lanzar una excepcion.
 		 */
 	}
-	
-	public String getGrupo(long idGrupo) {
-		// TODO: Implementar!
-		return null;
+
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
+		Document doc = getDocumentElement(xml);
+		super.descerializar(doc);
+		descerializar(doc);
 	}
 
-	public List<Grupo> getGrupos() {
-		// TODO: Implementar
-		return null;
-	}
+
+	/*  METODOS DE CLASE (ESTATICOS)  */
 
 	public static boolean esTipoValido(String xml) {
 		Actividad actividad = new Actividad();
@@ -86,6 +84,8 @@ public class ActividadGrupal extends Actividad {
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
+
+	/* METODOS PROTEGIDOS AUXILIARES */
 
 	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
 		NodeList nodes = doc.getElementsByTagName("Actividad");
