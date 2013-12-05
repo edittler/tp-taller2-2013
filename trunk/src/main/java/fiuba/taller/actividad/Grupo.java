@@ -31,16 +31,26 @@ public class Grupo implements Serializable {
 		idParticipantes = new ArrayList<>();
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public List<Long> getIdParticipantes() {
+		return idParticipantes;
+	}
+	
+	public void setIdParticipantes(ArrayList<Long> idParticipantes) {
+		this.idParticipantes = idParticipantes;
+	}
+
 	public String realizarConsulta() {
 		return "no implementado";
 	}
-
-	private static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
+	
+	public void guardarEstado() {
+		// manda a guardar la informacion a integracion
 	}
-
+	
 	public void descerializar(String xml) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -87,24 +97,12 @@ public class Grupo implements Serializable {
 		xml += "</Grupo></WS>";
 		return xml;
 	}
-
-	public void guardarEstado() {
-		// manda a guardar la informacion a integracion
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public List<Long> getIdParticipantes() {
-		return idParticipantes;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 	
-	public void setIdParticipantes(ArrayList<Long> idParticipantes) {
-		this.idParticipantes = idParticipantes;
+	/* METODOS PRIVADOS AUXILIARES */
+	
+	private static String getValue(String tag, Element element) {
+		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
+		Node node = (Node) nodes.item(0);
+		return node.getNodeValue();
 	}
 }

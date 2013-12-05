@@ -27,7 +27,7 @@ public class NotaTest {
 
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Nota>"
 				+"<IdActividad>"+idActividad+"</IdActividad>"
-				+"<IdElementoEvaluado>"+idElemento+"</IdElementoEvaluado>"
+				+"<IdEvaluado>"+idElemento+"</IdEvaluado>"
 				+"<ValorNota>"+valorNota+"</ValorNota>"
 				+"<Observaciones>"+observaciones+"</Observaciones>"
 				+"</Nota></WS>";
@@ -62,7 +62,7 @@ public class NotaTest {
 
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Nota>"
 				+"<IdActividad>"+idActividad+"</IdActividad>"
-				+"<IdElementoEvaluado>"+idElemento+"</IdElementoEvaluado>"
+				+"<IdEvaluado>"+idElemento+"</IdEvaluado>"
 				+"<ValorNota>"+valorNota+"</ValorNota>"
 				+"<Observaciones>"+observaciones+"</Observaciones>"
 				+"</Nota></WS>";
