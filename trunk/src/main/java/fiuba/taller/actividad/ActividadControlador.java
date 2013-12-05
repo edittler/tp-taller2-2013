@@ -3,7 +3,6 @@ package fiuba.taller.actividad;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
@@ -187,10 +187,15 @@ public class ActividadControlador {
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
 	public void agregarParticipante(long idActividad, long idParticipante)
-			throws XmlErroneoExcepcion {
+			throws XmlErroneoExcepcion, ParticipanteExistenteExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
-		actividad.agregarParticipante(idParticipante);
+		try {
+			actividad.agregarParticipante(idParticipante);
+		} catch (ParticipanteExistenteExcepcion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void eliminarParticipante(long idActividad, long idParticipante) 
