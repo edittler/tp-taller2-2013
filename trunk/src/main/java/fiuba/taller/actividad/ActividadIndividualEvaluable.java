@@ -56,7 +56,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		} catch (XmlErroneoExcepcion e) {
 			return false;
 		}
-		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE)) {
+		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE)) {
 			return true;
 		}
 		return false;

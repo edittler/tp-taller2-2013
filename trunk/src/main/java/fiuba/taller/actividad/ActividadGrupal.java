@@ -47,7 +47,6 @@ public class ActividadGrupal extends Actividad {
 		descerializar(doc);
 	}
 
-
 	/*  METODOS DE CLASE (ESTATICOS)  */
 
 	public static boolean esTipoValido(String xml) {
@@ -57,7 +56,13 @@ public class ActividadGrupal extends Actividad {
 		} catch (XmlErroneoExcepcion e) {
 			return false;
 		}
-		if (actividad.tipo.equals(TIPO_ACTIVIDAD_GRUPAL)) {
+		/*
+		 * Si el campo "Tipo" comienza con la palabra "Grupal", se considerara
+		 * de tipo valido.
+		 * Es decir, ActividadGrupalEvaluable tambien se considera como 
+		 * ActividadGrupal (por ser clase derivada)
+		 */
+		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_GRUPAL)) {
 			return true;
 		}
 		return false;
@@ -101,5 +106,4 @@ public class ActividadGrupal extends Actividad {
 					"GruposExclusivos", element));
 		}
 	}
-	
 }

@@ -9,7 +9,7 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 public class ActividadIndividual extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
-	
+
 	protected List<Long> idParticipantes;
 
 	public ActividadIndividual() {
@@ -49,7 +49,13 @@ public class ActividadIndividual extends Actividad {
 		} catch (XmlErroneoExcepcion e) {
 			return false;
 		}
-		if (actividad.tipo.equals(TIPO_ACTIVIDAD_INDIVIDUAL)) {
+		/*
+		 * Si el campo "Tipo" comienza con la palabra "Individual", se 
+		 * considerara de tipo valido. 
+		 * Es decir, ActividadIndividualEvaluable tambien se considera como 
+		 * ActividadIndividual (por ser clase derivada)
+		 */
+		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_INDIVIDUAL)) {
 			return true;
 		}
 		return false;
@@ -77,5 +83,4 @@ public class ActividadIndividual extends Actividad {
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
-	
 }
