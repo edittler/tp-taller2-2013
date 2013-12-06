@@ -26,47 +26,35 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 public class Actividad implements Serializable {
 
 	protected long id;
-	protected String nombre;
-	protected String descripcion;
 	protected long idAmbitoSuperior;
 	protected long idActividadSuperior;
+	protected String nombre;
+	protected String tipo;
+	protected String descripcion;
+	protected String fechaInicio;
+	protected String fechaFin;
 	protected List<Long> coordinadores;
 	protected long idMuro;
 	protected long idCartelera;
 	protected long idForo;
 	protected List<Long> actividadesInternas;
 	protected long idChat;
-	protected String tipo;
-	protected String fechaInicio;
-	protected String fechaFin;
 
 	public Actividad() {
 		id = -1;
 		idAmbitoSuperior = -1;
 		idActividadSuperior = -1;
 		nombre = "";
+		tipo = "";
+		descripcion = "";
 		fechaFin = "";
 		fechaInicio = "";
-		descripcion = "";
-		tipo = "";
 	}
 
 	public long getId() {
 		return id;
 	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
+	
 	@Deprecated
 	public long getIdAmbitoSuperior() {
 		return idAmbitoSuperior;
@@ -85,6 +73,46 @@ public class Actividad implements Serializable {
 	@Deprecated
 	public void setIdActividadSuperior(long idActividadSuperior) {
 		this.idActividadSuperior = idActividadSuperior;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+	
+	public String getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFecha(String fechaInicio) {
+		/*
+		 * TODO(Pampa) Implementar Hay que validad si las fecha se encuentra en 
+		 * el formato correcto. Si no, lanzar una excepcion.
+		 * La fecha de fin se setea igual a la fecha de inicio.
+		 */
+	}
+
+	public void setFecha(String fechaInicio, String fechaFin) {
+		/*
+		 * TODO(Pampa) Implementar Hay que validad si las fechas se encuentran
+		 * en el formato correcto y si la fecha de inicio es menor a la fecha de
+		 * fin. Si no, lanzar una excepcion
+		 */
 	}
 
 	public List<Miembro> getCoordinadores() {
@@ -128,34 +156,6 @@ public class Actividad implements Serializable {
 		return idChat;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public String getFechaInicio() {
-		return fechaInicio;
-	}
-
-	public String getFechaFin() {
-		return fechaFin;
-	}
-
-	public void setFecha(String fechaInicio) {
-		/*
-		 * TODO(Pampa) Implementar Hay que validad si las fecha se encuentra en 
-		 * el formato correcto. Si no, lanzar una excepcion.
-		 * La fecha de fin se setea igual a la fecha de inicio.
-		 */
-	}
-
-	public void setFecha(String fechaInicio, String fechaFin) {
-		/*
-		 * TODO(Pampa) Implementar Hay que validad si las fechas se encuentran
-		 * en el formato correcto y si la fecha de inicio es menor a la fecha de
-		 * fin. Si no, lanzar una excepcion
-		 */
-	}
-
 	@Deprecated
 	public String pruebaIntegracion() {
 		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
@@ -170,15 +170,6 @@ public class Actividad implements Serializable {
 		 */
 		return "Integracion Contesto";// +response.get_return()+"\n";
 
-	}
-
-	// Recibe el xml obtenido de integracion, cuyo contenido es los datos de la
-	// clase actividad
-	// es privado pero por motivo de testing lo pongo publico
-	@Override
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
-		Document doc = getDocumentElement(xml);
-		descerializar(doc);
 	}
 
 	// serializa a la actividad
@@ -201,17 +192,28 @@ public class Actividad implements Serializable {
 		if (idActividadSuperior >= 0) {
 			idActSupStr = String.valueOf(idActividadSuperior);
 		}
-		String xml = "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>"
-				+ identif + "</Id>" + "<IdAmbitoSuperior>" + idAmbSupStr
-				+ "</IdAmbitoSuperior>" + "<IdActividadSuperior>" + idActSupStr
-				+ "</IdActividadSuperior>" + "<Nombre>" + nombre + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>" + "<Descripcion>" + descripcion
-				+ "</Descripcion>" + "<FechaInicio>" + fechaInicio
-				+ "</FechaInicio>" + "<FechaFin>" + fechaFin + "</FechaFin>"
+		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
+				+ "<Id>" + identif + "</Id>" 
+				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>" 
+				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+ "<Nombre>" + nombre + "</Nombre>"
+				+ "<Tipo>" + tipo + "</Tipo>" 
+				+ "<Descripcion>" + descripcion + "</Descripcion>" 
+				+ "<FechaInicio>" + fechaInicio + "</FechaInicio>"
+				+ "<FechaFin>" + fechaFin + "</FechaFin>"
 				+ "</Actividad></WS>";
 		return xml;
 	}
 
+	// Recibe el xml obtenido de integracion, cuyo contenido es los datos de la
+	// clase actividad
+	// es privado pero por motivo de testing lo pongo publico
+	@Override
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
+		Document doc = getDocumentElement(xml);
+		descerializar(doc);
+	}
+	
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */
@@ -237,13 +239,15 @@ public class Actividad implements Serializable {
 		// devuelve siempre lo mismo
 		String xml = this.serializar();
 		// TODO llamar a integrar y conseguir el xml completo
-		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>"
-				+ 45 + "</Id>" + "<IdSuperior>" + 88 + "</IdSuperior>"
-				+ "<Nombre>" + "pepe" + "</Nombre>" + "<Tipo>"
-				+ "ActividadIndividual" + "</Tipo>" + "<Descripcion>"
-				+ "esto es una descripcion" + "</Descripcion>"
+		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>" 
+				+ "<Id>" + 45 + "</Id>" 
+				+ "<IdSuperior>" + 88 + "</IdSuperior>"
+				+ "<Nombre>" + "pepe" + "</Nombre>" 
+				+ "<Tipo>" + "ActividadIndividual" + "</Tipo>" 
+				+ "<Descripcion>" + "esto es una descripcion" + "</Descripcion>"
 				+ "<FechaInicio>" + fechaInicio + "</FechaInicio>"
-				+ "<FechaFin>" + fechaFin + "</FechaFin>" + "</Actividad></WS>";
+				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
+				+ "</Actividad></WS>";
 		return xmlDevuelto;
 	}
 
@@ -331,11 +335,12 @@ public class Actividad implements Serializable {
 	/* METODOS PUBLICOS DE TESTING */
 
 	public String toString() {
-		return "ID: " + this.id + "\n" + "ID AMBITO SUP: "
-				+ this.idAmbitoSuperior + "\n" + "NOMBRE: " + this.nombre
-				+ "\n" + "FECHA INI: " + this.fechaInicio + "\n"
-				+ "FECHA FIN: " + this.fechaFin + "\n" + "DESCRIPCION: "
-				+ this.descripcion + "\n";
-
+		return "ID: " + this.id + "\n" 
+				+ "ID AMBITO SUP: " + this.idAmbitoSuperior + "\n" 
+				+ "NOMBRE: " + this.nombre + "\n" 
+				+ "FECHA INI: " + this.fechaInicio + "\n"
+				+ "FECHA FIN: " + this.fechaFin + "\n" 
+				+ "DESCRIPCION: " + this.descripcion + "\n";
 	}
+	
 }

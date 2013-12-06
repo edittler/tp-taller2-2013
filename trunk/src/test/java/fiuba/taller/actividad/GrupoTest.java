@@ -9,7 +9,9 @@ import org.junit.Test;
 import fiuba.taller.actividad.Grupo;
 
 public class GrupoTest {
+	
 	Grupo grupo;
+	
 	@Before
 	public void setUp() throws Exception {
 		grupo = new Grupo();
@@ -18,12 +20,12 @@ public class GrupoTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+/*
 	@Test
 	public void testGetXml() {
 		fail("Not yet implemented");
 	}
-
+*/
 	@Test
 	public void serializar() {
 		long idGrupo = 10;
@@ -43,6 +45,7 @@ public class GrupoTest {
 			fail("xml DISTINTOS:");
 		}
 	}
+	
 	@Test
 	public void testDescerializar() {
 		long idGrupo = 10;
@@ -66,10 +69,10 @@ public class GrupoTest {
 			fail("IdParticipante esperado: "+idParticipante2+" IdParticipante encontrado: "+grupo.getIdParticipantes().get(1));
 		}
 	}
-
+/*
 	@Test
 	public void testGuardarEstado() {
 		fail("Not yet implemented");
 	}
-
+*/
 }

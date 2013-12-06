@@ -20,7 +20,7 @@ public class ActividadIndividualTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+/*
 	@Test
 	public void testAgregarParticipante() {
 		fail("Not yet implemented");
@@ -35,7 +35,7 @@ public class ActividadIndividualTest {
 	public void testGetParticipantes() {
 		fail("Not yet implemented");
 	}
-
+*/
 	@Test
 	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
 		String tipo1 = "mangosta"
@@ -52,7 +52,7 @@ public class ActividadIndividualTest {
 			fail("tipo que deveria ser aceptado fue rechazado");
 		}
 	}
-
+/*
 	@Test
 	public void testCrearInstancia() {
 		fail("Not yet implemented");
@@ -62,5 +62,5 @@ public class ActividadIndividualTest {
 	public void testGetActividadLong() {
 		fail("Not yet implemented");
 	}
-
+*/
 }
