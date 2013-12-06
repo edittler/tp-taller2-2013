@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
 /* FORMATO DEL XML GRUPO
  * <Grupo>
  * 		<IdGrupo></IdGrupo>
@@ -23,6 +24,7 @@ import org.xml.sax.InputSource;
  */
 
 public class Grupo implements Serializable {
+	
 	long id;
 	List <Long> idParticipantes;
 
@@ -91,8 +93,7 @@ public class Grupo implements Serializable {
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>" 	
 				+ "<IdGrupo>" + id + "</IdGrupo>";
 		for (int i = 0; i < idParticipantes.size(); ++i) {
-			xml += "<IdParticipante>" + idParticipantes.get(i)
-					+ "</IdParticipante>";
+			xml += "<IdParticipante>" + idParticipantes.get(i) + "</IdParticipante>";
 		}
 		xml += "</Grupo></WS>";
 		return xml;
@@ -105,4 +106,5 @@ public class Grupo implements Serializable {
 		Node node = (Node) nodes.item(0);
 		return node.getNodeValue();
 	}
+	
 }
