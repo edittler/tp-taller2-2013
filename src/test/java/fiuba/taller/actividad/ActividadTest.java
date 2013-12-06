@@ -9,7 +9,9 @@ import org.junit.Test;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadTest {
+	
 	Actividad act;
+	
 	@Before
 	public void setUp() throws Exception {
 		act = new Actividad();
@@ -160,7 +162,7 @@ public class ActividadTest {
 			fail("los xml son DISTINTOS\nxml original:\n"+xmlADescerializar+"\nxml de actividad:\n"+xmlFinal);
 		}
 	}
-
+/*
 	@Test
 	public void testGuardarEstado() {
 		fail("Not yet implemented");
@@ -175,5 +177,5 @@ public class ActividadTest {
 	public void testGetXml() {
 		fail("Not yet implemented");
 	}
-
+*/
 }

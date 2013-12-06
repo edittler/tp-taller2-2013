@@ -36,7 +36,7 @@ public class ActividadGrupalEvaluableTest {
 			fail("tipo que deveria ser aceptado fue rechazado");
 		}
 	}
-
+/*
 	@Test
 	public void testCrearInstancia() {
 		fail("Not yet implemented");
@@ -60,6 +60,6 @@ public class ActividadGrupalEvaluableTest {
 	@Test
 	public void testGetActividadLong() {
 		fail("Not yet implemented");
-	}
+	}*/
 
 }

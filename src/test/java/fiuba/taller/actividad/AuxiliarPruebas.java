@@ -1,7 +1,9 @@
 package fiuba.taller.actividad;
 
 public class AuxiliarPruebas {
+	
 	public static String auxGenerarXmlConTipo(String tipo){
+		
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -22,4 +24,5 @@ public class AuxiliarPruebas {
 				+ "</Actividad></WS>";
 		return xml;
 	}
+	
 }
