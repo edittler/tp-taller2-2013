@@ -23,18 +23,14 @@ public class ActividadIndividualEvaluableTest {
 
 	@Test
 	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
-		String tipo1="mangosta"+ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
+		String tipo1= "mangosta" + ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
 		String tipo2=ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
 		
 		String xml1=AuxiliarPruebas.auxGenerarXmlConTipo(tipo1);
 		String xml2=AuxiliarPruebas.auxGenerarXmlConTipo(tipo2);
 		
-		if(ActividadIndividual.esTipoValido(xml1)){
-			fail("tipo que no corresponde fue aceptado !!");
-		}
-		if(!ActividadIndividual.esTipoValido(xml2)){
-			fail("tipo que deveria ser aceptado fue rechazado");
-		}
+		assertFalse("Tipo que no corresponde fue aceptado", ActividadIndividual.esTipoValido(xml1));
+		assertTrue("Tipo que deberia ser aceptado fue rechazado", ActividadIndividual.esTipoValido(xml2));
 	}
 /*
 	@Test

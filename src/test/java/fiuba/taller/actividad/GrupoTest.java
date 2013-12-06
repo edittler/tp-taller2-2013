@@ -11,10 +11,22 @@ import fiuba.taller.actividad.Grupo;
 public class GrupoTest {
 	
 	Grupo grupo;
+	String xmlADescerializar;
+	long idGrupo;
+	long idParticipante1;
+	long idParticipante2;
 	
 	@Before
 	public void setUp() throws Exception {
 		grupo = new Grupo();
+		idGrupo = 10;
+		idParticipante1 = 20;
+		idParticipante2 = 88;
+		xmlADescerializar =  "<?xml version=\"1.0\"?><WS><Grupo>"
+				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+ "<IdParticipante>" + idParticipante1 + "</IdParticipante>"
+				+ "<IdParticipante>" + idParticipante2 + "</IdParticipante>"
+				+ "</Grupo></WS>";
 	}
 
 	@After
@@ -27,41 +39,21 @@ public class GrupoTest {
 	}
 */
 	@Test
-	public void serializar() {
-		long idGrupo = 10;
-		long idParticipante1 = 20;
-		long idParticipante2 = 88;
-		String xmlADescerializar =  "<?xml version=\"1.0\"?><WS><Grupo>"
-				+"<IdGrupo>" + idGrupo + "</IdGrupo>"
-				+"<IdParticipante>"+ idParticipante1+ "</IdParticipante>"
-				+"<IdParticipante>"+ idParticipante2+ "</IdParticipante>"
-				+"</Grupo></WS>";
-		
+	public void serializar() {		
 		grupo.descerializar(xmlADescerializar);
 		
-		String xml = grupo.serializar();
+		String xmlFinal = grupo.serializar();
 		
-		if(!xml.equals(xmlADescerializar)){
-			fail("xml DISTINTOS:");
-		}
+		assertEquals(xmlADescerializar, xmlFinal);
 	}
 	
 	@Test
 	public void testDescerializar() {
-		long idGrupo = 10;
-		long idParticipante1 = 20;
-		long idParticipante2 = 88;
-		String xmlADescerializar =  "<?xml version=\"1.0\"?><WS><Grupo>"
-				+"<IdGrupo>" + idGrupo + "</IdGrupo>"
-				+"<IdParticipante>"+ idParticipante1+ "</IdParticipante>"
-				+"<IdParticipante>"+ idParticipante2+ "</IdParticipante>"
-				+"</Grupo></WS>";
 		
 		grupo.descerializar(xmlADescerializar);
 		
-		if(grupo.getId() != idGrupo){
-			fail("IdGrupo esperado: "+idGrupo+" IdGrupo encontrado: "+grupo.getId());
-		}
+		assertEquals(idGrupo, grupo.getId());
+
 		if(grupo.getIdParticipantes().get(0) != idParticipante1){
 			fail("IdParticipante esperado: "+idParticipante1+" IdParticipante encontrado: "+grupo.getIdParticipantes().get(0));
 		}
