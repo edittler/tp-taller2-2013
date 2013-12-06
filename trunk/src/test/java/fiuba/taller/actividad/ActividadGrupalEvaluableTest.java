@@ -23,18 +23,14 @@ public class ActividadGrupalEvaluableTest {
 
 	@Test
 	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
-		String tipo1="mangosta"+ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
-		String tipo2=ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
+		String tipo1 = "mangosta" + ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
+		String tipo2 = ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
 		
 		String xml1=AuxiliarPruebas.auxGenerarXmlConTipo(tipo1);
 		String xml2=AuxiliarPruebas.auxGenerarXmlConTipo(tipo2);
 		
-		if(ActividadGrupalEvaluable.esTipoValido(xml1)){
-			fail("tipo que no corresponde fue aceptado !!");
-		}
-		if(!ActividadGrupalEvaluable.esTipoValido(xml2)){
-			fail("tipo que deveria ser aceptado fue rechazado");
-		}
+		assertFalse("Tipo que no corresponde fue aceptado", ActividadGrupalEvaluable.esTipoValido(xml1));
+		assertTrue("Tipo que deberia ser aceptado fue rechazado", ActividadGrupalEvaluable.esTipoValido(xml2));
 	}
 /*
 	@Test
@@ -60,6 +56,6 @@ public class ActividadGrupalEvaluableTest {
 	@Test
 	public void testGetActividadLong() {
 		fail("Not yet implemented");
-	}*/
-
+	}
+*/
 }

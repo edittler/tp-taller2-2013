@@ -9,10 +9,27 @@ import org.junit.Test;
 public class NotaTest {
 	
         Nota nota;
+        long idActividad;
+        long idElemento;
+        String valorNota;
+        String observaciones;
+        String xmlADescerializar;
         
         @Before
         public void setUp() throws Exception {
-                nota = new Nota();
+        	nota = new Nota();
+        	
+            idActividad = 100;
+            idElemento = 878;
+            valorNota = "4";
+            observaciones = "pibe metele pata que asi vas a terminar laburando de panadero";
+
+            xmlADescerializar = "<?xml version=\"1.0\"?><WS><Nota>"
+            		+ "<IdActividad>" + idActividad + "</IdActividad>"
+                    + "<IdEvaluado>" + idElemento + "</IdEvaluado>"
+                    + "<ValorNota>" + valorNota + "</ValorNota>"
+                    + "<Observaciones>" + observaciones + "</Observaciones>"
+                    + "</Nota></WS>";
         }
 
         @After
@@ -21,60 +38,22 @@ public class NotaTest {
 
         @Test
         public void testDescerializar() {
-                long idActividad = 100;
-                long idElemento = 878;
-                String valorNota = "4";
-                String observaciones = "pibe metele pata que asi vas a terminar laburando de panadero";
-
-                String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Nota>"
-                                +"<IdActividad>"+idActividad+"</IdActividad>"
-                                +"<IdEvaluado>"+idElemento+"</IdEvaluado>"
-                                +"<ValorNota>"+valorNota+"</ValorNota>"
-                                +"<Observaciones>"+observaciones+"</Observaciones>"
-                                +"</Nota></WS>";
                 
-                nota.descerializar(xmlADescerializar);
-
-                if (nota.getIdActividad() != idActividad) {
-                        fail("IdActividad esperado: " + idActividad
-                                        + " idActividad encontrado: " + nota.getIdActividad());
-                }
-                if (nota.getIdEvaluado() != idElemento) {
-                        fail("IdElementoEvaluado  esperado: " + idElemento
-                                        + "IdElementoEvaluado encontrado: "
-                                        + nota.getIdEvaluado());
-                }
-                if (!nota.getNota().equals(valorNota)) {
-                        fail("ValorNota  esperado: " + valorNota + "ValorNota encontrado: "
-                                        + nota.getNota());
-                }
-                if (!nota.getObservaciones().equals(observaciones)) {
-                        fail("Observaciones esperado: " + observaciones
-                                        + "Observaciones encontrado: " + nota.getObservaciones());
-                }
+        	nota.descerializar(xmlADescerializar);
+        	
+        	assertEquals(idActividad, nota.getIdActividad());
+        	assertEquals(idElemento, nota.getIdEvaluado());
+        	assertEquals(valorNota, nota.getNota());
+        	assertEquals(observaciones, nota.getObservaciones());
         }
 
         @Test
-        public void testSerializar() {
-                long idActividad = 100;
-                long idElemento = 878;
-                String valorNota = "4";
-                String observaciones = "pibe metele pata que asi vas a terminar laburando de panadero";
+        public void testSerializar() {            
+        	nota.descerializar(xmlADescerializar);
+   
+            String xmlFinal = nota.serializar();
 
-                String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Nota>"
-                                +"<IdActividad>"+idActividad+"</IdActividad>"
-                                +"<IdEvaluado>"+idElemento+"</IdEvaluado>"
-                                +"<ValorNota>"+valorNota+"</ValorNota>"
-                                +"<Observaciones>"+observaciones+"</Observaciones>"
-                                +"</Nota></WS>";
-                
-                nota.descerializar(xmlADescerializar);
-                
-                String xml = nota.serializar();
-                
-                if(!xml.equals(xmlADescerializar)){
-                        fail("xml NO COINCIDEN \n esperado: \n "+xmlADescerializar+" \n xml devuelto: \n "+xml);
-                }
+            assertEquals(xmlADescerializar, xmlFinal);
         }
 /*
         @Test

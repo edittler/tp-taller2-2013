@@ -14,11 +14,12 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 public class ActividadGrupalTest {
-	ActividadGrupal actGrup;
+	
+	ActividadGrupal actGrupal;
 
 	@Before
 	public void setUp() throws Exception {
-		actGrup = new ActividadGrupal();
+		actGrupal = new ActividadGrupal();
 	}
 
 	@After
@@ -49,13 +50,8 @@ public class ActividadGrupalTest {
 		String xml1 = AuxiliarPruebas.auxGenerarXmlConTipo(tipo1);
 		String xml2 = AuxiliarPruebas.auxGenerarXmlConTipo(tipo2);
 
-		if (ActividadGrupal.esTipoValido(xml1)) {
-			fail("tipo que no corresponde fue aceptado !!");
-		}
-		if (!ActividadGrupal.esTipoValido(xml2)) {
-			fail("tipo que deveria ser aceptado fue rechazado");
-		}
-
+		assertFalse("Tipo que no corresponde fue aceptado", ActividadGrupal.esTipoValido(xml1));
+		assertTrue("Tipo que deberia ser aceptado fue rechazado", ActividadGrupal.esTipoValido(xml2));
 	}
 /*
 	@Test

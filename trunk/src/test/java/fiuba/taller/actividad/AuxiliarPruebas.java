@@ -17,11 +17,12 @@ public class AuxiliarPruebas {
 				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
 				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
 				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>"+ tipo + "</Tipo>" 
-				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<FechaInicio>"+ fechaIni + "</FechaInicio>" 
+				+ "<Tipo>" + tipo + "</Tipo>" 
+				+ "<Descripcion>" + descripcion + "</Descripcion>" 
+				+ "<FechaInicio>" + fechaIni + "</FechaInicio>" 
 				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
 				+ "</Actividad></WS>";
+		
 		return xml;
 	}
 	
