@@ -54,7 +54,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		} catch (XmlErroneoExcepcion e) {
 			return false;
 		}
-		if (actividad.tipo.equals(TIPO_ACTIVIDAD_GRUPAL_EVALUABLE)) {
+		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_GRUPAL_EVALUABLE)) {
 			return true;
 		}
 		return false;

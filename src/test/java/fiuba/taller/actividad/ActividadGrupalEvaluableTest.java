@@ -2,14 +2,9 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 public class ActividadGrupalEvaluableTest {
 
@@ -22,15 +17,46 @@ public class ActividadGrupalEvaluableTest {
 	}
 
 	@Test
-	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
-		String tipo1 = "mangosta" + ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
-		String tipo2 = ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
-		
-		String xml1=AuxiliarPruebas.auxGenerarXmlConTipo(tipo1);
-		String xml2=AuxiliarPruebas.auxGenerarXmlConTipo(tipo2);
-		
-		assertFalse("Tipo que no corresponde fue aceptado", ActividadGrupalEvaluable.esTipoValido(xml1));
-		assertTrue("Tipo que deberia ser aceptado fue rechazado", ActividadGrupalEvaluable.esTipoValido(xml2));
+	public void esTipoValidoConTipoCorrecto() {
+		String tipo = ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertTrue("Tipo que deberia ser aceptado fue rechazado",
+				ActividadGrupalEvaluable.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoExtendidoCorrecto() {
+		String tipo = ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE
+				+ " Dificil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertTrue("Tipo que deberia ser aceptado fue rechazado",
+				ActividadGrupalEvaluable.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoExtendidoErroneo() {
+		String tipo = "Corta "
+				+ ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE
+				+ " Dificil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertFalse("Tipo que deberia ser rechazado fue aceptado",
+				ActividadGrupalEvaluable.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoErroneo() {
+		String tipo = "Grupal Dificil Evaluable";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertFalse("Tipo que deberia ser rechazado fue aceptado",
+				ActividadGrupalEvaluable.esTipoValido(xml));
 	}
 /*
 	@Test

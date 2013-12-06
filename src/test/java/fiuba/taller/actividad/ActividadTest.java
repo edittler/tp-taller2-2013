@@ -55,6 +55,40 @@ public class ActividadTest {
 		assertEquals(fechaFin,act.getFechaFin());
 	}
 
+	@Test
+	public void testDescerializarXMLSinEncabezadoNiTagWS() throws XmlErroneoExcepcion {
+		long idPrueba = 22;
+		long idAmbSupStr = 99;
+		long idActSupStr = 77;
+		String nombrePrueba = "langosta";
+		String tipo = "bay guy";
+		String descripcion = "nada q ver nada q oler";
+		String fechaIni = "11/11/11";
+		String fechaFin = "12/12/12";
+		
+		String xmlADescerializar = "<Actividad>"
+				+ "<Id>" + idPrueba + "</Id>" 
+				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
+				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+ "<Nombre>" + nombrePrueba + "</Nombre>"
+				+ "<Tipo>"+ tipo + "</Tipo>" 
+				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
+				+ "<FechaInicio>"+ fechaIni + "</FechaInicio>" 
+				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
+				+ "</Actividad>";
+		
+		act.descerializar(xmlADescerializar);
+		
+		assertEquals(idPrueba, act.getId());
+		assertEquals(idAmbSupStr,act.getIdAmbitoSuperior());
+		assertEquals(idActSupStr,act.getIdActividadSuperior());
+		assertEquals(nombrePrueba,act.getNombre());
+		assertEquals(tipo,act.getTipo());
+		assertEquals(descripcion,act.getDescripcion());
+		assertEquals(fechaIni,act.getFechaInicio());
+		assertEquals(fechaFin,act.getFechaFin());
+	}
+
 	@Test(expected=XmlErroneoExcepcion.class)
 	public void testDescerializarConXmlSinActividadCorrecta() throws XmlErroneoExcepcion {
 		long idPrueba = 22;

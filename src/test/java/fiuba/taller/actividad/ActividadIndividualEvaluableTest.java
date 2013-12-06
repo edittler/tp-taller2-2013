@@ -2,14 +2,9 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 public class ActividadIndividualEvaluableTest {
 
@@ -22,15 +17,46 @@ public class ActividadIndividualEvaluableTest {
 	}
 
 	@Test
-	public void testEsTipoValido() throws ParserConfigurationException, SAXException, IOException {
-		String tipo1= "mangosta" + ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
-		String tipo2=ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
-		
-		String xml1=AuxiliarPruebas.auxGenerarXmlConTipo(tipo1);
-		String xml2=AuxiliarPruebas.auxGenerarXmlConTipo(tipo2);
-		
-		assertFalse("Tipo que no corresponde fue aceptado", ActividadIndividual.esTipoValido(xml1));
-		assertTrue("Tipo que deberia ser aceptado fue rechazado", ActividadIndividual.esTipoValido(xml2));
+	public void esTipoValidoConTipoCorrecto() {
+		String tipo = ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertTrue("Tipo que deberia ser aceptado fue rechazado",
+				ActividadIndividualEvaluable.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoExtendidoCorrecto() {
+		String tipo = ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE
+				+ " Dificil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertTrue("Tipo que deberia ser aceptado fue rechazado",
+				ActividadIndividualEvaluable.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoExtendidoErroneo() {
+		String tipo = "Corta "
+				+ ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE
+				+ " Dificil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertFalse("Tipo que deberia ser rechazado fue aceptado",
+				ActividadIndividualEvaluable.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoErroneo() {
+		String tipo = "Individual";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertFalse("Tipo que deberia ser rechazado fue aceptado",
+				ActividadIndividualEvaluable.esTipoValido(xml));
 	}
 /*
 	@Test

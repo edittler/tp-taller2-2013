@@ -2,16 +2,9 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import fiuba.taller.actividad.AuxiliarPruebas;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 public class ActividadGrupalTest {
 	
@@ -42,16 +35,44 @@ public class ActividadGrupalTest {
 	}
 */
 	@Test
-	public void testEsTipoValido() throws ParserConfigurationException,
-			SAXException, IOException {
-		String tipo1 = "mangosta" + ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
-		String tipo2 = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
+	public void esTipoValidoConTipoCorrecto() {
+		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
 
-		String xml1 = AuxiliarPruebas.auxGenerarXmlConTipo(tipo1);
-		String xml2 = AuxiliarPruebas.auxGenerarXmlConTipo(tipo2);
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
 
-		assertFalse("Tipo que no corresponde fue aceptado", ActividadGrupal.esTipoValido(xml1));
-		assertTrue("Tipo que deberia ser aceptado fue rechazado", ActividadGrupal.esTipoValido(xml2));
+		assertTrue("Tipo que deberia ser aceptado fue rechazado",
+				ActividadGrupal.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoExtendidoCorrecto() {
+		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL + " Facil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertTrue("Tipo que deberia ser aceptado fue rechazado",
+				ActividadGrupal.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoExtendidoErroneo() {
+		String tipo = "Larga " + ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL
+				+ " Facil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertFalse("Tipo que deberia ser rechazado fue aceptado",
+				ActividadGrupal.esTipoValido(xml));
+	}
+
+	@Test
+	public void esTipoValidoConTipoErroneo() {
+		String tipo = "Facil";
+
+		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+
+		assertFalse("Tipo que deberia ser rechazado fue aceptado",
+				ActividadGrupal.esTipoValido(xml));
 	}
 /*
 	@Test
