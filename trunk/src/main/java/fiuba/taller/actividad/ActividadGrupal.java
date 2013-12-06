@@ -7,12 +7,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import fiuba.taller.actividad.excepcion.GrupoExistenteExcepcion;
+import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadGrupal extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_GRUPAL = "Grupal";
-
 	protected boolean gruposExclusivos;
 
 	public ActividadGrupal() {
@@ -26,14 +27,14 @@ public class ActividadGrupal extends Actividad {
 		return null;
 	}
 
-	public void agregarGrupo(long idGrupo) {
+	public void agregarGrupo(long idGrupo) throws GrupoExistenteExcepcion {
 		/*
 		 * TODO Implementar Previamente se debe verificar si el grupo ya existe.
 		 * En ese caso, se debe lanzar una excepcion.
 		 */
 	}
 
-	public void eliminarGrupo(long idGrupo) {
+	public void eliminarGrupo(long idGrupo) throws GrupoInexistenteExcepcion {
 		/*
 		 * TODO Implementar Previamente se debe verificar si el grupo existe. En
 		 * ese caso de que no exista, se debe lanzar una excepcion.
@@ -100,4 +101,5 @@ public class ActividadGrupal extends Actividad {
 					"GruposExclusivos", element));
 		}
 	}
+	
 }

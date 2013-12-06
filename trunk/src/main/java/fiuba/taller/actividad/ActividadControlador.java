@@ -19,6 +19,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fiuba.taller.actividad.excepcion.GrupoExistenteExcepcion;
+import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
@@ -276,14 +278,24 @@ public class ActividadControlador {
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
 				.getActividad(idActividad);
-		actividad.agregarGrupo(idGrupo);
+		try {
+			actividad.agregarGrupo(idGrupo);
+		} catch (GrupoExistenteExcepcion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void eliminarGrupo(long idActividad, long idGrupo) 
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
 				.getActividad(idActividad);
-		actividad.eliminarGrupo(idGrupo);
+		try {
+			actividad.eliminarGrupo(idGrupo);
+		} catch (GrupoInexistenteExcepcion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getGrupos(long idActividad) throws XmlErroneoExcepcion {

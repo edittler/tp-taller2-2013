@@ -9,10 +9,13 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 public class ActividadIndividual extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
+	
+	protected List<Long> idParticipantes;
 
 	public ActividadIndividual() {
 		super();
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
+		idParticipantes = null;
 	}
 
 	public List<Miembro> getParticipantes() {
@@ -74,4 +77,5 @@ public class ActividadIndividual extends Actividad {
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
+	
 }

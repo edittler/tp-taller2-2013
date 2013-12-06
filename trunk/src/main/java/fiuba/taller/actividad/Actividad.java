@@ -237,11 +237,12 @@ public class Actividad implements Serializable {
 	public String realizarConsulta() {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
-		String xml = this.serializar();
+		String xml = serializar();
 		// TODO llamar a integrar y conseguir el xml completo
 		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>" 
 				+ "<Id>" + 45 + "</Id>" 
-				+ "<IdSuperior>" + 88 + "</IdSuperior>"
+				+ "<IdAmbitoSuperior>" + 88 + "</IdAmbitoSuperior>"
+				+ "<IdActividadSuperior>" + 90 + "</IdActividadSuperior>"
 				+ "<Nombre>" + "pepe" + "</Nombre>" 
 				+ "<Tipo>" + "ActividadIndividual" + "</Tipo>" 
 				+ "<Descripcion>" + "esto es una descripcion" + "</Descripcion>"
@@ -307,16 +308,16 @@ public class Actividad implements Serializable {
 		Node node = nodes.item(0);
 		if (node.getNodeType() == Node.ELEMENT_NODE) {
 			Element element = (Element) node;
-			this.id = Long.valueOf(getValue("Id", element));
-			this.idAmbitoSuperior = Long.valueOf(getValue("IdAmbitoSuperior",
+			id = Long.valueOf(getValue("Id", element));
+			idAmbitoSuperior = Long.valueOf(getValue("IdAmbitoSuperior",
 					element));
-			this.idActividadSuperior = Long.valueOf(getValue(
+			idActividadSuperior = Long.valueOf(getValue(
 					"IdActividadSuperior", element));
-			this.nombre = getValue("Nombre", element);
-			this.tipo = getValue("Tipo", element);
-			this.fechaInicio = getValue("FechaInicio", element);
-			this.fechaFin = getValue("FechaFin", element);
-			this.descripcion = getValue("Descripcion", element);
+			nombre = getValue("Nombre", element);
+			tipo = getValue("Tipo", element);
+			fechaInicio = getValue("FechaInicio", element);
+			fechaFin = getValue("FechaFin", element);
+			descripcion = getValue("Descripcion", element);
 		}
 	}
 
@@ -335,12 +336,12 @@ public class Actividad implements Serializable {
 	/* METODOS PUBLICOS DE TESTING */
 
 	public String toString() {
-		return "ID: " + this.id + "\n" 
-				+ "ID AMBITO SUP: " + this.idAmbitoSuperior + "\n" 
-				+ "NOMBRE: " + this.nombre + "\n" 
-				+ "FECHA INI: " + this.fechaInicio + "\n"
-				+ "FECHA FIN: " + this.fechaFin + "\n" 
-				+ "DESCRIPCION: " + this.descripcion + "\n";
+		return "ID: " + id + "\n" 
+				+ "ID AMBITO SUP: " + idAmbitoSuperior + "\n" 
+				+ "NOMBRE: " + nombre + "\n" 
+				+ "FECHA INI: " + fechaInicio + "\n"
+				+ "FECHA FIN: " + fechaFin + "\n" 
+				+ "DESCRIPCION: " + descripcion + "\n";
 	}
 	
 }
