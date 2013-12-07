@@ -3,14 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>fiuba.taller.actividad</groupId>
-  <artifactId>taller2-actividad</artifactId>
-  <packaging>war</packaging>
+  <artifactId>actividad</artifactId>
+  <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>taller2-actividad</name>
+  <name>actividad</name>
 
   <build>
-    <finalName>taller2-actividad</finalName>
+    <finalName>actividad</finalName>
+    
     <plugins>
+    
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -21,15 +23,14 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <!--<plugin>
+      
+      <plugin>
         <groupId>org.apache.axis2</groupId>
         <artifactId>axis2-java2wsdl-maven-plugin</artifactId>
         <version>1.6.2</version>
         <configuration>
           <className>fiuba.taller.actividad.ActividadControlador</className>
-          <serviceName>Example</serviceName>
-          <schemaTargetNamespace>http://slopjong.de</schemaTargetNamespace>
-          <schemaTargetNamespacePrefix>tns</schemaTargetNamespacePrefix>
+          <serviceName>Actividad</serviceName>
         </configuration>
         <executions>
           <execution>
@@ -38,9 +39,41 @@
               <goal>java2wsdl</goal>
             </goals>
           </execution>
-         </executions>
-      </plugin> -->
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.axis2</groupId>
+        <artifactId>axis2-aar-maven-plugin</artifactId>
+        <version>1.6.2</version>
+        <configuration>
+          <fileSets>
+            <fileSet>
+              <directory>${basedir}/src/main/java</directory>
+              <outputDirectory>META-INF</outputDirectory>
+              <includes>
+                <include>**/*.xml</include>
+                <include>**/*.xsd</include>
+                <include>**/*.wsdl</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+          <servicesXmlFile>${basedir}/src/main/webapp/META-INF/services.xml</servicesXmlFile>
+          <wsdlFile>${basedir}/target/generated-resources/service.wsdl</wsdlFile>
+          <wsdlFileName>Actividad.wsdl</wsdlFileName>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>aar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
     </plugins>
+    
   </build>
 
   <dependencies>
@@ -52,54 +85,12 @@
       <scope>test</scope>
     </dependency>
     
-    <!-- HTTP Components -->
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient-cache</artifactId>
-      <version>4.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>fluent-hc</artifactId>
-      <version>4.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>4.3.1</version>
-    </dependency>
-    
     <!-- SOAP with Axis2 -->
-    <dependency> 
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.apache.axis2</groupId>
       <artifactId>axis2</artifactId>
       <version>1.6.2</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.axis2</groupId>
-      <artifactId>axis2-kernel</artifactId>
-      <version>1.6.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.axis2</groupId>
-      <artifactId>axis2-transport-http</artifactId>
-      <version>1.6.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.axis2</groupId>
-      <artifactId>axis2-transport-local</artifactId>
-      <version>1.6.2</version>
-    </dependency>
+
   </dependencies>
 </project>
