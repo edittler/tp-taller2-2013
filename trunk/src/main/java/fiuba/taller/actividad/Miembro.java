@@ -4,16 +4,16 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class Miembro implements Serializable {
 
-	private long id;
+	private String username;
 	private String nombre;
 	
 	private Miembro() {
-		id = -1;
+		username = "";
 		nombre = "";
 	}
 	
-	public long getId() {
-		return id;
+	public String getUsername() {
+		return username;
 	}
 	
 	public String getNombre() {
@@ -31,9 +31,9 @@ public class Miembro implements Serializable {
 		// TODO Auto-generated method stub
 	}
 	
-	public static Miembro getMiembro(long idMiembro) {
+	public static Miembro getMiembro(String username) {
 		Miembro miembro = new Miembro();
-		miembro.id = idMiembro;
+		miembro.username = username;
 		/*
 		 * TODO Realizar la consulta de datos de miembro a Participacion y 
 		 * completar los datos restantes (nombre)
