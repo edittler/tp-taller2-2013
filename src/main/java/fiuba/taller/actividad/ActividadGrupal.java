@@ -68,7 +68,7 @@ public class ActividadGrupal extends Actividad {
 		return false;
 	}
 
-	public static ActividadGrupal crearInstancia(String xmlPropiedades)
+	public static ActividadGrupal crearActividad(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = new ActividadGrupal();
 		actividad.descerializar(xmlPropiedades);

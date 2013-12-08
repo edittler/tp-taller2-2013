@@ -61,7 +61,7 @@ public class ActividadIndividual extends Actividad {
 		return false;
 	}
 
-	public static ActividadIndividual crearInstancia(String xmlPropiedades)
+	public static ActividadIndividual crearActividad(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.descerializar(xmlPropiedades);

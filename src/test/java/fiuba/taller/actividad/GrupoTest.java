@@ -13,19 +13,19 @@ public class GrupoTest {
 	Grupo grupo;
 	String xmlADescerializar;
 	long idGrupo;
-	long idParticipante1;
-	long idParticipante2;
+	String usernameParticipante1;
+	String usernameParticipante2;
 	
 	@Before
 	public void setUp() throws Exception {
 		grupo = new Grupo();
 		idGrupo = 10;
-		idParticipante1 = 20;
-		idParticipante2 = 88;
+		usernameParticipante1 = "pepe";
+		usernameParticipante2 = "tito";
 		xmlADescerializar =  "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
-				+ "<IdParticipante>" + idParticipante1 + "</IdParticipante>"
-				+ "<IdParticipante>" + idParticipante2 + "</IdParticipante>"
+				+ "<usernameParticipante>" + usernameParticipante1 + "</usernameParticipante>"
+				+ "<usernameParticipante>" + usernameParticipante2 + "</usernameParticipante>"
 				+ "</Grupo></WS>";
 	}
 
@@ -54,11 +54,13 @@ public class GrupoTest {
 		
 		assertEquals(idGrupo, grupo.getId());
 
-		if(grupo.getIdParticipantes().get(0) != idParticipante1){
-			fail("IdParticipante esperado: "+idParticipante1+" IdParticipante encontrado: "+grupo.getIdParticipantes().get(0));
+		if(!grupo.getUsernameParticipantes().get(0).equals(usernameParticipante1)){
+			fail("IdParticipante esperado: "+usernameParticipante1+" IdParticipante encontrado: "
+					+ grupo.getUsernameParticipantes().get(0));
 		}
-		if(grupo.getIdParticipantes().get(1) != idParticipante2){
-			fail("IdParticipante esperado: "+idParticipante2+" IdParticipante encontrado: "+grupo.getIdParticipantes().get(1));
+		if(!grupo.getUsernameParticipantes().get(1).equals(usernameParticipante2)){
+			fail("IdParticipante esperado: "+usernameParticipante2+" IdParticipante encontrado: "
+					+ grupo.getUsernameParticipantes().get(1));
 		}
 	}
 /*
