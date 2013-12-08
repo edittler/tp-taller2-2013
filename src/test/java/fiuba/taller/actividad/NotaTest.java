@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class NotaTest {
-	
+	/*
         Nota nota;
         long idActividad;
         long idElemento;
@@ -55,6 +55,7 @@ public class NotaTest {
 
             assertEquals(xmlADescerializar, xmlFinal);
         }
+*/
 /*
         @Test
         public void testGetXml() {
