@@ -11,49 +11,78 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
+
 public class NotaGrupal extends Nota {
 
-private long idGrupo;
-	
-	public NotaGrupal() {
-		this.idActividad = -1;
-		this.idGrupo = -1;
-		this.nota = "";
-		this.observaciones = "";
-	}
-	
-	public NotaGrupal(long idActividad, long idGrupo, String nota) {
-		this.idActividad = idActividad;
+	private long idGrupo;
+
+	private NotaGrupal(long idActividad, long idGrupo) {
+		super(idActividad);
 		this.idGrupo = idGrupo;
-		this.nota = nota;
-		this.observaciones = "";
 	}
-	
-	public NotaGrupal(long idActividad, long idGrupo, String nota,
-			String observaciones) {
-		this.idActividad = idActividad;
-		this.idGrupo = idGrupo;
-		this.nota = nota;
-		this.observaciones = observaciones;
-	}
-	
+
 	public long getIdGrupo() {
 		return idGrupo;
 	}
-	
-	public NotaGrupal crearNota(long idActividad, long idGrupo) {
-		// TODO Corregir
-		NotaGrupal nota = new NotaGrupal(idActividad, idGrupo, "");
+
+	@Override
+	public void guardarEstado() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Crea e inicializa en la base de datos la nota para la actividad grupal y
+	 * grupo dado. Si la nota ya fue inicializada, retorna la nota almacenada.
+	 * 
+	 * @param idActividad
+	 *            Identificador de la actividad grupal evaluable.
+	 * @param idGrupo
+	 *            Identificador del grupo.
+	 * @return NotaGrupal inicializada e instanciada.
+	 * @throws RemoteExcepcion
+	 *             Si no existe la actividad, si no es individual evaluable, si
+	 *             no existe el participante.
+	 */
+	public static NotaGrupal crearNota(long idActividad, long idGrupo) {
+		/*
+		 * TODO Verificar si la nota ya fue inicializada. En caso afirmativo, se
+		 * ejecuta el método "getNota". Si no está cargada la nota, verificar si
+		 * la actividad existe y es grupal evaluable. Luego, verificar si existe
+		 * el grupo asociado a la mencionada actividad.
+		 */
+		NotaGrupal nota = new NotaGrupal(idActividad, idGrupo);
 		return nota;
 	}
-	
-	public void eliminarNota(long idActividad, long idGrupo) {
+
+	/**
+	 * Elimina la NotaGrupal de la base de datos.
+	 * 
+	 * @param idActividad
+	 *            Identificador de la actividad grupal evaluable.
+	 * @param idGrupo
+	 *            Identificador del grupo.
+	 */
+	public static void eliminarNota(long idActividad, long idGrupo) {
 		// TODO
 	}
-	
-	public NotaGrupal getNota(long idActividad, long idGrupo) {
+
+	/**
+	 * Carga desde la base de datos la NotaGrupal.
+	 * 
+	 * @param idActividad
+	 *            Identificador de la actividad grupal evaluable.
+	 * @param idGrupo
+	 *            Identificador del grupo.
+	 * @return NotaGrupal cargada e instanciada.
+	 * @throws NotaInexistenteExcepcion
+	 *             Si no hay cargada una nota grupal asociada a la actividad y
+	 *             grupo.
+	 */
+	public static NotaGrupal getNota(long idActividad, long idGrupo)
+			throws NotaInexistenteExcepcion {
 		// TODO Corregir
-		NotaGrupal nota = new NotaGrupal(idActividad, idGrupo, "");
+		NotaGrupal nota = new NotaGrupal(idActividad, idGrupo);
 		return nota;
 	}
 
@@ -75,7 +104,7 @@ private long idGrupo;
 					idActividad = Long
 							.valueOf(getValue("IdActividad", element));
 					idGrupo = Long.valueOf(getValue("IdEvaluado", element));
-					nota = getValue("ValorNota", element);
+					valor = getValue("ValorNota", element);
 					observaciones = getValue("Observaciones", element);
 				}
 			}
@@ -98,15 +127,7 @@ private long idGrupo;
 		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
 				+ idActividadString + "</IdActividad>" + "<IdEvaluado>"
 				+ idElementoEvaluadoString + "</IdEvaluado>" + "<ValorNota>"
-				+ nota + "</ValorNota>" + "<Observaciones>" + observaciones
+				+ valor + "</ValorNota>" + "<Observaciones>" + observaciones
 				+ "</Observaciones>" + "</Nota></WS>";
 	}
-
-	protected static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0)
-				.getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
-	}
-	
 }

@@ -1,118 +1,202 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.rmi.RemoteException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class NotaIndividual extends Nota {
 
 	private String username;
 	
+	private final static String NODO_USERNAME = "Username";
+
+	/**
+	 * Constructor utilizado para realizar testing.
+	 */
+	@Deprecated
 	public NotaIndividual() {
-		this.idActividad = -1;
-		this.username = "";
-		this.nota = "";
-		this.observaciones = "";
+		super(-1);
 	}
-	
-	public NotaIndividual(long idActividad, String username, String nota) {
-		this.idActividad = idActividad;
+
+	private NotaIndividual(long idActividad, String username) {
+		super(idActividad);
 		this.username = username;
-		this.nota = nota;
-		this.observaciones = "";
 	}
-	
-	public NotaIndividual(long idActividad, String username, String nota,
-			String observaciones) {
-		this.idActividad = idActividad;
-		this.username = username;
-		this.nota = nota;
-		this.observaciones = observaciones;
-	}
-	
+
 	public String getUsername() {
 		return username;
 	}
-	
-	public NotaIndividual crearNota(long idActividad, String username) {
-		// TODO Corregir
-		NotaIndividual nota = new NotaIndividual(idActividad, username, "");
+
+	@Override
+	public void guardarEstado() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Crea e inicializa en la base de datos la nota para la actividad
+	 * individual y participante dado. Si la nota ya fue inicializada, retorna
+	 * la nota almacenada.
+	 * 
+	 * @param idActividad
+	 *            Identificador de la actividad individual evaluable.
+	 * @param username
+	 *            Identificador del participante.
+	 * @return NotaIndividual inicializada e instanciada.
+	 * @throws RemoteExcepcion
+	 *             Si no existe la actividad, si no es individual evaluable, si
+	 *             no existe el participante.
+	 */
+	public static NotaIndividual crearNota(long idActividad, String username)
+			throws RemoteException {
+		/*
+		 * TODO Verificar si la nota ya fue inicializada. En caso afirmativo, se
+		 * ejecuta el método "getNota". Si no está cargada la nota, verificar si
+		 * la actividad existe y es individual evaluable. Luego, verificar si
+		 * existe el usuario y si es participante de la actividad mencionada.
+		 */
+		NotaIndividual nota = new NotaIndividual(idActividad, username);
 		return nota;
 	}
-	
-	public void eliminarNota(long idActividad, String username) {
+
+	/**
+	 * Elimina la NotaIndividual de la base de datos.
+	 * 
+	 * @param idActividad
+	 *            Identificador de la actividad individual evaluable.
+	 * @param username
+	 *            Identificador del participante.
+	 */
+	public static void eliminarNota(long idActividad, String username) {
 		// TODO
 	}
-	
-	public NotaIndividual getNota(long idActividad, String username) {
+
+	/**
+	 * Carga desde la base de datos la NotaIndividual.
+	 * 
+	 * @param idActividad
+	 *            Identificador de la actividad individual evaluable.
+	 * @param username
+	 *            Identificador del participante.
+	 * @return NotaIndividual cargada e instanciada.
+	 * @throws NotaInexistenteExcepcion
+	 *             Si no hay cargada una nota individual asociada a la actividad
+	 *             y participante.
+	 */
+	public static NotaIndividual getNota(long idActividad, String username)
+			throws NotaInexistenteExcepcion {
 		// TODO Corregir
-		NotaIndividual nota = new NotaIndividual(idActividad, username, "");
+		NotaIndividual nota = new NotaIndividual(idActividad, username);
 		return nota;
 	}
 
 	@Override
-	public void descerializar(String xml) {
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
+
+		Document doc = null;
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
 			InputSource is = new InputSource(new StringReader(xml));
-			Document doc = builder.parse(is);
-			doc.getDocumentElement().normalize();
-
-			NodeList nodes = doc.getElementsByTagName("Nota");
-			for (int i = 0; i < nodes.getLength(); i++) {
-				Node node = nodes.item(i);
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) node;
-					idActividad = Long
-							.valueOf(getValue("IdActividad", element));
-					username = getValue("Username", element);
-					nota = getValue("ValorNota", element);
-					observaciones = getValue("Observaciones", element);
-				}
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
+			doc = builder.parse(is);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			String message = "Error al cargar el string como XML.";
+			throw new XmlErroneoExcepcion(message);
 		}
+		doc.getDocumentElement().normalize();
+
+		NodeList nodes = doc.getElementsByTagName(NODO_NOTA);
+		if (nodes.getLength() != 1) {
+			String message = "La cantidad de nodos Nota no es unica.";
+			throw new XmlErroneoExcepcion(message);
+		}
+
+		Node node = nodes.item(0);
+		if (node.getNodeType() != Node.ELEMENT_NODE) {
+			String message = "El nodo Nota no es de tipo Element";
+			throw new XmlErroneoExcepcion(message);
+		}
+
+		Element element = (Element) node;
+		idActividad = Long.valueOf(getValue(NODO_ID_ACTIVIDAD, element));
+		username = getValue(NODO_USERNAME, element);
+		valor = getValue(NODO_VALOR, element);
+		observaciones = getValue(NODO_OBSERVACIONES, element);
 	}
 
 	@Override
 	public String serializar() {
-		/*
-		String idActividadString = "";
-		String idElementoEvaluadoString = "";
-		if (idActividad >= 0) {
-			idActividadString = String.valueOf(idActividad);
+		Document doc = null;
+		try {
+			doc = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder().newDocument();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if (username >= 0) {
-			idElementoEvaluadoString = String.valueOf(idEvaluado);
+		Element root = doc.createElement("WS");
+		Element notaNode = doc.createElement(NODO_NOTA);
+		Element idActividadNode = doc.createElement(NODO_ID_ACTIVIDAD);
+		Text idActividadText = doc.createTextNode((new Long(idActividad)).toString());
+		idActividadNode.appendChild(idActividadText);
+		Element usernameNode = doc.createElement(NODO_USERNAME);
+		Text usernameText = doc.createTextNode(username);
+		usernameNode.appendChild(usernameText);
+		Element valorNode = doc.createElement(NODO_VALOR);
+		Text valorText = doc.createTextNode(valor);
+		valorNode.appendChild(valorText);
+		Element observacionesNode = doc.createElement(NODO_OBSERVACIONES);
+		Text observacionesText = doc.createTextNode(observaciones);
+		observacionesNode.appendChild(observacionesText);
+		notaNode.appendChild(idActividadNode);
+		notaNode.appendChild(usernameNode);
+		notaNode.appendChild(valorNode);
+		notaNode.appendChild(observacionesNode);
+		root.appendChild(notaNode);
+		doc.appendChild(root);
+		Transformer transformer = null;
+		try {
+			transformer = TransformerFactory.newInstance().newTransformer();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
-				+ idActividadString + "</IdActividad>" + "<IdEvaluado>"
-				+ idElementoEvaluadoString + "</IdEvaluado>" + "<ValorNota>"
-				+ nota + "</ValorNota>" + "<Observaciones>" + observaciones
-				+ "</Observaciones>" + "</Nota></WS>";
-		*/
-		return "";
+		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		StringWriter writer = new StringWriter();
+		try {
+			transformer.transform(new DOMSource(doc), new StreamResult(writer));
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String output = writer.toString();//.replaceAll("\n|\r", "");
+		return output;
 	}
-
-	protected static String getValue(String tag, Element element) {
-	/*
-		NodeList nodes = element.getElementsByTagName(tag).item(0)
-				.getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
-		*/
-		return "";
-	}
-
 }
