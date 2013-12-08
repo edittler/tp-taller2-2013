@@ -161,28 +161,28 @@ public class ActividadControlador {
 	public long crearActividadIndividual(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
-				.crearInstancia(xmlPropiedades);
+				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
 	public long crearActividadGrupal(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
-				.crearInstancia(xmlPropiedades);
+				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
 	public long crearActividadIndividualEvaluable(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadIndividualEvaluable actividad = ActividadIndividualEvaluable
-				.crearInstancia(xmlPropiedades);
+				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
 	public long crearActividadGrupalEvaluable(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadGrupalEvaluable actividad = ActividadGrupalEvaluable
-				.crearInstancia(xmlPropiedades);
+				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 

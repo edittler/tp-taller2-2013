@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,41 +17,73 @@ import org.xml.sax.InputSource;
 /* FORMATO DEL XML GRUPO
  * <Grupo>
  * 		<IdGrupo></IdGrupo>
- * 		<IdParticipante></IdParticipante>
+ * 		<UsernameParticipante></UsernameParticipante>
  * 			.
  * 			.
- * 		<IdParticipante></IdParticipante>
+ * 		<UsernameParticipante></UsernameParticipante>
  * </Grupo>
  */
 
 public class Grupo implements Serializable {
 	
 	long id;
-	List <Long> idParticipantes;
+	long idActividad;
+	List <String> usernameParticipantes;
 
 	public Grupo() {
 		id=-1;
-		idParticipantes = new ArrayList<>();
+		idActividad = -1;
+		usernameParticipantes = new ArrayList<>();
 	}
 
 	public long getId() {
 		return id;
 	}
-
-	public List<Long> getIdParticipantes() {
-		return idParticipantes;
+	
+	public long getIdActividad() {
+		return idActividad;
 	}
 	
-	public void setIdParticipantes(ArrayList<Long> idParticipantes) {
-		this.idParticipantes = idParticipantes;
-	}
-
-	public String realizarConsulta() {
-		return "no implementado";
+	public void setId(long id) {
+		this.id = id;
 	}
 	
-	public void guardarEstado() {
-		// manda a guardar la informacion a integracion
+	public void setIdActividad(long idActividad) {
+		this.idActividad = idActividad;
+	}
+	
+	public void agregarParticipante(String username) {
+		usernameParticipantes.add(username);
+	}
+	
+	public void eliminarParticipante(String username) {
+		usernameParticipantes.remove(username);
+	}
+
+	public List<String> getUsernameParticipantes() {
+		return usernameParticipantes;
+	}
+	
+	public boolean contieneParticipantesDe(Grupo grupo) {
+		// TODO
+		return false;
+	}
+	
+	public static Grupo crearGrupo(long idActividad) {
+		// TODO
+		Grupo grupo = new Grupo();
+		return grupo;
+	}
+	
+	public static boolean eliminarGrupo(long idActividad, long idGrupo) {
+		// TODO
+		return false;
+	}
+	
+	public static Grupo getGrupo(long idActividad, long idGrupo) {
+		// TODO
+		Grupo grupo = new Grupo();
+		return grupo;
 	}
 	
 	public void descerializar(String xml) {
@@ -70,7 +103,7 @@ public class Grupo implements Serializable {
 					Element element = (Element) node;
 					this.id = Long.valueOf(getValue("IdGrupo", element));
 
-					NodeList participantes = ((Element) node).getElementsByTagName("IdParticipante");
+					NodeList participantes = ((Element) node).getElementsByTagName("usernameParticipante");
 					for (int j = 0; j < participantes.getLength(); j++) {
 						//System.out.print("LARGO: "+participantes.getLength()+"\n");
 						Node nodde = participantes.item(j);
@@ -78,7 +111,7 @@ public class Grupo implements Serializable {
 							String valor = nodde.getChildNodes().item(0).getNodeValue();
 							
 							//System.out.print("NODO: "+Long.valueOf(valor)+"\n");
-							this.idParticipantes.add(Long.valueOf(valor));
+							this.usernameParticipantes.add(valor);
 						}
 					}
 				}
@@ -89,11 +122,11 @@ public class Grupo implements Serializable {
 		//System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
 	}
 
-	public String serializar (){
+	public String serializar() {
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>" 	
 				+ "<IdGrupo>" + id + "</IdGrupo>";
-		for (int i = 0; i < idParticipantes.size(); ++i) {
-			xml += "<IdParticipante>" + idParticipantes.get(i) + "</IdParticipante>";
+		for (int i = 0; i < usernameParticipantes.size(); ++i) {
+			xml += "<usernameParticipante>" + usernameParticipantes.get(i) + "</usernameParticipante>";
 		}
 		xml += "</Grupo></WS>";
 		return xml;

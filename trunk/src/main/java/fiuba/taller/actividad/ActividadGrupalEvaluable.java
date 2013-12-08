@@ -60,7 +60,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		return false;
 	}
 
-	public static ActividadGrupalEvaluable crearInstancia(String xmlPropiedades)
+	public static ActividadGrupalEvaluable crearActividad(String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
 		actividad.descerializar(xmlPropiedades);
