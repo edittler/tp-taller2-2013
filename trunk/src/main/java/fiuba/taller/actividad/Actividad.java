@@ -301,20 +301,16 @@ public class Actividad implements Serializable {
 			throw new XmlErroneoExcepcion(
 					"Debe haber solamente un nodo Actividad");
 		}
-		Node node = nodes.item(0);
-		if (node.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) node;
-			id = Long.valueOf(getValue("Id", element));
-			idAmbitoSuperior = Long.valueOf(getValue("IdAmbitoSuperior",
-					element));
-			idActividadSuperior = Long.valueOf(getValue(
-					"IdActividadSuperior", element));
-			nombre = getValue("Nombre", element);
-			tipo = getValue("Tipo", element);
-			fechaInicio = getValue("FechaInicio", element);
-			fechaFin = getValue("FechaFin", element);
-			descripcion = getValue("Descripcion", element);
-		}
+		Element element = (Element) nodes.item(0);
+		id = Long.valueOf(getValue("Id", element));
+		idAmbitoSuperior = Long.valueOf(getValue("IdAmbitoSuperior", element));
+		idActividadSuperior = Long.valueOf(getValue("IdActividadSuperior",
+				element));
+		nombre = getValue("Nombre", element);
+		tipo = getValue("Tipo", element);
+		fechaInicio = getValue("FechaInicio", element);
+		fechaFin = getValue("FechaFin", element);
+		descripcion = getValue("Descripcion", element);
 	}
 
 	/* METODOS PRIVADOS AUXILIARES */
