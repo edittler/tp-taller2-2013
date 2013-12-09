@@ -40,7 +40,7 @@ public class NotaIndividualTest {
 	}
 
 	@Test(expected = XmlErroneoExcepcion.class)
-	public void testDescerializarConXMLSinNodoNota() throws XmlErroneoExcepcion {
+	public void descerializarConXMLSinNodoNota() throws XmlErroneoExcepcion {
 		String xmlADescerializar = "<WS><Notita>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<Username>" + username + "</Username>"
@@ -52,9 +52,9 @@ public class NotaIndividualTest {
 
 		fail("Se esperaba una excepcion por no existir el nodo Nota.");
 	}
-	
+
 	@Test(expected = XmlErroneoExcepcion.class)
-	public void testDescerializarConXMLConDosNodosNota() throws XmlErroneoExcepcion {
+	public void descerializarConXMLConDosNodosNota() throws XmlErroneoExcepcion {
 		String xmlADescerializar = "<WS><Notas><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<UsernameParticipante>" + username + "</UsernameParticipante>"
@@ -73,7 +73,7 @@ public class NotaIndividualTest {
 	}
 
 	@Test(expected = XmlErroneoExcepcion.class)
-	public void testDescerializarConXMLConDosNodosValor() throws XmlErroneoExcepcion {
+	public void descerializarConXMLConDosNodosValor() throws XmlErroneoExcepcion {
 		String xmlADescerializar = "<WS><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<Username>" + username + "</Username>"
@@ -86,9 +86,9 @@ public class NotaIndividualTest {
 
 		fail("Se esperaba una excepcion por existir más de 2 nodos Valor.");
 	}
-	
+
 	@Test
-	public void testDescerializarConXMLConComentarioDentroDeNodoValor() throws XmlErroneoExcepcion {
+	public void descerializarConXMLConComentarioDentroDeNodoValor() throws XmlErroneoExcepcion {
 		String xmlADescerializar = "<WS><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<Username>" + username + "</Username>"
@@ -105,7 +105,7 @@ public class NotaIndividualTest {
 	}
 
 	@Test
-	public void testSerializar() throws XmlErroneoExcepcion {
+	public void serializarCorrecto() throws XmlErroneoExcepcion {
 		nota.descerializar(xmlADescerializar);
 
 		String xmlFinal = nota.serializar();
