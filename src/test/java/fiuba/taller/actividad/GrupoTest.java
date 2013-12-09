@@ -9,6 +9,7 @@ import org.junit.Test;
 import fiuba.taller.actividad.Grupo;
 import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class GrupoTest {
 
@@ -149,7 +150,7 @@ public class GrupoTest {
 	}
 
 	@Test
-	public void serializarCorrecto() {
+	public void serializarCorrecto() throws XmlErroneoExcepcion {
 		grupo.descerializar(xmlADescerializar);
 
 		String xmlFinal = grupo.serializar();
@@ -158,13 +159,83 @@ public class GrupoTest {
 	}
 
 	@Test
-	public void descerializarCorrecto() {
-
+	public void descerializarConXMLCorrecto() throws XmlErroneoExcepcion {
 		grupo.descerializar(xmlADescerializar);
-
 		assertEquals(idActividad, grupo.getIdActividad());
 		assertEquals(idGrupo, grupo.getId());
 		assertTrue(grupo.contieneParticipante(usernameParticipante1));
 		assertTrue(grupo.contieneParticipante(usernameParticipante2));
+	}
+
+	@Test(expected = XmlErroneoExcepcion.class)
+	public void descerializarConXMLSinNodoGrupo() throws XmlErroneoExcepcion {
+		xmlADescerializar = "<?xml version=\"1.0\"?><WS>" 
+				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+ "<usernameParticipante>" + usernameParticipante1
+				+ "</usernameParticipante>"
+				+ "<usernameParticipante>" + usernameParticipante2
+				+ "</usernameParticipante>"
+				+ "</WS>";
+		grupo.descerializar(xmlADescerializar);
+	}
+
+	@Test(expected = XmlErroneoExcepcion.class)
+	public void descerializarConXMLConDosNodosGrupo()
+			throws XmlErroneoExcepcion {
+		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>" + "<IdGrupo>"
+				+ idGrupo + "</IdGrupo>" + "<usernameParticipante>"
+				+ usernameParticipante1 + "</usernameParticipante>"
+				+ "<usernameParticipante>" + usernameParticipante2
+				+ "</usernameParticipante>" + "</Grupo><Grupo></Grupo></WS>";
+		grupo.descerializar(xmlADescerializar);
+	}
+
+	@Test(expected = XmlErroneoExcepcion.class)
+	public void descerializarConXMLSinNodoIdActividad()
+			throws XmlErroneoExcepcion {
+		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>" + "<IdGrupo>"
+				+ idGrupo + "</IdGrupo>" + "<usernameParticipante>"
+				+ usernameParticipante1 + "</usernameParticipante>"
+				+ "<usernameParticipante>" + usernameParticipante2
+				+ "</usernameParticipante>" + "</Grupo></WS>";
+		grupo.descerializar(xmlADescerializar);
+	}
+
+	@Test(expected = XmlErroneoExcepcion.class)
+	public void descerializarConXMLConDosNodosIdActividad()
+			throws XmlErroneoExcepcion {
+		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
+				+ "<IdActividad>" + idActividad + "</IdActividad>"
+				+ "<IdActividad>" + idActividad + "</IdActividad>"
+				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+ "<usernameParticipante>" + usernameParticipante1
+				+ "</usernameParticipante>" + "<usernameParticipante>"
+				+ usernameParticipante2 + "</usernameParticipante>"
+				+ "</Grupo></WS>";
+		grupo.descerializar(xmlADescerializar);
+	}
+
+	@Test(expected = XmlErroneoExcepcion.class)
+	public void descerializarConXMLSinNodoIdGrupo() throws XmlErroneoExcepcion {
+		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
+				+ "<IdActividad>" + idActividad + "</IdActividad>"
+				+ "<usernameParticipante>" + usernameParticipante1
+				+ "</usernameParticipante>" + "<usernameParticipante>"
+				+ usernameParticipante2 + "</usernameParticipante>"
+				+ "</Grupo></WS>";
+		grupo.descerializar(xmlADescerializar);
+	}
+
+	@Test(expected = XmlErroneoExcepcion.class)
+	public void descerializarConXMLConDosNodosIdGrupo() throws XmlErroneoExcepcion {
+		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
+				+ "<IdActividad>" + idActividad + "</IdActividad>"
+				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+				+ "<usernameParticipante>" + usernameParticipante1
+				+ "</usernameParticipante>" + "<usernameParticipante>"
+				+ usernameParticipante2 + "</usernameParticipante>"
+				+ "</Grupo></WS>";
+		grupo.descerializar(xmlADescerializar);
 	}
 }

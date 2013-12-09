@@ -1,32 +1,37 @@
 package fiuba.taller.actividad;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 /* FORMATO DEL XML GRUPO
+ * 
+ * FIXME ACLARACION: Revisar el formato XML que necesitan los de Integracion 
+ * para poder persistir este objeto (incluyendo la lista de strings).
+ * 
  * <Grupo>
  *   <IdActividad></IdActividad>
  *   <IdGrupo></IdGrupo>
- *   <Participantes>
  *     <UsernameParticipante></UsernameParticipante>
  *       .
  *       .
  *     <UsernameParticipante></UsernameParticipante>
- *   <Participantes>
  * </Grupo>
  */
 
@@ -130,6 +135,11 @@ public class Grupo implements Serializable {
 		return false;
 	}
 
+	public void guardarEstado() {
+		/* TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
+		 * datos.
+		 */
+	}
 	public String serializar() {
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
@@ -142,40 +152,39 @@ public class Grupo implements Serializable {
 		return xml;
 	}
 
-	public void descerializar(String xml) {
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
+		Document doc = null;
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
 			InputSource is = new InputSource(new StringReader(xml));
-			Document doc = builder.parse(is);
-			doc.getDocumentElement().normalize();
+			doc = builder.parse(is);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			String mensaje = "Error de parseo del string recibido";
+			throw new XmlErroneoExcepcion(mensaje);
+		}
+		doc.getDocumentElement().normalize();
 
-			NodeList nodes = doc.getElementsByTagName("Grupo");
-			for (int i = 0; i < nodes.getLength(); i++) {
-				Node node = nodes.item(i);
+		NodeList nodes = doc.getElementsByTagName("Grupo");
+		if (nodes.getLength() != 1) {
+			throw new XmlErroneoExcepcion(
+					"Debe haber solamente un nodo Grupo");
+		}
 
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) node;
-					idActividad = Long.valueOf(getValue("IdActividad", element));
-					id = Long.valueOf(getValue("IdGrupo", element));
+		Element grupoElement = (Element) nodes.item(0);
+		idActividad = Long.valueOf(getValue("IdActividad", grupoElement));
+		id = Long.valueOf(getValue("IdGrupo", grupoElement));
 
-					NodeList participantes = ((Element) node)
-							.getElementsByTagName("usernameParticipante");
-					for (int j = 0; j < participantes.getLength(); j++) {
-						// System.out.print("LARGO: "+participantes.getLength()+"\n");
-						Node nodde = participantes.item(j);
-						if (nodde.getNodeType() == Node.ELEMENT_NODE) {
-							String valor = nodde.getChildNodes().item(0)
-									.getNodeValue();
-
-							// System.out.print("NODO: "+Long.valueOf(valor)+"\n");
-							this.usernameParticipantes.add(valor);
-						}
-					}
-				}
+		NodeList participantes = ((Element) grupoElement)
+				.getElementsByTagName("usernameParticipante");
+		for (int j = 0; j < participantes.getLength(); j++) {
+			// System.out.print("LARGO: "+participantes.getLength()+"\n");
+			Node nodde = participantes.item(j);
+			if (nodde.getNodeType() == Node.ELEMENT_NODE) {
+				String valor = nodde.getChildNodes().item(0).getNodeValue();
+				// System.out.print("NODO: "+Long.valueOf(valor)+"\n");
+				this.usernameParticipantes.add(valor);
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
 		}
 		// System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
 	}
@@ -183,12 +192,16 @@ public class Grupo implements Serializable {
 	/* METODOS DE CLASE (ESTATICOS) */
 
 	public static boolean eliminarGrupo(long idActividad, long idGrupo) {
-		// TODO
+		/* TODO(Jorge) Implementar. Se debe eliminar de la base de datos el
+		 * grupo que corresponde a la actividad e idGrupo pasados por parámetro.
+		 */
 		return false;
 	}
 
 	public static Grupo getGrupo(long idActividad, long idGrupo) {
-		// TODO
+		/* TODO(Jorge) Implementar. Se debe cargar desde la base de datos el 
+		 * grupo correspondiente a la actividad e idGrupo pasados por parámetro.
+		 */
 		Grupo grupo = new Grupo();
 		return grupo;
 	}
