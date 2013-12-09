@@ -63,10 +63,43 @@ public class GrupoTest {
 					+ grupo.getUsernameParticipantes().get(1));
 		}
 	}
-/*
+
 	@Test
-	public void testGuardarEstado() {
-		fail("Not yet implemented");
+	public void ParticipanteEnDosGrupos() {
+		Grupo grupoUno = new Grupo();
+		idGrupo = 1;
+		String usernameParticipante1 = "pepe";
+		String usernameParticipante2 = "raul";
+		grupoUno.agregarParticipante(usernameParticipante1);
+		grupoUno.agregarParticipante(usernameParticipante2);
+		
+		Grupo grupoDos = new Grupo();
+		idGrupo = 2;
+		String usernameParticipante3 = "pepe";
+		String usernameParticipante4 = "juancho";
+		grupoDos.agregarParticipante(usernameParticipante3);
+		grupoDos.agregarParticipante(usernameParticipante4);
+		
+		assertTrue("Los grupos contienen a un mismo participante", grupoDos.contieneParticipantesDe(grupoUno));
 	}
-*/
+	
+	@Test
+	public void ParticipanteEnDistintosGrupos() {
+		Grupo grupoUno = new Grupo();
+		idGrupo = 1;
+		String usernameParticipante1 = "pepe";
+		String usernameParticipante2 = "raul";
+		grupoUno.agregarParticipante(usernameParticipante1);
+		grupoUno.agregarParticipante(usernameParticipante2);
+		
+		Grupo grupoDos = new Grupo();
+		idGrupo = 2;
+		String usernameParticipante3 = "tincho";
+		String usernameParticipante4 = "juancho";
+		grupoDos.agregarParticipante(usernameParticipante3);
+		grupoDos.agregarParticipante(usernameParticipante4);
+		
+		assertTrue("Los grupos no contienen a un mismo participante", !grupoDos.contieneParticipantesDe(grupoUno));
+	}
+
 }

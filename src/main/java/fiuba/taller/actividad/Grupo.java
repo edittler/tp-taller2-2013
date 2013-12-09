@@ -65,7 +65,13 @@ public class Grupo implements Serializable {
 	}
 	
 	public boolean contieneParticipantesDe(Grupo grupo) {
-		// TODO
+		Iterator<String> iterador = usernameParticipantes.listIterator();
+		while( iterador.hasNext() ) {
+	          String usernameParticipante = (String) iterador.next();
+	          if (grupo.usernameParticipantes.contains(usernameParticipante)) {
+	        	  return true;
+	          }
+		}
 		return false;
 	}
 	
