@@ -55,22 +55,18 @@ public class Actividad implements Serializable {
 		return id;
 	}
 	
-	@Deprecated
 	public long getIdAmbitoSuperior() {
 		return idAmbitoSuperior;
 	}
 
-	@Deprecated
-	public void setIdAmbitoSuperior(long idAmbitoSuperior) {
+	protected void setIdAmbitoSuperior(long idAmbitoSuperior) {
 		this.idAmbitoSuperior = idAmbitoSuperior;
 	}
 
-	@Deprecated
 	public long getIdActividadSuperior() {
 		return idActividadSuperior;
 	}
 
-	@Deprecated
 	public void setIdActividadSuperior(long idActividadSuperior) {
 		this.idActividadSuperior = idActividadSuperior;
 	}
