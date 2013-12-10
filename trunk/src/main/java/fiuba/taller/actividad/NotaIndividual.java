@@ -3,7 +3,6 @@ package fiuba.taller.actividad;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.rmi.RemoteException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -71,8 +70,7 @@ public class NotaIndividual extends Nota {
 	 *             Si no existe la actividad, si no es individual evaluable, si
 	 *             no existe el participante.
 	 */
-	public static NotaIndividual crearNota(long idActividad, String username)
-			throws RemoteException {
+	public static NotaIndividual crearNota(long idActividad, String username) {
 		/*
 		 * TODO Verificar si la nota ya fue inicializada. En caso afirmativo, se
 		 * ejecuta el método "getNota". Si no está cargada la nota, verificar si

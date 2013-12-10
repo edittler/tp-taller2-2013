@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 
 import fiuba.taller.actividad.excepcion.GrupoExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
+import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
@@ -377,13 +378,13 @@ public class ActividadControlador {
 		}
 	}
 
-	public String getNota(long idActividad, long idEvaluado) throws XmlErroneoExcepcion {
+	public String getNota(long idActividad, long idEvaluado) throws XmlErroneoExcepcion, NotaInexistenteExcepcion {
 		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
 		}
 		
-		return evaluable.getNota(idEvaluado);
+		return evaluable.getNota(idEvaluado).serializar();
 		
 		/*Nota nota = evaluable.getNota(idEvaluado);
 		// TODO: ¿Muy C? Refactorizar, quizas...
