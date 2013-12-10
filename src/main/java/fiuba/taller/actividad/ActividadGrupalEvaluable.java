@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.util.List;
 
+import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadGrupalEvaluable extends ActividadGrupal implements
@@ -28,20 +29,28 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 
 	@Override
-	public void evaluar(long idEvaluado, String nota) {
-		// TODO Implementar
+	public void evaluar(Object idGrupo, String nota) {
+		long longGrupo = (long) idGrupo;
+		NotaGrupal notaGrupal = NotaGrupal.crearNota(id, longGrupo);
+		notaGrupal.setValor(nota);
 	}
 
 	@Override
-	public void evaluar(long idEvaluado, String nota, String observaciones) {
-		// TODO Implementar
+	public void evaluar(Object idGrupo, String nota, String observaciones) {
+		long longGrupo = (long) idGrupo;
+		NotaGrupal notaGrupal = NotaGrupal.crearNota(id, longGrupo);
+		notaGrupal.setValor(nota);
+		notaGrupal.setObservaciones(observaciones);
 	}
 
-	public String getNota(long idParticipante) {
-		// TODO Implementar
-		return null;
+	@Override
+	public Nota getNota(Object idGrupo) throws NotaInexistenteExcepcion {
+		long longGrupo = (long) idGrupo;
+		NotaGrupal nota = NotaGrupal.getNota(id, longGrupo);
+		return nota;
 	}
 
+	@Override
 	public List<Nota> getNotas() {
 		// TODO Implementar
 		return null;
