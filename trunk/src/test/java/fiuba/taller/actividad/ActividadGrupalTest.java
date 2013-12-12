@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fiuba.taller.actividad.excepcion.GrupoNoExclusivoExcepcion;
+
 public class ActividadGrupalTest {
 	
 	ActividadGrupal actGrupal;
@@ -20,8 +22,10 @@ public class ActividadGrupalTest {
 	}
 /*
 	@Test
-	public void testAgregarGrupo() {
-		fail("Not yet implemented");
+	public void AgregarUnGrupo() throws GrupoNoExclusivoExcepcion {
+		Grupo grupo = new Grupo();
+		actGrupal.agregarGrupo(grupo);
+		assertEquals("Se esperaba tener un solo grupo creado", 1, actGrupal.getGrupos().size());
 	}
 
 	@Test
