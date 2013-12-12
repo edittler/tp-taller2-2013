@@ -29,8 +29,8 @@ public class ActividadTest {
 		String nombrePrueba = "langosta";
 		String tipo = "bay guy";
 		String descripcion = "nada q ver nada q oler";
-		String fechaIni = "11/11/11";
-		String fechaFin = "12/12/12";
+		long fechaIni = 111111;
+		long fechaFin = 121212;
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<Id>" + idPrueba + "</Id>" 
@@ -63,8 +63,8 @@ public class ActividadTest {
 		String nombrePrueba = "langosta";
 		String tipo = "bay guy";
 		String descripcion = "nada q ver nada q oler";
-		String fechaIni = "11/11/11";
-		String fechaFin = "12/12/12";
+		long fechaIni = 484651;
+		long fechaFin = 121212;
 		
 		String xmlADescerializar = "<Actividad>"
 				+ "<Id>" + idPrueba + "</Id>" 
@@ -160,8 +160,8 @@ public class ActividadTest {
 		String nombrePrueba = "langosta";
 		String tipo = "bay guy";
 		String descripcion = "nada q ver nada q oler";
-		String fechaIni = "11/11/11";
-		String fechaFin = "12/12/12";
+		String fechaIni = "111111";
+		String fechaFin = "121212";
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<Id>" + idPrueba + "</Id>" 
