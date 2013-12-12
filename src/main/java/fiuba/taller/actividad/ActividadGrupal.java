@@ -63,6 +63,7 @@ public class ActividadGrupal extends Actividad {
 			cargarGrupos();
 		}
 		Grupo grupoAEliminar = getGrupo(idGrupo);
+		grupos.remove(grupoAEliminar);
 		/*
 		 * FIXME(Jorge) Hará falta llamar a Integración para eliminar el
 		 * grupo o con el método "GuardarEstado" alcanza?
@@ -175,6 +176,9 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	private long nuevoIdentificador() {
+		if (grupos.size() == 0) {
+			return 1;
+		}	
 		List<Long> ids = new ArrayList<>();
 		for(Grupo grupo : grupos) {
 			ids.add(grupo.getId());
