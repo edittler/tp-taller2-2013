@@ -86,7 +86,11 @@ public class Actividad implements Serializable {
 	public String getDescripcion() {
 		return descripcion;
 	}
-	
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	public String getFechaInicio() {
 		return fechaInicio;
 	}
@@ -209,7 +213,7 @@ public class Actividad implements Serializable {
 		Document doc = getDocumentElement(xml);
 		descerializar(doc);
 	}
-	
+
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */

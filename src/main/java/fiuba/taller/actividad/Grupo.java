@@ -135,6 +135,11 @@ public class Grupo implements Serializable {
 		return false;
 	}
 
+	public List<String> getParticipantesDuplicados(Grupo grupo) {
+		// TODO Implementar
+		return new ArrayList<>();
+	}
+
 	public void guardarEstado() {
 		/* TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
 		 * datos.
