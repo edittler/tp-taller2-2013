@@ -1,7 +1,9 @@
 package fiuba.taller.actividad;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fiuba.taller.actividad.excepcion.ActividadInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
@@ -10,33 +12,62 @@ public class ActividadIndividual extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
 
-	protected List<Long> idParticipantes;
+	protected List<String> usernameParticipantes;
 
 	public ActividadIndividual() {
 		super();
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
-		idParticipantes = null;
+		usernameParticipantes = null;
 	}
 
-	public List<Miembro> getParticipantes() {
-		/*
-		 * TODO: Implementar
-		 */
-		return null;
+	public List<String> getParticipantes() {
+		if (!participantesCargados()) {
+			cargarParticipantes();
+		}
+		return new ArrayList<>(usernameParticipantes);
 	}
 
-	public void agregarParticipante(long idParticipante)
+	public void agregarParticipante(String username)
 			throws ParticipanteExistenteExcepcion {
+		if (!participantesCargados()) {
+			cargarParticipantes();
+		}
+		if (usernameParticipantes.contains(username)) {
+			String mensaje = "El usuario " + username
+					+ " ya se encuentra en la actividad";
+			throw new ParticipanteExistenteExcepcion(mensaje);
+		}
+		usernameParticipantes.add(username);
 		/*
-		 * TODO Implementar. Si ya existe el participante, lanzar excepcion.
+		 * FIXME(Jorge) Hará falta llamar a Integración para agregar el
+		 * participante o con el método "GuardarEstado" alcanza?
 		 */
 	}
 
-	public void eliminarParticipante(long idParticipante)
+	public void eliminarParticipante(String username)
 			throws ParticipanteInexistenteExcepcion {
+		if (!participantesCargados()) {
+			cargarParticipantes();
+		}
+		if (!usernameParticipantes.contains(username)) {
+			String mensaje = "El usuario " + username
+					+ " no se encuentra en la actividad";
+			throw new ParticipanteInexistenteExcepcion(mensaje);
+		}
+		usernameParticipantes.remove(username);
 		/*
-		 * TODO Implementar. Si no existe el participante, se debería lanzar una
-		 * excepcion.
+		 * FIXME(Jorge) Hará falta llamar a Integración para eliminar el
+		 * participante o con el método "GuardarEstado" alcanza?
+		 */
+	}
+
+	/**
+	 * Guarda el estado actual del objeto a la base de datos.
+	 */
+	public void guardarEstado() {
+		super.guardarEstado();
+		/*
+		 * TODO(Jorge) Se debe guardar la lista de usernames.
 		 */
 	}
 
@@ -50,10 +81,10 @@ public class ActividadIndividual extends Actividad {
 			return false;
 		}
 		/*
-		 * Si el campo "Tipo" comienza con la palabra "Individual", se 
-		 * considerara de tipo valido. 
-		 * Es decir, ActividadIndividualEvaluable tambien se considera como 
-		 * ActividadIndividual (por ser clase derivada)
+		 * Si el campo "Tipo" comienza con la palabra "Individual", se
+		 * considerara de tipo valido. Es decir, ActividadIndividualEvaluable
+		 * tambien se considera como ActividadIndividual (por ser clase
+		 * derivada)
 		 */
 		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_INDIVIDUAL)) {
 			return true;
@@ -73,6 +104,13 @@ public class ActividadIndividual extends Actividad {
 		return actividad;
 	}
 
+	public static void eliminarActividad(long idActividad)
+			throws ActividadInexistenteExcepcion {
+		/*
+		 * TODO(Jorge?) Implementar.
+		 */
+	}
+
 	public static ActividadIndividual getActividad(long idActividad)
 			throws XmlErroneoExcepcion {
 		/*
@@ -82,5 +120,19 @@ public class ActividadIndividual extends Actividad {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.levantarEstado(idActividad);
 		return actividad;
+	}
+
+	/* METODOS PRIVADOS AUXILIARES */
+
+	private boolean participantesCargados() {
+		return usernameParticipantes != null;
+	}
+
+	private void cargarParticipantes() {
+		usernameParticipantes = new ArrayList<>();
+		/*
+		 * TODO(Jorge o Pampa?) Implementar. Se debe cargar desde la base de
+		 * datos la lista de participantes.
+		 */
 	}
 }

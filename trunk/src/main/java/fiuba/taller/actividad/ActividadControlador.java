@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import fiuba.taller.actividad.excepcion.GrupoExistenteExcepcion;
+import fiuba.taller.actividad.excepcion.GrupoNoExclusivoExcepcion;
 import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
@@ -189,23 +189,23 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
-	public void agregarParticipante(long idActividad, long idParticipante)
+	public void agregarParticipante(long idActividad, String username)
 			throws XmlErroneoExcepcion, ParticipanteExistenteExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
 		try {
-			actividad.agregarParticipante(idParticipante);
+			actividad.agregarParticipante(username);
 		} catch (ParticipanteExistenteExcepcion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void eliminarParticipante(long idActividad, long idParticipante) 
+	public void eliminarParticipante(long idActividad, String username) 
 			throws XmlErroneoExcepcion, ParticipanteInexistenteExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
-		actividad.eliminarParticipante(idParticipante);
+		actividad.eliminarParticipante(username);
 	}
 	
 	// TODO: Refactorizar! Mover este metodo al lugar adecuado
@@ -275,13 +275,15 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
 
-	public void agregarGrupo(long idActividad, long idGrupo) 
+	public void agregarGrupo(long idActividad, String xmlGrupo) 
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
 				.getActividad(idActividad);
+		// TODO Descerializar el grupo
+		Grupo grupo = new Grupo();
 		try {
-			actividad.agregarGrupo(idGrupo);
-		} catch (GrupoExistenteExcepcion e) {
+			actividad.agregarGrupo(grupo);
+		} catch (GrupoNoExclusivoExcepcion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
