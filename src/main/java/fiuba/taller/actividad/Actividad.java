@@ -31,8 +31,8 @@ public class Actividad implements Serializable {
 	protected String nombre;
 	protected String tipo;
 	protected String descripcion;
-	protected String fechaInicio;
-	protected String fechaFin;
+	protected long fechaInicio;
+	protected long fechaFin;
 	protected List<Long> coordinadores;
 	protected long idMuro;
 	protected long idCartelera;
@@ -47,8 +47,8 @@ public class Actividad implements Serializable {
 		nombre = "";
 		tipo = "";
 		descripcion = "";
-		fechaFin = "";
-		fechaInicio = "";
+		fechaFin = -1;
+		fechaInicio = -1;
 	}
 
 	public long getId() {
@@ -91,15 +91,15 @@ public class Actividad implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public String getFechaInicio() {
+	public long getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public String getFechaFin() {
+	public long getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFecha(String fechaInicio) {
+	public void setFecha(long fechaInicio) {
 		/*
 		 * TODO(Pampa) Implementar Hay que validad si las fecha se encuentra en 
 		 * el formato correcto. Si no, lanzar una excepcion.
@@ -107,7 +107,7 @@ public class Actividad implements Serializable {
 		 */
 	}
 
-	public void setFecha(String fechaInicio, String fechaFin) {
+	public void setFecha(long fechaInicio, long fechaFin) {
 		/*
 		 * TODO(Pampa) Implementar Hay que validad si las fechas se encuentran
 		 * en el formato correcto y si la fecha de inicio es menor a la fecha de
@@ -183,6 +183,9 @@ public class Actividad implements Serializable {
 		String identif = "";
 		String idAmbSupStr = "";
 		String idActSupStr = "";
+		String fehcaFinStr = "";
+		String fehcaIniStr = "";
+		
 		if (id >= 0) {
 			identif = String.valueOf(id);
 		}
@@ -192,6 +195,13 @@ public class Actividad implements Serializable {
 		if (idActividadSuperior >= 0) {
 			idActSupStr = String.valueOf(idActividadSuperior);
 		}
+		if(fechaFin >=0){
+			fehcaFinStr=String.valueOf(fechaFin);
+		}
+		if(fechaInicio >=0){
+			fehcaIniStr=String.valueOf(fechaInicio);
+		}
+		
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<Id>" + identif + "</Id>" 
 				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>" 
@@ -199,8 +209,8 @@ public class Actividad implements Serializable {
 				+ "<Nombre>" + nombre + "</Nombre>"
 				+ "<Tipo>" + tipo + "</Tipo>" 
 				+ "<Descripcion>" + descripcion + "</Descripcion>" 
-				+ "<FechaInicio>" + fechaInicio + "</FechaInicio>"
-				+ "<FechaFin>" + fechaFin + "</FechaFin>"
+				+ "<FechaInicio>" + fehcaIniStr + "</FechaInicio>"
+				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>"
 				+ "</Actividad></WS>";
 		return xml;
 	}
@@ -312,8 +322,8 @@ public class Actividad implements Serializable {
 				element));
 		nombre = getValue("Nombre", element);
 		tipo = getValue("Tipo", element);
-		fechaInicio = getValue("FechaInicio", element);
-		fechaFin = getValue("FechaFin", element);
+		fechaInicio = Long.valueOf(getValue("FechaInicio", element));
+		fechaFin = Long.valueOf(getValue("FechaFin", element));
 		descripcion = getValue("Descripcion", element);
 	}
 

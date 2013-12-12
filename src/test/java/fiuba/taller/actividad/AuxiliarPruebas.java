@@ -9,8 +9,8 @@ public class AuxiliarPruebas {
 		long idActSupStr = 77;
 		String nombrePrueba = "langosta";
 		String descripcion = "nada q ver nada q oler";
-		String fechaIni = "11/11/11";
-		String fechaFin = "12/12/12";
+		String fechaIni = "111111";
+		String fechaFin = "121212";
 		
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<Id>" + idPrueba + "</Id>" 
