@@ -68,7 +68,7 @@ public class ActividadGrupalTest {
 	}
 
 	@Test
-	public void EliminarGrupo() throws GrupoNoExclusivoExcepcion, GrupoInexistenteExcepcion {
+	public void EliminarGrupoExistente() throws GrupoNoExclusivoExcepcion, GrupoInexistenteExcepcion {
 		Grupo grupo = new Grupo();
 		actGrupal.agregarGrupo(grupo);
 		long id = grupo.getId();
@@ -76,12 +76,14 @@ public class ActividadGrupalTest {
 		assertEquals("No deberia haber ningun grupo creado", 0, actGrupal.getGrupos().size());
 	}
 	
-/*
-	@Test
-	public void testGetGrupos() {
-		fail("Not yet implemented");
+	@Test(expected=GrupoInexistenteExcepcion.class)
+	public void EliminarGrupoInexistente() throws GrupoNoExclusivoExcepcion, GrupoInexistenteExcepcion {
+		Grupo grupo = new Grupo();
+		actGrupal.agregarGrupo(grupo);
+		long id = grupo.getId() + 1;
+		actGrupal.eliminarGrupo(id);
 	}
-*/
+	
 	@Test
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
