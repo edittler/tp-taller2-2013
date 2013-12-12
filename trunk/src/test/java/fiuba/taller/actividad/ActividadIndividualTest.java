@@ -6,31 +6,57 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
+import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
+
 public class ActividadIndividualTest {
+	
+	ActividadIndividual actIndividual;
 
 	@Before
 	public void setUp() throws Exception {
+		actIndividual = new ActividadIndividual();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
-/*
+
 	@Test
-	public void testAgregarParticipante() {
-		fail("Not yet implemented");
+	public void AgregarUnParticipante() throws ParticipanteExistenteExcepcion {
+		actIndividual.agregarParticipante("juancito");
+		assertEquals("Deberia haber un participante",
+				1, actIndividual.getParticipantes().size());
+	}
+	
+	@Test
+	public void AgregarDosParticipantes() throws ParticipanteExistenteExcepcion {
+		actIndividual.agregarParticipante("juancito");
+		actIndividual.agregarParticipante("tito");
+		assertEquals("Deberia haber dos participantes",
+				2, actIndividual.getParticipantes().size());
+	}
+	
+	@Test(expected=ParticipanteExistenteExcepcion.class)
+	public void AgregarParticipantesConMismoUsername() throws ParticipanteExistenteExcepcion {
+		actIndividual.agregarParticipante("juancito");
+		actIndividual.agregarParticipante("juancito");
 	}
 
 	@Test
-	public void testEliminarParticipante() {
-		fail("Not yet implemented");
+	public void EliminarParticipanteExistente() throws ParticipanteExistenteExcepcion, ParticipanteInexistenteExcepcion {
+		actIndividual.agregarParticipante("juancito");
+		actIndividual.eliminarParticipante("juancito");
+		assertEquals("No deberia haber ningun participante",
+				0, actIndividual.getParticipantes().size());
+	}
+	
+	@Test(expected=ParticipanteInexistenteExcepcion.class)
+	public void EliminarParticipanteInexistente() throws ParticipanteExistenteExcepcion, ParticipanteInexistenteExcepcion {
+		actIndividual.agregarParticipante("juancito");
+		actIndividual.eliminarParticipante("tito");
 	}
 
-	@Test
-	public void testGetParticipantes() {
-		fail("Not yet implemented");
-	}
-*/
 	@Test
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
@@ -73,15 +99,5 @@ public class ActividadIndividualTest {
 		assertFalse("Tipo que deberia ser rechazado fue aceptado",
 				ActividadIndividual.esTipoValido(xml));
 	}
-/*
-	@Test
-	public void testCrearInstancia() {
-		fail("Not yet implemented");
-	}
 
-	@Test
-	public void testGetActividadLong() {
-		fail("Not yet implemented");
-	}
-*/
 }
