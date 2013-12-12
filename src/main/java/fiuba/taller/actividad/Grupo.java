@@ -26,13 +26,26 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
  * para poder persistir este objeto (incluyendo la lista de strings).
  * 
  * <Grupo>
- *   <IdActividad></IdActividad>
- *   <IdGrupo></IdGrupo>
- *     <UsernameParticipante></UsernameParticipante>
- *       .
- *       .
- *     <UsernameParticipante></UsernameParticipante>
+ * 		<IdGrupo></IdGrupo>
+ * 		<list>
+ * 			<UsernameParticipante></UsernameParticipante>
+ * 				.
+ * 				.
+ * 			<UsernameParticipante></UsernameParticipante>
+ * 		</list>
  * </Grupo>
+ * 
+ * ws->seleccionarDatos(xml)
+ * 
+ * "todos los usuarios tales que el id del grupo es 5"
+ * <Usuario>
+ * <join>
+ * 		<Grupo>
+ * 			<idGrupo>5</idGrupo>
+ * 		</Grupo>
+ * </join>
+ * </Usuario>
+ * 
  */
 
 public class Grupo implements Serializable {
