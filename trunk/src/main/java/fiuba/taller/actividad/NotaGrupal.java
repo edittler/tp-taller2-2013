@@ -26,11 +26,6 @@ public class NotaGrupal extends Nota {
 		return idGrupo;
 	}
 
-	@Override
-	public void guardarEstado() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * Crea e inicializa en la base de datos la nota para la actividad grupal y
 	 * grupo dado. Si la nota ya fue inicializada, retorna la nota almacenada.
@@ -87,6 +82,23 @@ public class NotaGrupal extends Nota {
 	}
 
 	@Override
+	public String serializar() {
+		String idActividadString = "";
+		String idElementoEvaluadoString = "";
+		if (idActividad >= 0) {
+			idActividadString = String.valueOf(idActividad);
+		}
+		if (idGrupo >= 0) {
+			idElementoEvaluadoString = String.valueOf(idGrupo);
+		}
+		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
+				+ idActividadString + "</IdActividad>" + "<IdEvaluado>"
+				+ idElementoEvaluadoString + "</IdEvaluado>" + "<ValorNota>"
+				+ valor + "</ValorNota>" + "<Observaciones>" + observaciones
+				+ "</Observaciones>" + "</Nota></WS>";
+	}
+
+	@Override
 	public void descerializar(String xml) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -115,19 +127,18 @@ public class NotaGrupal extends Nota {
 	}
 
 	@Override
-	public String serializar() {
-		String idActividadString = "";
-		String idElementoEvaluadoString = "";
-		if (idActividad >= 0) {
-			idActividadString = String.valueOf(idActividad);
-		}
-		if (idGrupo >= 0) {
-			idElementoEvaluadoString = String.valueOf(idGrupo);
-		}
-		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
-				+ idActividadString + "</IdActividad>" + "<IdEvaluado>"
-				+ idElementoEvaluadoString + "</IdEvaluado>" + "<ValorNota>"
-				+ valor + "</ValorNota>" + "<Observaciones>" + observaciones
-				+ "</Observaciones>" + "</Nota></WS>";
+	public void guardarEstado() {
+		/* 
+		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
+		 * datos.
+		 */
+	}
+
+	@Override
+	public String realizarConsulta() {
+		/*
+		 * TODO(Jorge) Implementar
+		 */
+		return "";
 	}
 }

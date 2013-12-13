@@ -115,7 +115,7 @@ public class Actividad implements Serializable {
 		 */
 	}
 
-	public List<Miembro> getCoordinadores() {
+	public List<String> getCoordinadores() {
 		// TODO(Pampa) Implementar
 		return new ArrayList<>();
 	}

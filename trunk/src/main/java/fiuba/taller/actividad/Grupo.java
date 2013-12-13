@@ -153,11 +153,7 @@ public class Grupo implements Serializable {
 		return new ArrayList<>();
 	}
 
-	public void guardarEstado() {
-		/* TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
-		 * datos.
-		 */
-	}
+	@Override
 	public String serializar() {
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
@@ -170,6 +166,7 @@ public class Grupo implements Serializable {
 		return xml;
 	}
 
+	@Override
 	public void descerializar(String xml) throws XmlErroneoExcepcion {
 		Document doc = null;
 		try {
@@ -205,6 +202,22 @@ public class Grupo implements Serializable {
 			}
 		}
 		// System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
+	}
+
+	@Override
+	public void guardarEstado() {
+		/* 
+		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
+		 * datos.
+		 */
+	}
+
+	@Override
+	public String realizarConsulta() {
+		/*
+		 * TODO(Jorge) Implementar
+		 */
+		return "";
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
