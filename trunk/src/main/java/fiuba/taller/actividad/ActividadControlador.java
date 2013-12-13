@@ -66,88 +66,27 @@ public class ActividadControlador {
 		return xmlActividad;
 	}
 	
-	private Document readXml(String xml) {
-		DocumentBuilder db = null;
-		try {
-			db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	    InputSource is = new InputSource();
-	    is.setCharacterStream(new StringReader(xml));
-		    
-	    Document doc = null;;
-		try {
-			doc = db.parse(is);
-		} catch (SAXException | IOException e) {
-			// TODO do something with the exception, Ferno!
-		}
-		
-		return doc;
-	}
-	
-	// Se concatena al elementoPadre todos los elementos de xml (sin contar la raiz del doc)
-	private void concatenateElementsXml(String xml, Element elementoPadre) {
-		Document doc = readXml(xml);
-		// TODO: Definir el raiz!
-	    NodeList nodes = doc.getElementsByTagName("WS");
-	    
-	    for (int i = 0; i < nodes.getLength(); i++) {
-	        Element element = (Element) nodes.item(i);
-	        elementoPadre.appendChild(element);
-	    }
-	}
-	
-
-	/**
-	 * @param idActividad
-	 *            Identificador de la actividad
-	 * @return String con el nombre de la actividad
-	 * @throws XmlErroneoExcepcion 
-	 */
-	public String getNombre(String username ,long idActividad) throws XmlErroneoExcepcion {
-		Actividad actividad = Actividad.getActividad(idActividad);
-		return actividad.getNombre();
+	public void setPropiedades(String username, long idActividad, String propiedades) {
+		// TODO
 	}
 
-	/**
-	 * @param idActividad
-	 *            Identificador de la actividad
-	 * @param nombre
-	 *            Nuevo nombre a asignar a la actividad
-	 * @throws XmlErroneoExcepcion
-	 */
-	public void setNombre(String username , long idActividad, String nombre)
-			throws XmlErroneoExcepcion {
-		Actividad actividad = Actividad.getActividad(idActividad);
-		actividad.setNombre(nombre);
-		actividad.guardarEstado();
+	public String getActividadesDeAmbito(String username, long idAmbito) {
+		Actividad act = new Actividad();
+		act.setIdAmbitoSuperior(idAmbito);
+		String xml = act.realizarConsulta();
+		return xml;
 	}
 
-	public String getActividades(String username ,int idAmbito, String tipoAmbito) {
-		/*
-		 * FIXME Para que no haya mucho margen de errores por lo que se pasa
-		 * como parámetro en "String tipoAmbito", se podria crear un enumerado
-		 * publico que defina el tipo "AMBITO" y "ACTIVIDAD" o colocar un
-		 * booleano llamado "superiorEsAmbito" pero genera ambiguedades ya que
-		 * una actividad tambien es un ambito. --Pampa
-		 */
-		if (tipoAmbito.equalsIgnoreCase("Ambito")) {
-			Actividad act = new Actividad();
-			act.setIdAmbitoSuperior(idAmbito);
-			String xml = act.realizarConsulta();
-			// por ahora devolvemos los xml directamente
-			return xml;
-		} else if (tipoAmbito.equalsIgnoreCase("Actividad")) {
-			Actividad act = new Actividad();
-			act.setIdActividadSuperior(idAmbito);
-			String xml = act.realizarConsulta();
-			// por ahora devolvemos los xml directamente
-			return xml;
-		}
-		// ver de devolver una excepcion o similar
-		return "tipo de ambito no valido : " + tipoAmbito;
+	public String getActividadesDeActividad(String username, long idActividad) {
+		Actividad act = new Actividad();
+		act.setIdActividadSuperior(idActividad);
+		String xml = act.realizarConsulta();
+		// por ahora devolvemos los xml directamente
+		return xml;
+	}
+
+	public void destruirActividad(String username, long idActividad){
+		// TODO Implementar
 	}
 
 	/* CREADORES DE ACTIVIDAD */
@@ -160,29 +99,29 @@ public class ActividadControlador {
 	 * @return Identificador de la actividad creada
 	 * @throws XmlErroneoExcepcion
 	 */
-	public long crearActividadIndividual(String username ,String xmlPropiedades)
+	public long crearActividadIndividual(String username, String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
-	public long crearActividadGrupal(String username ,String xmlPropiedades)
+	public long crearActividadGrupal(String username, String xmlPropiedades)
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
-	public long crearActividadIndividualEvaluable(String username ,String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+	public long crearActividadIndividualEvaluable(String username,
+			String xmlPropiedades) throws XmlErroneoExcepcion {
 		ActividadIndividualEvaluable actividad = ActividadIndividualEvaluable
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
-	public long crearActividadGrupalEvaluable(String username ,String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+	public long crearActividadGrupalEvaluable(String username,
+			String xmlPropiedades) throws XmlErroneoExcepcion {
 		ActividadGrupalEvaluable actividad = ActividadGrupalEvaluable
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
@@ -190,23 +129,25 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
-	public void agregarParticipante(String username ,long idActividad, String UserNameNuevoParticipante)
+	public void agregarParticipante(String username, long idActividad,
+			String usernameNuevoParticipante)
 			throws XmlErroneoExcepcion, ParticipanteExistenteExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
 		try {
-			actividad.agregarParticipante(UserNameNuevoParticipante);
+			actividad.agregarParticipante(usernameNuevoParticipante);
 		} catch (ParticipanteExistenteExcepcion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void eliminarParticipante(String username ,long idActividad, String UserNameParticipanteAEliminar) 
+	public void eliminarParticipante(String username, long idActividad,
+			String usernameParticipanteAEliminar) 
 			throws XmlErroneoExcepcion, ParticipanteInexistenteExcepcion {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
-		actividad.eliminarParticipante(UserNameParticipanteAEliminar);
+		actividad.eliminarParticipante(usernameParticipanteAEliminar);
 	}
 	
 	// TODO: Refactorizar! Mover este metodo al lugar adecuado
@@ -221,7 +162,8 @@ public class ActividadControlador {
 	    return writer.toString();
 	}
 
-	public String getParticipantes(String username ,long idActividad) throws XmlErroneoExcepcion {
+	public String getParticipantes(String username, long idActividad)
+			throws XmlErroneoExcepcion {
 		ActividadIndividual actInd = 
 				ActividadIndividual.getActividad(idActividad);
 		actInd.getParticipantes();
@@ -270,20 +212,16 @@ public class ActividadControlador {
 		return xmlParticipantes;*/
 	}
 
-	public void getParticipante(String username ,long idActividad, long idParticipante) {
-		// TODO: Implementar
-	}
-
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
 
-	public void agregarGrupo(String username ,long idActividad, String xmlGrupo) 
+	public void agregarGrupo(String username, long idActividad, String grupo) 
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal
 				.getActividad(idActividad);
 		// TODO Descerializar el grupo
-		Grupo grupo = new Grupo();
+		Grupo nuevoGrupo = new Grupo();
 		try {
-			actividad.agregarGrupo(grupo);
+			actividad.agregarGrupo(nuevoGrupo);
 		} catch (GrupoNoExclusivoExcepcion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -302,7 +240,18 @@ public class ActividadControlador {
 		}
 	}
 
-	public String getGrupos(String username ,long idActividad) throws XmlErroneoExcepcion {
+	public void agregarParticipanteAGrupo(String username, long idActividad,
+			long idGrupo, String usernameNuevoParticipante) {
+		// TODO Implementar cuando esté el resto terminado
+	}
+
+	public void eliminarParticipanteAGrupo(String username, long idActividad,
+			long idGrupo, String usernameNuevoParticipante) {
+		// TODO Implementar cuando esté el resto terminado
+	}
+
+	public String getGrupos(String username, long idActividad)
+			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
 		actividad.getGrupos();
 		return ""; // FIXME Fer, volvemos para atrás --Pampa
@@ -351,7 +300,7 @@ public class ActividadControlador {
 
 	// Evaluado puede ser un participante o un grupo, dependiendo si la
 	// actividad es ind o grupal
-	public void evaluar(String username ,long idActividad, long idEvaluado, String nota) throws XmlErroneoExcepcion {
+	public void evaluar(String username, long idActividad, String notas) throws XmlErroneoExcepcion {
 		Actividad actividad = Actividad.getActividad(idActividad);
 		String xml = actividad.serializar();
 		Evaluable evaluable = null;
@@ -362,7 +311,6 @@ public class ActividadControlador {
 		} else {
 			// LEVANTAR EXCEPCION
 		}
-		evaluable.evaluar(idEvaluado, nota);
 		// TODO Terminar de implementar
 	}
 	
@@ -482,4 +430,36 @@ public class ActividadControlador {
 		return xmlNotas;*/
 	}
 	
+	private Document readXml(String xml) {
+		DocumentBuilder db = null;
+		try {
+			db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		} catch (ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    InputSource is = new InputSource();
+	    is.setCharacterStream(new StringReader(xml));
+		    
+	    Document doc = null;;
+		try {
+			doc = db.parse(is);
+		} catch (SAXException | IOException e) {
+			// TODO do something with the exception, Ferno!
+		}
+		
+		return doc;
+	}
+	
+	// Se concatena al elementoPadre todos los elementos de xml (sin contar la raiz del doc)
+	private void concatenateElementsXml(String xml, Element elementoPadre) {
+		Document doc = readXml(xml);
+		// TODO: Definir el raiz!
+	    NodeList nodes = doc.getElementsByTagName("WS");
+	    
+	    for (int i = 0; i < nodes.getLength(); i++) {
+	        Element element = (Element) nodes.item(i);
+	        elementoPadre.appendChild(element);
+	    }
+	}
 }
