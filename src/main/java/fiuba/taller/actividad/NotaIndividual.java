@@ -50,12 +50,6 @@ public class NotaIndividual extends Nota {
 		return username;
 	}
 
-	@Override
-	public void guardarEstado() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Crea e inicializa en la base de datos la nota para la actividad
 	 * individual y participante dado. Si la nota ya fue inicializada, retorna
@@ -113,40 +107,6 @@ public class NotaIndividual extends Nota {
 	}
 
 	@Override
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
-
-		Document doc = null;
-		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			doc = builder.parse(is);
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			String message = "Error al cargar el string como XML.";
-			throw new XmlErroneoExcepcion(message);
-		}
-		doc.getDocumentElement().normalize();
-
-		NodeList nodes = doc.getElementsByTagName(NODO_NOTA);
-		if (nodes.getLength() != 1) {
-			String message = "La cantidad de nodos Nota no es unica.";
-			throw new XmlErroneoExcepcion(message);
-		}
-
-		Node node = nodes.item(0);
-		if (node.getNodeType() != Node.ELEMENT_NODE) {
-			String message = "El nodo Nota no es de tipo Element";
-			throw new XmlErroneoExcepcion(message);
-		}
-
-		Element element = (Element) node;
-		idActividad = Long.valueOf(getValue(NODO_ID_ACTIVIDAD, element));
-		username = getValue(NODO_USERNAME, element);
-		valor = getValue(NODO_VALOR, element);
-		observaciones = getValue(NODO_OBSERVACIONES, element);
-	}
-
-	@Override
 	public String serializar() {
 		Document doc = null;
 		try {
@@ -196,5 +156,55 @@ public class NotaIndividual extends Nota {
 		}
 		String output = writer.toString();//.replaceAll("\n|\r", "");
 		return output;
+	}
+
+	@Override
+	public void descerializar(String xml) throws XmlErroneoExcepcion {
+
+		Document doc = null;
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			InputSource is = new InputSource(new StringReader(xml));
+			doc = builder.parse(is);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			String message = "Error al cargar el string como XML.";
+			throw new XmlErroneoExcepcion(message);
+		}
+		doc.getDocumentElement().normalize();
+
+		NodeList nodes = doc.getElementsByTagName(NODO_NOTA);
+		if (nodes.getLength() != 1) {
+			String message = "La cantidad de nodos Nota no es unica.";
+			throw new XmlErroneoExcepcion(message);
+		}
+
+		Node node = nodes.item(0);
+		if (node.getNodeType() != Node.ELEMENT_NODE) {
+			String message = "El nodo Nota no es de tipo Element";
+			throw new XmlErroneoExcepcion(message);
+		}
+
+		Element element = (Element) node;
+		idActividad = Long.valueOf(getValue(NODO_ID_ACTIVIDAD, element));
+		username = getValue(NODO_USERNAME, element);
+		valor = getValue(NODO_VALOR, element);
+		observaciones = getValue(NODO_OBSERVACIONES, element);
+	}
+
+	@Override
+	public void guardarEstado() {
+		/* 
+		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
+		 * datos.
+		 */
+	}
+
+	@Override
+	public String realizarConsulta() {
+		/*
+		 * TODO(Jorge) Implementar
+		 */
+		return "";
 	}
 }
