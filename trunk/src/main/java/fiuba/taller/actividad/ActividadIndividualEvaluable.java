@@ -89,4 +89,9 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
+	
+	protected String serializarInterno() {
+		return super.serializarInterno() + "<TipoEscala>" + escala
+				+ " </TipoEscala>";
+	}
 }

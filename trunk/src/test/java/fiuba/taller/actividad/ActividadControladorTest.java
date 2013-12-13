@@ -64,13 +64,21 @@ public class ActividadControladorTest {
 	}
 
 	@Test
-	public void testCrearActividadIndividualEvaluable() {
-		fail("Not yet implemented");
+	public void testCrearActividadIndividualEvaluable() throws XmlErroneoExcepcion {
+		String xml = AuxiliarPruebas.auxGenerarXml(
+				ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE, "gausiana", "");
+		long actHandler = controlador.crearActividadIndividualEvaluable("pancho", xml);
+		String xmlProp = controlador.getPropiedades("pancho", actHandler);
+		assertEquals("no son iguales:",xml,xmlProp);
 	}
 
 	@Test
-	public void testCrearActividadGrupalEvaluable() {
-		fail("Not yet implemented");
+	public void testCrearActividadGrupalEvaluable() throws XmlErroneoExcepcion {
+		String xml = AuxiliarPruebas.auxGenerarXml(
+				ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE, "gausiana", "false");
+		long actHandler = controlador.crearActividadGrupalEvaluable("pancho", xml);
+		String xmlProp = controlador.getPropiedades("pancho", actHandler);
+		assertEquals("no son iguales:",xml,xmlProp);
 	}
 
 	@Test
