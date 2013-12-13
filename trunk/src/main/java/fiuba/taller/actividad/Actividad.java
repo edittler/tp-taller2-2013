@@ -181,6 +181,10 @@ public class Actividad implements Serializable {
 	// integracion
 	@Override
 	public String serializar() {
+		return "<?xml version=\"1.0\"?><WS><Actividad>" + serializarInterno()
+				+ "</Actividad></WS>";
+	}
+	protected String serializarInterno() {
 		String identif = "";
 		String idAmbSupStr = "";
 		String idActSupStr = "";
@@ -204,16 +208,14 @@ public class Actividad implements Serializable {
 		}
 		 
 		   
-		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<Id>" + identif + "</Id>" 
+		String xml ="<Id>" + identif + "</Id>" 
 				+ "<Nombre>" + nombre + "</Nombre>"
 				+ "<Tipo>" + tipo + "</Tipo>"
 				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>" 
 				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
 				+ "<Descripcion>" + descripcion + "</Descripcion>" 
 				+ "<FechaInicio>" + fehcaIniStr + "</FechaInicio>"
-				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>"
-				+ "</Actividad></WS>";
+				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>";
 		return xml;
 	}
 

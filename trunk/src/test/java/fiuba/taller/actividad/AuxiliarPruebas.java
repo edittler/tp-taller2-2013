@@ -41,19 +41,18 @@ public class AuxiliarPruebas {
 				  + "<Nombre>"+nombrePrueba+ "</Nombre>"
 				  + "<Tipo>"+ tipo +"</Tipo>"
 				  + "<IdAmbitoSuperior>"+idAmbSupStr+ "</IdAmbitoSuperior>"
-				  + "<IdActividadSuperior>"+idActSupStr+ "</IdActividadSuperior>";
-		
-				  if(tipoEscala!=""){
-					  xml+="<TipoEscala>"+tipoEscala+ "</TipoEscala>";
-				  }
-				  if(gruposExclusivos!=""){
-					  xml+="<GruposExclusivos>"+gruposExclusivos+ "</GruposExclusivos>";
-				  }
-				  
-				  xml+=("<Descripcion>"+descripcion+ "</Descripcion>"
+				  + "<IdActividadSuperior>"+idActSupStr+ "</IdActividadSuperior>"
+				  +"<Descripcion>"+descripcion+ "</Descripcion>"
 				  + "<FechaInicio>"+fechaIni+ "</FechaInicio>"
-				  + "<FechaFin>"+fechaFin+ "</FechaFin>"
-				  + "</Actividad></WS>");
+				  + "<FechaFin>"+fechaFin+ "</FechaFin>";
+					if (gruposExclusivos != "") {
+						xml += "<GruposExclusivos>" + gruposExclusivos
+								+ "</GruposExclusivos>";
+					}
+					if (tipoEscala != "") {
+						xml += "<TipoEscala>" + tipoEscala + "</TipoEscala>";
+					}
+				  xml +="</Actividad></WS>";
 		
 		return xml;
 	}

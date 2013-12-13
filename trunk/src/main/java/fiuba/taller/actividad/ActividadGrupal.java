@@ -116,7 +116,11 @@ public class ActividadGrupal extends Actividad {
 		actividad.guardarEstado();
 		return actividad;
 	}
-
+	public String serializar() {
+		return "<?xml version=\"1.0\"?><WS><Actividad>" + serializarInterno()
+				+"<GruposExclusivos>"+ gruposExclusivos+ "</GruposExclusivos>"
+				+ "</Actividad></WS>";
+	}
 	public static ActividadGrupal getActividad(long idActividad)
 			throws XmlErroneoExcepcion {
 		/*
