@@ -6,16 +6,36 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
+
 public class ActividadGrupalEvaluableTest {
+	
+	public ActividadGrupalEvaluable actGrupal;
 
 	@Before
 	public void setUp() throws Exception {
+		actGrupal = new ActividadGrupalEvaluable();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
+/*	
+	@Test
+	public void EvaluarNotaExistente() throws NotaInexistenteExcepcion {
+		Grupo grupo = new Grupo();
+		actGrupal.evaluar(grupo.getId(), "10");
+		Nota nota = actGrupal.getNota(grupo.getId());
+		assertEquals(nota.getValor(), "10");
+	}
 
+	@Test(expected=NotaInexistenteExcepcion.class)
+	public void EvaluarNotaInexistente() throws NotaInexistenteExcepcion {
+		Grupo grupo = new Grupo();
+		actGrupal.evaluar(grupo.getId(), "10");
+		actGrupal.getNota(grupo.getId()+1);
+	}
+*/	
 	@Test
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE;

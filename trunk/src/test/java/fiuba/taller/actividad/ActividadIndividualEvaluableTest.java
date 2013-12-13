@@ -6,16 +6,33 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
+
 public class ActividadIndividualEvaluableTest {
+	
+	ActividadIndividualEvaluable actIndividual;
 
 	@Before
 	public void setUp() throws Exception {
+		actIndividual = new ActividadIndividualEvaluable();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
+/*
+	@Test
+	public void EvaluarNotaExistente() throws NotaInexistenteExcepcion {
+		actIndividual.evaluar("juancito", "10");
+		Nota nota = actIndividual.getNota("juancito");
+		assertEquals(nota.getValor(), "10");
+	}
 
+	@Test(expected=NotaInexistenteExcepcion.class)
+	public void EvaluarNotaInexistente() throws NotaInexistenteExcepcion {
+		actIndividual.getNota("pedrito");
+	}
+*/
 	@Test
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
