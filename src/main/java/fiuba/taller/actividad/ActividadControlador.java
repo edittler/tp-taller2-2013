@@ -226,13 +226,11 @@ public class ActividadControlador {
 	public String getGrupos(String username, long idActividad)
 			throws XmlErroneoExcepcion {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
-		actividad.getGrupos();
-		return ""; // FIXME Fer, volvemos para atrás --Pampa
 		/* Se obtiene la lista de grupos inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
 		* Por lo pronto se maneja solo IDs
 		*/
-		/*List<Long> grupos = actividad.getGrupos();
+		List<Grupo> grupos = actividad.getGrupos();
 
 		// Paso a un XML genérico la lista de participantes obtenida
 		Document docGrupos = null;
@@ -244,13 +242,27 @@ public class ActividadControlador {
 		}
 				
 		Element root = docGrupos.createElement("Grupos");
-		for (Long idGrupo : grupos) {
+		for (Grupo grupo : grupos) {
 					
 			// Agrego un nodo al XML por cada participante
 			Element nodo = docGrupos.createElement("Grupo");
 					
 			// Por ahora solo devuelvo el ID como atributo del nodo
-			nodo.setAttribute("ID", idGrupo.toString());
+			Element nodoId = docGrupos.createElement("Id");
+			nodoId.setTextContent(String.valueOf(grupo.getId()));
+			nodo.appendChild(nodoId);
+			
+			Element nodoParticipantes = docGrupos.createElement("Participantes");
+			for (String participanteUsername : grupo.getUsernameParticipantes()) {
+				Element nodoParticipante = docGrupos.createElement("Participante");
+				
+				Element nodoUsername = docGrupos.createElement("Username");
+				nodoUsername.setTextContent(participanteUsername);
+				nodoParticipante.appendChild(nodoUsername);
+				
+				nodoParticipantes.appendChild(nodoParticipante);
+			}
+			nodo.appendChild(nodoParticipantes);
 					
 			root.appendChild(nodo);
 		}
@@ -266,7 +278,7 @@ public class ActividadControlador {
 			// TODO do something Ferno!
 		}
 				
-		return xmlGrupos;*/
+		return xmlGrupos;
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES EVALUABLES */
