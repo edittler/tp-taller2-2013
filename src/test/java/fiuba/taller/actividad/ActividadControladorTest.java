@@ -19,7 +19,7 @@ public class ActividadControladorTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	/*
 	@Test
 	public void testGetPropiedades() {
 		fail("Not yet implemented");
@@ -29,7 +29,7 @@ public class ActividadControladorTest {
 	public void testSetPropiedades() {
 		fail("Not yet implemented");
 	}
-	/*
+
 	@Test
 	public void testGetActividadesDeAmbito() {
 		fail("Not yet implemented");
