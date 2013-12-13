@@ -29,7 +29,6 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
-
 	public String getPropiedades(String username ,long idActividad) throws XmlErroneoExcepcion {
 		
 		Actividad actividad = null;
