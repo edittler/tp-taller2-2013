@@ -26,8 +26,7 @@ public class AuxiliarPruebas {
 		return xml;
 	}
 
-	public static String auxGenerarXml(String tipo, String esEvaluable,
-			String tipoEscala, String gruposExclusivos) {
+	public static String auxGenerarXml(String tipo,String tipoEscala, String gruposExclusivos) {
 		
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
@@ -42,13 +41,19 @@ public class AuxiliarPruebas {
 				  + "<Nombre>"+nombrePrueba+ "</Nombre>"
 				  + "<Tipo>"+ tipo +"</Tipo>"
 				  + "<IdAmbitoSuperior>"+idAmbSupStr+ "</IdAmbitoSuperior>"
-				  + "<IdActividadSuperior>"+idActSupStr+ "</IdActividadSuperior>"
-				  //+ "<TipoEscala>"+tipoEscala+ "</TipoEscala>"
-				  //+ "<GruposExclusivos>"+gruposExclusivos+ "</GruposExclusivos>"
-				  + "<Descripcion>"+descripcion+ "</Descripcion>"
+				  + "<IdActividadSuperior>"+idActSupStr+ "</IdActividadSuperior>";
+		
+				  if(tipoEscala!=""){
+					  xml+="<TipoEscala>"+tipoEscala+ "</TipoEscala>";
+				  }
+				  if(gruposExclusivos!=""){
+					  xml+="<GruposExclusivos>"+gruposExclusivos+ "</GruposExclusivos>";
+				  }
+				  
+				  xml+=("<Descripcion>"+descripcion+ "</Descripcion>"
 				  + "<FechaInicio>"+fechaIni+ "</FechaInicio>"
 				  + "<FechaFin>"+fechaFin+ "</FechaFin>"
-				  + "</Actividad></WS>";
+				  + "</Actividad></WS>");
 		
 		return xml;
 	}
