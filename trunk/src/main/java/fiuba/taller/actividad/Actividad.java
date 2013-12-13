@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fiuba.taller.actividad.excepcion.FechaErroneaExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 //import com.ws.services.*;
@@ -41,6 +42,12 @@ public class Actividad implements Serializable {
 	protected List<Long> actividadesInternas;
 	protected long idChat;
 
+	/*
+	 * Mapa donde se van a guardar provisoriamente las actividades hasta que lo
+	 * de Integracion ande.
+	 */
+	protected static HashMap<Long, String> AuxHastaQIntegracionAnde = new HashMap<Long, String>();
+
 	public Actividad() {
 		id = -1;
 		idAmbitoSuperior = -1;
@@ -55,12 +62,12 @@ public class Actividad implements Serializable {
 	public long getId() {
 		return id;
 	}
-	
+
 	public long getIdAmbitoSuperior() {
 		return idAmbitoSuperior;
 	}
 
-	protected void setIdAmbitoSuperior(long idAmbitoSuperior) {
+	public void setIdAmbitoSuperior(long idAmbitoSuperior) {
 		this.idAmbitoSuperior = idAmbitoSuperior;
 	}
 
@@ -79,7 +86,7 @@ public class Actividad implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public String getTipo() {
 		return tipo;
 	}
@@ -101,26 +108,29 @@ public class Actividad implements Serializable {
 	}
 
 	public void setFecha(long fechaInicio) {
-		/*
-		 * TODO(Pampa) Implementar Hay que validad si las fecha se encuentra en 
-		 * el formato correcto. Si no, lanzar una excepcion.
-		 * La fecha de fin se setea igual a la fecha de inicio.
-		 */
+		this.fechaInicio = fechaInicio;
 	}
 
-	public void setFecha(long fechaInicio, long fechaFin) {
-		/*
-		 * TODO(Pampa) Implementar Hay que validad si las fechas se encuentran
-		 * en el formato correcto y si la fecha de inicio es menor a la fecha de
-		 * fin. Si no, lanzar una excepcion
-		 */
+	public void setFecha(long fechaInicio, long fechaFin)
+			throws FechaErroneaExcepcion {
+		if (fechaInicio > fechaFin) {
+			String mensaje = "La fecha de inicio no puede ser posterior a la "
+					+ "fecha de fin";
+			throw new FechaErroneaExcepcion(mensaje);
+		}
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
 	}
 
+	@Deprecated
+	// FIXME De esto no se encarga Participacion???
 	public List<String> getCoordinadores() {
 		// TODO(Pampa) Implementar
 		return new ArrayList<>();
 	}
 
+	@Deprecated
+	// FIXME De esto no se encarga Participacion???
 	public void agregarCoordinador(long idCoordinador) {
 		/*
 		 * TODO(Pampa) Implementar. Si el id ya existe, debe lanzar una
@@ -128,6 +138,8 @@ public class Actividad implements Serializable {
 		 */
 	}
 
+	@Deprecated
+	// FIXME De esto no se encarga Participacion???
 	public void eliminarCoordinador(long idCoordinador) {
 		/*
 		 * TODO(Pampa) Implementar. Si el id no existe, debe lanzar una
@@ -165,53 +177,16 @@ public class Actividad implements Serializable {
 	// integracion
 	@Override
 	public String serializar() {
-		return "<?xml version=\"1.0\"?><WS><Actividad>" + this.serializarInterno()
+		return "<?xml version=\"1.0\"?><WS><Actividad>" + serializarInterno()
 				+ "</Actividad></WS>";
 	}
-	protected String serializarInterno() {
-		String identif = "";
-		String idAmbSupStr = "";
-		String idActSupStr = "";
-		String fehcaFinStr = "";
-		String fehcaIniStr = "";
-		
-		if (id >= 0) {
-			identif = String.valueOf(id);
-		}
-		if (idAmbitoSuperior >= 0) {
-			idAmbSupStr = String.valueOf(idAmbitoSuperior);
-		}
-		if (idActividadSuperior >= 0) {
-			idActSupStr = String.valueOf(idActividadSuperior);
-		}
-		if(fechaFin >=0){
-			fehcaFinStr=String.valueOf(fechaFin);
-		}
-		if(fechaInicio >=0){
-			fehcaIniStr=String.valueOf(fechaInicio);
-		}
-		 
-		   
-		String xml ="<Id>" + identif + "</Id>" 
-				+ "<Nombre>" + nombre + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>"
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>" 
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Descripcion>" + descripcion + "</Descripcion>" 
-				+ "<FechaInicio>" + fehcaIniStr + "</FechaInicio>"
-				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>";
-		return xml;
-	}
 
-	// Recibe el xml obtenido de integracion, cuyo contenido es los datos de la
-	// clase actividad
-	// es privado pero por motivo de testing lo pongo publico
 	@Override
 	public void descerializar(String xml) throws XmlErroneoExcepcion {
 		Document doc = getDocumentElement(xml);
 		descerializar(doc);
 	}
-	protected static HashMap<Long,String> AuxHastaQIntegracionAnde = new HashMap<Long,String>();
+
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */
@@ -236,19 +211,24 @@ public class Actividad implements Serializable {
 	public String realizarConsulta() {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
-		/*String xml = serializar();
-		// TODO llamar a integrar y conseguir el xml completo
-		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>" 
-				+ "<Id>" + 45 + "</Id>" 
-				+ "<IdAmbitoSuperior>" + 88 + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + 90 + "</IdActividadSuperior>"
-				+ "<Nombre>" + "pepe" + "</Nombre>" 
-				+ "<Tipo>" + "ActividadIndividual" + "</Tipo>" 
-				+ "<Descripcion>" + "esto es una descripcion" + "</Descripcion>"
-				+ "<FechaInicio>" + fechaInicio + "</FechaInicio>"
-				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
-				+ "</Actividad></WS>";*/
+		/*
+		 * String xml = serializar(); // TODO llamar a integrar y conseguir el
+		 * xml completo String xmlDevuelto =
+		 * "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>" + 45 + "</Id>" +
+		 * "<IdAmbitoSuperior>" + 88 + "</IdAmbitoSuperior>" +
+		 * "<IdActividadSuperior>" + 90 + "</IdActividadSuperior>" + "<Nombre>"
+		 * + "pepe" + "</Nombre>" + "<Tipo>" + "ActividadIndividual" + "</Tipo>"
+		 * + "<Descripcion>" + "esto es una descripcion" + "</Descripcion>" +
+		 * "<FechaInicio>" + fechaInicio + "</FechaInicio>" + "<FechaFin>" +
+		 * fechaFin + "</FechaFin>" + "</Actividad></WS>";
+		 */
 		return Actividad.AuxHastaQIntegracionAnde.get(this.id);
+	}
+
+	public void actualizar(String xml) throws XmlErroneoExcepcion {
+		Actividad actividadTemporal = new Actividad();
+		actividadTemporal.descerializar(xml);
+		actualizar(actividadTemporal);
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
@@ -270,32 +250,41 @@ public class Actividad implements Serializable {
 		this.id = id;
 	}
 
-	// metodo interno de ayuda para el parseo
-	protected static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0)
-				.getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
-	}
-
 	protected void levantarEstado(long idActividad) throws XmlErroneoExcepcion {
 		id = idActividad;
 		descerializar(realizarConsulta());
 	}
 
-	protected static Document getDocumentElement(String xml)
-			throws XmlErroneoExcepcion {
-		Document doc = null;
-		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			doc = builder.parse(is);
-			doc.getDocumentElement().normalize();
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			throw new XmlErroneoExcepcion("Error al parsear el XML.");
+	protected String serializarInterno() {
+		String identifStr = "";
+		String idAmbSupStr = "";
+		String idActSupStr = "";
+		String fehcaFinStr = "";
+		String fehcaIniStr = "";
+		if (id >= 0) {
+			identifStr = String.valueOf(id);
 		}
-		return doc;
+		if (idAmbitoSuperior >= 0) {
+			idAmbSupStr = String.valueOf(idAmbitoSuperior);
+		}
+		if (idActividadSuperior >= 0) {
+			idActSupStr = String.valueOf(idActividadSuperior);
+		}
+		if (fechaFin >= 0) {
+			fehcaFinStr = String.valueOf(fechaFin);
+		}
+		if (fechaInicio >= 0) {
+			fehcaIniStr = String.valueOf(fechaInicio);
+		}
+
+		String xml = "<Id>" + identifStr + "</Id>" + "<Nombre>" + nombre
+				+ "</Nombre>" + "<Tipo>" + tipo + "</Tipo>"
+				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
+				+ "<IdActividadSuperior>" + idActSupStr
+				+ "</IdActividadSuperior>" + "<Descripcion>" + descripcion
+				+ "</Descripcion>" + "<FechaInicio>" + fehcaIniStr
+				+ "</FechaInicio>" + "<FechaFin>" + fehcaFinStr + "</FechaFin>";
+		return xml;
 	}
 
 	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
@@ -316,27 +305,59 @@ public class Actividad implements Serializable {
 		descripcion = getValue("Descripcion", element);
 	}
 
-	/* METODOS PRIVADOS AUXILIARES */
-
-	private static String getActividadesDeAmbito(long idAmbito) {
-		// TODO implementar
-		return "";
+	protected void actualizar(Actividad actividadConDatosNuevos)
+			throws XmlErroneoExcepcion {
+		if (actividadConDatosNuevos.getNombre().length() > 0) {
+			setNombre(actividadConDatosNuevos.getNombre());
+		}
+		if (actividadConDatosNuevos.getDescripcion().length() > 0) {
+			setDescripcion(actividadConDatosNuevos.getDescripcion());
+		}
+		if (actividadConDatosNuevos.getFechaInicio() > 0) {
+			if (actividadConDatosNuevos.getFechaFin() > 0) {
+				try {
+					setFecha(actividadConDatosNuevos.getFechaInicio(),
+							actividadConDatosNuevos.getFechaFin());
+				} catch (FechaErroneaExcepcion e) {
+					String mensaje = "La fecha de inicio no puede ser posterior "
+							+ "a la fecha de fin.";
+					throw new XmlErroneoExcepcion(mensaje);
+				}
+			} else {
+				setFecha(actividadConDatosNuevos.getFechaInicio());
+			}
+		}
 	}
 
-	private static String getActividadesDeActividad(long idActividad) {
-		// TODO implementar
-		return "";
+	protected static Document getDocumentElement(String xml)
+			throws XmlErroneoExcepcion {
+		Document doc = null;
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			InputSource is = new InputSource(new StringReader(xml));
+			doc = builder.parse(is);
+			doc.getDocumentElement().normalize();
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			throw new XmlErroneoExcepcion("Error al parsear el XML.");
+		}
+		return doc;
+	}
+
+	// metodo interno de ayuda para el parseo
+	protected static String getValue(String tag, Element element) {
+		NodeList nodes = element.getElementsByTagName(tag).item(0)
+				.getChildNodes();
+		Node node = (Node) nodes.item(0);
+		return node.getNodeValue();
 	}
 
 	/* METODOS PUBLICOS DE TESTING */
 
 	public String toString() {
-		return "ID: " + id + "\n" 
-				+ "ID AMBITO SUP: " + idAmbitoSuperior + "\n" 
-				+ "NOMBRE: " + nombre + "\n" 
-				+ "FECHA INI: " + fechaInicio + "\n"
-				+ "FECHA FIN: " + fechaFin + "\n" 
-				+ "DESCRIPCION: " + descripcion + "\n";
+		return "ID: " + id + "\n" + "ID AMBITO SUP: " + idAmbitoSuperior + "\n"
+				+ "NOMBRE: " + nombre + "\n" + "FECHA INI: " + fechaInicio
+				+ "\n" + "FECHA FIN: " + fechaFin + "\n" + "DESCRIPCION: "
+				+ descripcion + "\n";
 	}
-	
 }

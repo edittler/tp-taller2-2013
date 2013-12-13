@@ -61,9 +61,7 @@ public class ActividadIndividual extends Actividad {
 		 */
 	}
 
-	/**
-	 * Guarda el estado actual del objeto a la base de datos.
-	 */
+	@Override
 	public void guardarEstado() {
 		super.guardarEstado();
 		/*

@@ -62,6 +62,16 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		return null;
 	}
 
+	@Override
+	public void actualizar(String xml) throws XmlErroneoExcepcion {
+		ActividadIndividualEvaluable actividadTemporal = new ActividadIndividualEvaluable();
+		actividadTemporal.descerializar(xml);
+		super.actualizar(actividadTemporal);
+		if (actividadTemporal.getEscala().length() > 0) {
+			setEscala(actividadTemporal.getEscala());
+		}
+	}
+
 	public static boolean esTipoValido(String xml) {
 		Actividad actividad = new Actividad();
 		try {
@@ -93,12 +103,13 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
-	
+
+	@Override
 	protected String serializarInterno() {
 		return super.serializarInterno() + "<TipoEscala>" + escala
 				+ "</TipoEscala>";
 	}
-	
+
 	// Para el caso de las evaluables, se agrega el Tag "TipoEscala"
 	@Override
 	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
