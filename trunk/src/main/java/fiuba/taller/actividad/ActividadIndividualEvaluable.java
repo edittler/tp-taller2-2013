@@ -2,6 +2,10 @@ package fiuba.taller.actividad;
 
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
 import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
@@ -93,5 +97,18 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	protected String serializarInterno() {
 		return super.serializarInterno() + "<TipoEscala>" + escala
 				+ " </TipoEscala>";
+	}
+	
+	// Para el caso de las evaluables, se agrega el Tag "TipoEscala"
+	@Override
+	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+		super.descerializar(doc);
+		NodeList nodes = doc.getElementsByTagName("Actividad");
+		if (nodes.getLength() != 1) {
+			throw new 
+			XmlErroneoExcepcion("Debe haber solamente un nodo Actividad");
+		}
+		Element element = (Element) nodes.item(0);
+		this.escala = getValue("TipoEscala", element);
 	}
 }
