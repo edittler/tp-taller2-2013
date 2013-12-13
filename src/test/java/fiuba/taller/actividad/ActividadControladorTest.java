@@ -55,8 +55,12 @@ public class ActividadControladorTest {
 	}
 
 	@Test
-	public void testCrearActividadGrupal() {
-		fail("Not yet implemented");
+	public void testCrearActividadGrupal() throws XmlErroneoExcepcion {
+		String xml = AuxiliarPruebas.auxGenerarXml(
+				ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL, "", "true");
+		long actHandler = controlador.crearActividadGrupal("pancho", xml);
+		String xmlProp = controlador.getPropiedades("pancho", actHandler);
+		assertEquals("no son iguales:",xml,xmlProp);
 	}
 
 	@Test

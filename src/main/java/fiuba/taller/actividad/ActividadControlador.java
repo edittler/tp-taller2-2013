@@ -31,14 +31,17 @@ public class ActividadControlador {
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
 	public String getPropiedades(String username ,long idActividad) throws XmlErroneoExcepcion {
 		
-		Actividad actividad = null;
+		/*Actividad actividad = null;
 		try {
 			actividad = Actividad.getActividad(idActividad);
 		} catch (XmlErroneoExcepcion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return actividad.serializar();
+		}*/
+		Actividad actividad = new Actividad();
+		actividad.setId(idActividad);
+		return actividad.realizarConsulta();
+		//return actividad.serializar();
 	}
 	
 	public void setPropiedades(String username, long idActividad, String propiedades) {
