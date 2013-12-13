@@ -96,7 +96,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	
 	protected String serializarInterno() {
 		return super.serializarInterno() + "<TipoEscala>" + escala
-				+ " </TipoEscala>";
+				+ "</TipoEscala>";
 	}
 	
 	// Para el caso de las evaluables, se agrega el Tag "TipoEscala"
