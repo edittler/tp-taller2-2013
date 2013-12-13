@@ -32,7 +32,7 @@ public class AuxiliarPruebas {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
-		String nombrePrueba = "langosta";
+		String nombrePrueba = "El mago asecino de lombrices";
 		String descripcion = "nada q ver nada q oler";
 		String fechaIni = "111111";
 		String fechaFin = "121212";
@@ -43,8 +43,8 @@ public class AuxiliarPruebas {
 				  + "<Tipo>"+ tipo +"</Tipo>"
 				  + "<IdAmbitoSuperior>"+idAmbSupStr+ "</IdAmbitoSuperior>"
 				  + "<IdActividadSuperior>"+idActSupStr+ "</IdActividadSuperior>"
-				  + "<TipoEscala>"+tipoEscala+ "</TipoEscala>"
-				  + "<GruposExclusivos>"+gruposExclusivos+ "</GruposExclusivos>"
+				  //+ "<TipoEscala>"+tipoEscala+ "</TipoEscala>"
+				  //+ "<GruposExclusivos>"+gruposExclusivos+ "</GruposExclusivos>"
 				  + "<Descripcion>"+descripcion+ "</Descripcion>"
 				  + "<FechaInicio>"+fechaIni+ "</FechaInicio>"
 				  + "<FechaFin>"+fechaFin+ "</FechaFin>"

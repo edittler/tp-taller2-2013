@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -201,13 +202,14 @@ public class Actividad implements Serializable {
 		if(fechaInicio >=0){
 			fehcaIniStr=String.valueOf(fechaInicio);
 		}
-		
+		 
+		   
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
 				+ "<Id>" + identif + "</Id>" 
+				+ "<Nombre>" + nombre + "</Nombre>"
+				+ "<Tipo>" + tipo + "</Tipo>"
 				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>" 
 				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombre + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>" 
 				+ "<Descripcion>" + descripcion + "</Descripcion>" 
 				+ "<FechaInicio>" + fehcaIniStr + "</FechaInicio>"
 				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>"
@@ -223,7 +225,7 @@ public class Actividad implements Serializable {
 		Document doc = getDocumentElement(xml);
 		descerializar(doc);
 	}
-
+	protected static HashMap<Long,String> AuxHastaQIntegracionAnde = new HashMap<Long,String>();
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */
@@ -236,6 +238,7 @@ public class Actividad implements Serializable {
 		 * { System.out.print("Ocurrio un Error en el metodo setNombre\n");
 		 * e.printStackTrace(); } System.out.print(response.get_return());
 		 */
+		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
 
 	/**
@@ -247,7 +250,7 @@ public class Actividad implements Serializable {
 	public String realizarConsulta() {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
-		String xml = serializar();
+		/*String xml = serializar();
 		// TODO llamar a integrar y conseguir el xml completo
 		String xmlDevuelto = "<?xml version=\"1.0\"?><WS><Actividad>" 
 				+ "<Id>" + 45 + "</Id>" 
@@ -258,8 +261,8 @@ public class Actividad implements Serializable {
 				+ "<Descripcion>" + "esto es una descripcion" + "</Descripcion>"
 				+ "<FechaInicio>" + fechaInicio + "</FechaInicio>"
 				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
-				+ "</Actividad></WS>";
-		return xmlDevuelto;
+				+ "</Actividad></WS>";*/
+		return Actividad.AuxHastaQIntegracionAnde.get(this.id);
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */

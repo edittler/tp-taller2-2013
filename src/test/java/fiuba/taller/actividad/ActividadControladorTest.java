@@ -1,15 +1,19 @@
 package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
+import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ActividadControladorTest {
+import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
+public class ActividadControladorTest {
+	ActividadControlador controlador;
 	@Before
 	public void setUp() throws Exception {
+		controlador=new ActividadControlador();
 	}
 
 	@After
@@ -42,8 +46,12 @@ public class ActividadControladorTest {
 	}
 
 	@Test
-	public void testCrearActividadIndividual() {
-		fail("Not yet implemented");
+	public void testCrearActividadIndividual() throws XmlErroneoExcepcion {
+		String xml = AuxiliarPruebas.auxGenerarXml(
+				ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL, "", "", "");
+		long actHandler = controlador.crearActividadIndividual("pancho", xml);
+		String xmlProp = controlador.getPropiedades("pancho", actHandler);
+		assertEquals("no son iguales:",xml,xmlProp);
 	}
 
 	@Test
