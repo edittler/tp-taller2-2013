@@ -88,7 +88,7 @@ public class ActividadGrupalTest {
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
 
-		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+		String xml = AuxiliarPruebas.auxGenerarXml(tipo,"","");
 
 		assertTrue("Tipo que deberia ser aceptado fue rechazado",
 				ActividadGrupal.esTipoValido(xml));
@@ -98,7 +98,7 @@ public class ActividadGrupalTest {
 	public void esTipoValidoConTipoExtendidoCorrecto() {
 		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL + " Facil";
 
-		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+		String xml = AuxiliarPruebas.auxGenerarXml(tipo,"","");
 
 		assertTrue("Tipo que deberia ser aceptado fue rechazado",
 				ActividadGrupal.esTipoValido(xml));
@@ -109,7 +109,7 @@ public class ActividadGrupalTest {
 		String tipo = "Larga " + ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL
 				+ " Facil";
 
-		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+		String xml = AuxiliarPruebas.auxGenerarXml(tipo,"","");
 
 		assertFalse("Tipo que deberia ser rechazado fue aceptado",
 				ActividadGrupal.esTipoValido(xml));
@@ -119,7 +119,7 @@ public class ActividadGrupalTest {
 	public void esTipoValidoConTipoErroneo() {
 		String tipo = "Facil";
 
-		String xml = AuxiliarPruebas.auxGenerarXmlConTipo(tipo);
+		String xml = AuxiliarPruebas.auxGenerarXml(tipo,"","");
 
 		assertFalse("Tipo que deberia ser rechazado fue aceptado",
 				ActividadGrupal.esTipoValido(xml));

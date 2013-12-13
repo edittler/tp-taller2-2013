@@ -154,25 +154,7 @@ public class ActividadTest {
 
 	@Test
 	public void testSerializar() throws XmlErroneoExcepcion {
-		long idPrueba = 22;
-		long idAmbSupStr = 99;
-		long idActSupStr = 77;
-		String nombrePrueba = "langosta";
-		String tipo = "bay guy";
-		String descripcion = "nada q ver nada q oler";
-		String fechaIni = "111111";
-		String fechaFin = "121212";
-		
-		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<Id>" + idPrueba + "</Id>" 
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>" 
-				+ "<Descripcion>" + descripcion + "</Descripcion>" 
-				+ "<FechaInicio>" + fechaIni + "</FechaInicio>" 
-				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
-				+ "</Actividad></WS>";
+		String xmlADescerializar = AuxiliarPruebas.auxGenerarXml("no me importa el tipo","","");
 		
 		act.descerializar(xmlADescerializar);
 		

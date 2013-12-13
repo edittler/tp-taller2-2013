@@ -29,7 +29,7 @@ public class ActividadControladorTest {
 	public void testSetPropiedades() {
 		fail("Not yet implemented");
 	}
-
+	/*
 	@Test
 	public void testGetActividadesDeAmbito() {
 		fail("Not yet implemented");
@@ -44,7 +44,7 @@ public class ActividadControladorTest {
 	public void testDestruirActividad() {
 		fail("Not yet implemented");
 	}
-
+	*/
 	@Test
 	public void testCrearActividadIndividual() throws XmlErroneoExcepcion {
 		String xml = AuxiliarPruebas.auxGenerarXml(
@@ -80,7 +80,7 @@ public class ActividadControladorTest {
 		String xmlProp = controlador.getPropiedades("pancho", actHandler);
 		assertEquals("no son iguales:",xml,xmlProp);
 	}
-
+	/*
 	@Test
 	public void testAgregarParticipante() {
 		fail("Not yet implemented");
@@ -135,5 +135,5 @@ public class ActividadControladorTest {
 	public void testGetNotas() {
 		fail("Not yet implemented");
 	}
-
+	*/
 }

@@ -157,22 +157,6 @@ public class Actividad implements Serializable {
 		return idChat;
 	}
 
-	@Deprecated
-	public String pruebaIntegracion() {
-		String xml = "<?xml version=\"1.0\"?><WS><Usuario><username>usuario_prueba1</username><password>1234</password><activado>true</activado><habilitado>true</habilitado></Usuario></WS>";
-		/*
-		 * GuardarDatosResponse response = new GuardarDatosResponse();
-		 * GuardarDatos envio = new GuardarDatos(); envio.setXml(xml);
-		 * IntegracionStub servicio; try { servicio = new IntegracionStub();
-		 * response = servicio.guardarDatos(envio); } catch (RemoteException e)
-		 * {
-		 * System.out.print("Ocurrio un Error en el metodo pruebaIntegracion\n"
-		 * ); e.printStackTrace(); return "ERROR"; }
-		 */
-		return "Integracion Contesto";// +response.get_return()+"\n";
-
-	}
-
 	// serializa a la actividad
 	// devuelve xml
 	// este metodo intenta ser util tanto para cuando:
