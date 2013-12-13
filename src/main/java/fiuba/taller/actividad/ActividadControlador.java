@@ -3,6 +3,7 @@ package fiuba.taller.actividad;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,7 +16,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -143,17 +143,12 @@ public class ActividadControlador {
 	public String getParticipantes(String username, long idActividad)
 			throws XmlErroneoExcepcion {
 		ActividadIndividual actInd = 
-				ActividadIndividual.getActividad(idActividad);
-		actInd.getParticipantes();
-		return "blabla"; // FIXME Fer, volvemos para atras  --Pampa
-		
+				ActividadIndividual.getActividad(idActividad);		
 		/* Se obtiene la lista de participantes inscriptos a la 
-		* actividad. TODO: Hay que ver que informacion nos dan!
-		* Por lo pronto manejaré solamente los IDs
+		* actividad y se retornan los usernames
 		*/
 		
-		/*
-		List<Long> participantes = actInd.getParticipantes();
+		List<String> participantes = actInd.getParticipantes();
 		
 		// Paso a un XML genérico la lista de participantes obtenida
 		Document docParticipantes = null;
@@ -165,13 +160,13 @@ public class ActividadControlador {
 		}
 		
 		Element root = docParticipantes.createElement("Participantes");
-		for (Long idParticipante : participantes) {
+		for (String participanteUsername : participantes) {
 			
 			// Agrego un nodo al XML por cada participante
 			Element nodo = docParticipantes.createElement("Participante");
 			
 			// Por ahora solo devuelvo el ID como atributo del nodo
-			nodo.setAttribute("ID", idParticipante.toString());
+			nodo.setAttribute("Username", participanteUsername);
 			
 			root.appendChild(nodo);
 		}
@@ -187,7 +182,7 @@ public class ActividadControlador {
 			// TODO Do something Ferno!
 		}
 		
-		return xmlParticipantes;*/
+		return xmlParticipantes;
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
