@@ -30,7 +30,6 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
 
-	// Devuelve un XML con TODAS las propiedades de una actividad particular
 	public String getPropiedades(String username ,long idActividad) throws XmlErroneoExcepcion {
 		
 		Actividad actividad = null;
@@ -40,30 +39,7 @@ public class ActividadControlador {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Document docActividad = readXml(actividad.serializar());
-		// FIXME Hardcodeo de tag
-		Element elemActividad= docActividad.getElementById("Actividad");
-		
-		// Debo concatenar los XML de los participantes y sus notas
-		try {
-			this.concatenateElementsXml(this.getParticipantes(username,idActividad), elemActividad);
-		} catch (XmlErroneoExcepcion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// Reemplazo el viejo nodo con el nuevo con los datos concatenados FIXME hardcodeo
-		docActividad.replaceChild(elemActividad, docActividad.getElementById("Actividad"));
-		
-		String xmlActividad = null;
-		try {
-			xmlActividad = this.getStringFromDocument(docActividad);
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return xmlActividad;
+		return actividad.serializar();
 	}
 	
 	public void setPropiedades(String username, long idActividad, String propiedades) {
@@ -449,17 +425,5 @@ public class ActividadControlador {
 		}
 		
 		return doc;
-	}
-	
-	// Se concatena al elementoPadre todos los elementos de xml (sin contar la raiz del doc)
-	private void concatenateElementsXml(String xml, Element elementoPadre) {
-		Document doc = readXml(xml);
-		// TODO: Definir el raiz!
-	    NodeList nodes = doc.getElementsByTagName("WS");
-	    
-	    for (int i = 0; i < nodes.getLength(); i++) {
-	        Element element = (Element) nodes.item(i);
-	        elementoPadre.appendChild(element);
-	    }
 	}
 }
