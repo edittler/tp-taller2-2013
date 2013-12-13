@@ -60,6 +60,16 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		return null;
 	}
 
+	@Override
+	public void actualizar(String xml) throws XmlErroneoExcepcion {
+		ActividadGrupalEvaluable actividadTemporal = new ActividadGrupalEvaluable();
+		actividadTemporal.descerializar(xml);
+		super.actualizar(actividadTemporal);
+		if (actividadTemporal.getEscala().length() > 0) {
+			setEscala(actividadTemporal.getEscala());
+		}
+	}
+
 	public static boolean esTipoValido(String xml) {
 		Actividad actividad = new Actividad();
 		try {

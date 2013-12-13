@@ -29,23 +29,41 @@ import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
-	public String getPropiedades(String username ,long idActividad) throws XmlErroneoExcepcion {
-		
-		/*Actividad actividad = null;
-		try {
-			actividad = Actividad.getActividad(idActividad);
-		} catch (XmlErroneoExcepcion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+
+	public String getPropiedades(String username, long idActividad)
+			throws XmlErroneoExcepcion {
 		Actividad actividad = new Actividad();
 		actividad.setId(idActividad);
 		return actividad.realizarConsulta();
-		//return actividad.serializar();
 	}
-	
-	public void setPropiedades(String username, long idActividad, String propiedades) {
-		// TODO
+
+	public void setPropiedades(String username, long idActividad, String propiedades) throws XmlErroneoExcepcion {
+		Actividad actividad = new Actividad();
+		actividad.setId(idActividad);
+		String xml = actividad.realizarConsulta();
+		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
+			ActividadIndividualEvaluable actividadIndividual = new ActividadIndividualEvaluable();
+			actividadIndividual.descerializar(xml);
+			actividadIndividual.actualizar(propiedades);
+			actividadIndividual.guardarEstado();
+			return;
+		}
+		if (ActividadGrupalEvaluable.esTipoValido(xml)) {
+			ActividadGrupalEvaluable actividadGrupal = new ActividadGrupalEvaluable();
+			actividadGrupal.descerializar(xml);
+			actividadGrupal.actualizar(propiedades);
+			actividadGrupal.guardarEstado();
+			return;
+		}
+		/*
+		 * Si la actividad es Grupal o Individual solamente, se ejecuta el
+		 * "actualizar" de Actividad, ya que no tiene atributos adicionales
+		 * que actualizar. (En ActividadGrupal no se puede cambiar si es de 
+		 * grupos exclusivos)
+		 */
+		actividad.descerializar(xml);
+		actividad.actualizar(propiedades);
+		actividad.guardarEstado();
 	}
 
 	public String getActividadesDeAmbito(String username, long idAmbito) {

@@ -34,10 +34,29 @@
         </configuration>
         <executions>
           <execution>
-            <phase>package</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>java2wsdl</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.axis2</groupId>
+        <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+        <version>1.6.2</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>wsdl2code</goal>
+            </goals>
+            <configuration>
+              <packageName>fiuba.taller.actividad</packageName>
+              <wsdlFile>${basedir}/target/generated-resources/service.wsdl</wsdlFile>
+              <databindingName>xmlbeans</databindingName>
+            </configuration>
           </execution>
         </executions>
       </plugin>

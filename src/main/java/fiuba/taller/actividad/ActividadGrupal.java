@@ -26,7 +26,14 @@ public class ActividadGrupal extends Actividad {
 		grupos = null;
 	}
 
+	public boolean esDeGruposExclusivos() {
+		return gruposExclusivos;
+	}
+
 	public Grupo getGrupo(long idGrupo) throws GrupoInexistenteExcepcion {
+		if (!gruposCargados()) {
+			cargarGrupos();
+		}
 		for(Grupo grupo : grupos) {
 			if (grupo.getId() == idGrupo) {
 				return grupo;
@@ -35,6 +42,7 @@ public class ActividadGrupal extends Actividad {
 		String mensaje = "No existe el grupo con el identificador " + idGrupo;
 		throw new GrupoInexistenteExcepcion(mensaje);
 	}
+
 	public List<Grupo> getGrupos() {
 		if (!gruposCargados()) {
 			cargarGrupos();
@@ -70,18 +78,14 @@ public class ActividadGrupal extends Actividad {
 		 */
 	}
 
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
-		Document doc = getDocumentElement(xml);
-		descerializar(doc);
-	}
-
-	/**
-	 * Guarda el estado actual del objeto a la base de datos.
-	 */
+	@Override
 	public void guardarEstado() {
 		super.guardarEstado();
 		/*
-		 * TODO(Jorge) Se debe guardar los grupos.
+		 * TODO(Jorge) Se debe guardar además el atributo "gruposExclusivos".
+		 * Como "guardarEstado" llama al método descerializar que está 
+		 * redefinido en la clase "ActividadGrupal", no haría falta este método.
+		 * Testear y probar si es cierto lo que digo. --Pampa
 		 */
 	}
 
@@ -117,10 +121,6 @@ public class ActividadGrupal extends Actividad {
 		return actividad;
 	}
 
-	protected String serializarInterno() {
-		return super.serializarInterno() + "<GruposExclusivos>"
-				+ gruposExclusivos + "</GruposExclusivos>";
-	}
 	public static ActividadGrupal getActividad(long idActividad)
 			throws XmlErroneoExcepcion {
 		/*
@@ -134,6 +134,13 @@ public class ActividadGrupal extends Actividad {
 
 	/* METODOS PROTEGIDOS AUXILIARES */
 
+	@Override
+	protected String serializarInterno() {
+		return super.serializarInterno() + "<GruposExclusivos>"
+				+ gruposExclusivos + "</GruposExclusivos>";
+	}
+
+	@Override
 	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
 		super.descerializar(doc);
 		NodeList nodes = doc.getElementsByTagName("Actividad");
