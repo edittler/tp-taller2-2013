@@ -181,7 +181,7 @@ public class Actividad implements Serializable {
 	// integracion
 	@Override
 	public String serializar() {
-		return "<?xml version=\"1.0\"?><WS><Actividad>" + serializarInterno()
+		return "<?xml version=\"1.0\"?><WS><Actividad>" + this.serializarInterno()
 				+ "</Actividad></WS>";
 	}
 	protected String serializarInterno() {

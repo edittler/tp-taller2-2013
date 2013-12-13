@@ -91,4 +91,9 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		actividad.levantarEstado(idActividad);
 		return actividad;
 	}
+	
+	protected String serializarInterno() {
+		return super.serializarInterno() + "<TipoEscala>" + escala
+				+ "</TipoEscala>";
+	}
 }
