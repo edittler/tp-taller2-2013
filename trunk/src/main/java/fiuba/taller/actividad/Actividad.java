@@ -191,14 +191,15 @@ public class Actividad implements Serializable {
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */
 	public void guardarEstado() {
-		/*
-		 * GuardarDatosResponse response = new GuardarDatosResponse();
-		 * GuardarDatos envio = new GuardarDatos(); envio.setXml(serializar());
-		 * IntegracionStub servicio; try { servicio = new IntegracionStub();
-		 * response = servicio.guardarDatos(envio); } catch (RemoteException e)
-		 * { System.out.print("Ocurrio un Error en el metodo setNombre\n");
-		 * e.printStackTrace(); } System.out.print(response.get_return());
-		 */
+	/*	GuardarDatosResponse response = new GuardarDatosResponse();
+		GuardarDatos envio = new GuardarDatos();
+		envio.setXml(serializar());
+		IntegracionStub servicio;
+		try {
+			servicio = new IntegracionStub();
+			response = servicio.guardarDatos(envio);
+		} catch (RemoteException e) { System.out.print("Ocurrio un Error en el metodo setNombre\n");
+		 e.printStackTrace(); } System.out.print(response.get_return());*/
 		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
 
@@ -211,9 +212,9 @@ public class Actividad implements Serializable {
 	public String realizarConsulta() {
 		// "No implementado todavia :)";
 		// devuelve siempre lo mismo
-		/*
-		 * String xml = serializar(); // TODO llamar a integrar y conseguir el
-		 * xml completo String xmlDevuelto =
+		
+		 String xml = serializar(); // TODO llamar a integrar y conseguir el
+		/* xml completo String xmlDevuelto =
 		 * "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>" + 45 + "</Id>" +
 		 * "<IdAmbitoSuperior>" + 88 + "</IdAmbitoSuperior>" +
 		 * "<IdActividadSuperior>" + 90 + "</IdActividadSuperior>" + "<Nombre>"
@@ -250,6 +251,22 @@ public class Actividad implements Serializable {
 		this.id = id;
 	}
 
+	protected void guardarNuevoElemento() {
+/*		GuardarDatosResponse response = new GuardarDatosResponse();
+		GuardarDatos envio = new GuardarDatos();
+		envio.setXml(serializar());
+		IntegracionStub servicio;
+		try {
+			servicio = new IntegracionStub();
+			response = servicio.guardarDatos(envio);
+		} catch (RemoteException e) { 
+			System.out.print("Ocurrio un Error en el metodo setNombre\n");
+			e.printStackTrace();
+		} 
+		System.out.print(response.get_return()); */
+		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
+	}
+
 	protected void levantarEstado(long idActividad) throws XmlErroneoExcepcion {
 		id = idActividad;
 		descerializar(realizarConsulta());
@@ -277,13 +294,14 @@ public class Actividad implements Serializable {
 			fehcaIniStr = String.valueOf(fechaInicio);
 		}
 
-		String xml = "<Id>" + identifStr + "</Id>" + "<Nombre>" + nombre
-				+ "</Nombre>" + "<Tipo>" + tipo + "</Tipo>"
+		String xml = "<Id>" + identifStr + "</Id>"
+				+ "<Nombre>" + nombre + "</Nombre>"
+				+ "<Tipo>" + tipo + "</Tipo>"
 				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr
-				+ "</IdActividadSuperior>" + "<Descripcion>" + descripcion
-				+ "</Descripcion>" + "<FechaInicio>" + fehcaIniStr
-				+ "</FechaInicio>" + "<FechaFin>" + fehcaFinStr + "</FechaFin>";
+				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
+				+ "<Descripcion>" + descripcion + "</Descripcion>"
+				+ "<FechaInicio>" + fehcaIniStr + "</FechaInicio>"
+				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>";
 		return xml;
 	}
 
@@ -294,15 +312,24 @@ public class Actividad implements Serializable {
 					"Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		id = Long.valueOf(getValue("Id", element));
-		idAmbitoSuperior = Long.valueOf(getValue("IdAmbitoSuperior", element));
-		idActividadSuperior = Long.valueOf(getValue("IdActividadSuperior",
-				element));
+		String idStr = getValue("Id", element);
+		if (idStr.length() > 0)
+			id = Long.valueOf(getValue("Id", element));
+		String idAmbSupStr = getValue("IdAmbitoSuperior", element);
+		if(idAmbSupStr.length() > 0)
+			idAmbitoSuperior = Long.valueOf(idAmbSupStr);
+		String idActSupStr = getValue("IdActividadSuperior", element);
+		if(idActSupStr.length() > 0)
+			idActividadSuperior = Long.valueOf(idActSupStr);
 		nombre = getValue("Nombre", element);
 		tipo = getValue("Tipo", element);
-		fechaInicio = Long.valueOf(getValue("FechaInicio", element));
-		fechaFin = Long.valueOf(getValue("FechaFin", element));
 		descripcion = getValue("Descripcion", element);
+		String fechaInicioStr = getValue("FechaInicio", element);
+		if(fechaInicioStr.length() > 0)
+			fechaInicio = Long.valueOf(fechaInicioStr);
+		String fechaFinStr = getValue("FechaFin", element);
+		if(fechaFinStr.length() > 0)
+			fechaFin = Long.valueOf(fechaFinStr);
 	}
 
 	protected void actualizar(Actividad actividadConDatosNuevos)
@@ -345,11 +372,15 @@ public class Actividad implements Serializable {
 	}
 
 	// metodo interno de ayuda para el parseo
-	protected static String getValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0)
-				.getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
+	protected static String getValue(String tag, Element element)
+			throws XmlErroneoExcepcion {
+		NodeList nodes = element.getElementsByTagName(tag);
+		if (nodes.getLength() != 1) {
+			String mensaje = "Debe existir un nodo " + tag + ".";
+			throw new XmlErroneoExcepcion(mensaje);
+		}
+		Element elemento = (Element) nodes.item(0);
+		return elemento.getTextContent();
 	}
 
 	/* METODOS PUBLICOS DE TESTING */
