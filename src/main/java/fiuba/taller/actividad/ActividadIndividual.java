@@ -94,11 +94,9 @@ public class ActividadIndividual extends Actividad {
 			throws XmlErroneoExcepcion {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.descerializar(xmlPropiedades);
-		// TODO(Pampa) Obtener un ID nuevo
-		// actividad.id = nuevoId;
 		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
 		// TODO(Pampa) Validar fecha y lanzar excepcion
-		actividad.guardarEstado();
+		actividad.guardarNuevoElemento();
 		return actividad;
 	}
 
