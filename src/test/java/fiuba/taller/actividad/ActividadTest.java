@@ -2,11 +2,11 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadTest {
 	
@@ -22,7 +22,7 @@ public class ActividadTest {
 	}
 
 	@Test
-	public void testDescerializar() throws XmlErroneoExcepcion {
+	public void testDescerializar() throws RemoteException {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -56,7 +56,7 @@ public class ActividadTest {
 	}
 
 	@Test
-	public void testDescerializarXMLSinEncabezadoNiTagWS() throws XmlErroneoExcepcion {
+	public void testDescerializarXMLSinEncabezadoNiTagWS() throws RemoteException {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -89,8 +89,8 @@ public class ActividadTest {
 		assertEquals(fechaFin,act.getFechaFin());
 	}
 
-	@Test(expected=XmlErroneoExcepcion.class)
-	public void testDescerializarConXmlSinActividadCorrecta() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void testDescerializarConXmlSinActividadCorrecta() throws RemoteException {
 		long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
@@ -115,9 +115,9 @@ public class ActividadTest {
 		act.descerializar(xmlADescerializar);
 	}
 
-	@Test(expected=XmlErroneoExcepcion.class)
-	public void testDescerializarConXmlConDosActividades() throws XmlErroneoExcepcion {
-		long idPrueba = 22;
+	@Test(expected = RemoteException.class)
+	public void testDescerializarConXmlConDosActividades() throws RemoteException {
+	long idPrueba = 22;
 		long idAmbSupStr = 99;
 		long idActSupStr = 77;
 		String nombrePrueba = "langosta";
@@ -153,7 +153,7 @@ public class ActividadTest {
 	}
 
 	@Test
-	public void testSerializar() throws XmlErroneoExcepcion {
+	public void testSerializar() throws RemoteException {
 		String xmlADescerializar = AuxiliarPruebas.auxGenerarXml("no me importa el tipo","","");
 		
 		act.descerializar(xmlADescerializar);

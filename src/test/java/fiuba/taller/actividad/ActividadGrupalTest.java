@@ -2,12 +2,11 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.GrupoNoExclusivoExcepcion;
 
 public class ActividadGrupalTest {
 	
@@ -23,14 +22,14 @@ public class ActividadGrupalTest {
 	}
 	
 	@Test
-	public void PrimerIdentificador() throws GrupoNoExclusivoExcepcion {
+	public void PrimerIdentificador() throws RemoteException {
 		Grupo grupo = new Grupo();
 		actGrupal.agregarGrupo(grupo);
 		assertEquals("El id del primer grupo es 1", 1, grupo.getId());
 	}
 	
 	@Test
-	public void SegundoIdentificador() throws GrupoNoExclusivoExcepcion {
+	public void SegundoIdentificador() throws RemoteException {
 		Grupo grupo1 = new Grupo();
 		actGrupal.agregarGrupo(grupo1);
 		Grupo grupo2 = new Grupo();
@@ -39,7 +38,7 @@ public class ActividadGrupalTest {
 	}
 	
 	@Test
-	public void IdentificadorEliminandoGrupo() throws GrupoNoExclusivoExcepcion, GrupoInexistenteExcepcion {
+	public void IdentificadorEliminandoGrupo() throws RemoteException {
 		Grupo grupo1 = new Grupo();
 		actGrupal.agregarGrupo(grupo1);
 		Grupo grupo2 = new Grupo();
@@ -52,14 +51,14 @@ public class ActividadGrupalTest {
 	}
 
 	@Test
-	public void AgregarUnGrupo() throws GrupoNoExclusivoExcepcion {
+	public void AgregarUnGrupo() throws RemoteException {
 		Grupo grupo = new Grupo();
 		actGrupal.agregarGrupo(grupo);
 		assertEquals("Se esperaba tener un grupo creado", 1, actGrupal.getGrupos().size());
 	}
 	
 	@Test
-	public void AgregarDosGrupos() throws GrupoNoExclusivoExcepcion {
+	public void AgregarDosGrupos() throws RemoteException {
 		Grupo grupo1 = new Grupo();
 		actGrupal.agregarGrupo(grupo1);
 		Grupo grupo2 = new Grupo();
@@ -68,7 +67,7 @@ public class ActividadGrupalTest {
 	}
 
 	@Test
-	public void EliminarGrupoExistente() throws GrupoNoExclusivoExcepcion, GrupoInexistenteExcepcion {
+	public void EliminarGrupoExistente() throws RemoteException {
 		Grupo grupo = new Grupo();
 		actGrupal.agregarGrupo(grupo);
 		long id = grupo.getId();
@@ -76,8 +75,8 @@ public class ActividadGrupalTest {
 		assertEquals("No deberia haber ningun grupo creado", 0, actGrupal.getGrupos().size());
 	}
 	
-	@Test(expected=GrupoInexistenteExcepcion.class)
-	public void EliminarGrupoInexistente() throws GrupoNoExclusivoExcepcion, GrupoInexistenteExcepcion {
+	@Test(expected=RemoteException.class)
+	public void EliminarGrupoInexistente() throws RemoteException {
 		Grupo grupo = new Grupo();
 		actGrupal.agregarGrupo(grupo);
 		long id = grupo.getId() + 1;

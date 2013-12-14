@@ -1,5 +1,6 @@
 package fiuba.taller.actividad;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,10 +9,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.GrupoNoExclusivoExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadGrupal extends Actividad {
 
@@ -30,7 +27,7 @@ public class ActividadGrupal extends Actividad {
 		return gruposExclusivos;
 	}
 
-	public Grupo getGrupo(long idGrupo) throws GrupoInexistenteExcepcion {
+	public Grupo getGrupo(long idGrupo) throws RemoteException {
 		if (!gruposCargados()) {
 			cargarGrupos();
 		}
@@ -40,7 +37,7 @@ public class ActividadGrupal extends Actividad {
 			}
 		}
 		String mensaje = "No existe el grupo con el identificador " + idGrupo;
-		throw new GrupoInexistenteExcepcion(mensaje);
+		throw new RemoteException(mensaje);
 	}
 
 	public List<Grupo> getGrupos() {
@@ -50,7 +47,7 @@ public class ActividadGrupal extends Actividad {
 		return grupos;
 	}
 
-	public void agregarGrupo(Grupo grupo) throws GrupoNoExclusivoExcepcion {
+	public void agregarGrupo(Grupo grupo) throws RemoteException {
 		if (!gruposCargados()) {
 			cargarGrupos();
 		}
@@ -66,7 +63,7 @@ public class ActividadGrupal extends Actividad {
 		 */
 	}
 
-	public void eliminarGrupo(long idGrupo) throws GrupoInexistenteExcepcion {
+	public void eliminarGrupo(long idGrupo) throws RemoteException {
 		if (!gruposCargados()) {
 			cargarGrupos();
 		}
@@ -95,7 +92,7 @@ public class ActividadGrupal extends Actividad {
 		Actividad actividad = new Actividad();
 		try {
 			actividad.descerializar(xml);
-		} catch (XmlErroneoExcepcion e) {
+		} catch (RemoteException e) {
 			return false;
 		}
 		/*
@@ -110,7 +107,7 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	public static ActividadGrupal crearActividad(String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadGrupal actividad = new ActividadGrupal();
 		actividad.descerializar(xmlPropiedades);
 		// TODO(Pampa) Obtener un ID nuevo
@@ -122,7 +119,7 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	public static ActividadGrupal getActividad(long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
 		 * lanzar la excepcion ActividadInexistenteExcepcion
@@ -141,12 +138,11 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	@Override
-	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+	protected void descerializar(Document doc) throws RemoteException {
 		super.descerializar(doc);
 		NodeList nodes = doc.getElementsByTagName("Actividad");
 		if (nodes.getLength() != 1) {
-			throw new XmlErroneoExcepcion(
-					"Debe haber solamente un nodo Actividad");
+			throw new RemoteException("Debe haber solamente un nodo Actividad");
 		}
 		Node node = nodes.item(0);
 		if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -171,7 +167,7 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	private void verificarParticipantes(Grupo grupoNuevo)
-			throws GrupoNoExclusivoExcepcion {
+			throws RemoteException {
 		for (Grupo grupo : grupos) {
 			if (grupo.contieneParticipantesDe(grupo)) {
 				List<String> participantesRepetidos = grupo
@@ -181,7 +177,7 @@ public class ActividadGrupal extends Actividad {
 				for (String participante : participantesRepetidos) {
 					mensaje += participante;
 				}
-				throw new GrupoNoExclusivoExcepcion(mensaje);
+				throw new RemoteException(mensaje);
 			}
 		}
 	}

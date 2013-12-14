@@ -1,12 +1,8 @@
 package fiuba.taller.actividad;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
-import fiuba.taller.actividad.excepcion.ActividadInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadIndividual extends Actividad {
 
@@ -27,15 +23,14 @@ public class ActividadIndividual extends Actividad {
 		return new ArrayList<>(usernameParticipantes);
 	}
 
-	public void agregarParticipante(String username)
-			throws ParticipanteExistenteExcepcion {
+	public void agregarParticipante(String username) throws RemoteException {
 		if (!participantesCargados()) {
 			cargarParticipantes();
 		}
 		if (usernameParticipantes.contains(username)) {
 			String mensaje = "El usuario " + username
 					+ " ya se encuentra en la actividad";
-			throw new ParticipanteExistenteExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		usernameParticipantes.add(username);
 		/*
@@ -44,15 +39,14 @@ public class ActividadIndividual extends Actividad {
 		 */
 	}
 
-	public void eliminarParticipante(String username)
-			throws ParticipanteInexistenteExcepcion {
+	public void eliminarParticipante(String username) throws RemoteException {
 		if (!participantesCargados()) {
 			cargarParticipantes();
 		}
 		if (!usernameParticipantes.contains(username)) {
 			String mensaje = "El usuario " + username
 					+ " no se encuentra en la actividad";
-			throw new ParticipanteInexistenteExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		usernameParticipantes.remove(username);
 		/*
@@ -75,7 +69,7 @@ public class ActividadIndividual extends Actividad {
 		Actividad actividad = new Actividad();
 		try {
 			actividad.descerializar(xml);
-		} catch (XmlErroneoExcepcion e) {
+		} catch (RemoteException e) {
 			return false;
 		}
 		/*
@@ -91,7 +85,7 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	public static ActividadIndividual crearActividad(String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.descerializar(xmlPropiedades);
 		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
@@ -101,14 +95,14 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	public static void eliminarActividad(long idActividad)
-			throws ActividadInexistenteExcepcion {
+			throws RemoteException {
 		/*
 		 * TODO(Jorge?) Implementar.
 		 */
 	}
 
 	public static ActividadIndividual getActividad(long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
 		 * lanzar la excepcion ActividadInexistenteExcepcion
