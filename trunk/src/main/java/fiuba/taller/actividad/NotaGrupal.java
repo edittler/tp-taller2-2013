@@ -1,6 +1,7 @@
 package fiuba.taller.actividad;
 
 import java.io.StringReader;
+import java.rmi.RemoteException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,8 +11,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
 
 public class NotaGrupal extends Nota {
 
@@ -75,7 +74,7 @@ public class NotaGrupal extends Nota {
 	 *             grupo.
 	 */
 	public static NotaGrupal getNota(long idActividad, long idGrupo)
-			throws NotaInexistenteExcepcion {
+			throws RemoteException {
 		// TODO Corregir
 		NotaGrupal nota = new NotaGrupal(idActividad, idGrupo);
 		return nota;

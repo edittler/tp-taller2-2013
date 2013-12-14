@@ -1,9 +1,9 @@
 package fiuba.taller.actividad;
 
+import java.rmi.RemoteException;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public abstract class Nota implements Serializable {
 
@@ -48,11 +48,11 @@ public abstract class Nota implements Serializable {
 	public abstract void guardarEstado();
 
 	protected static String getValue(String tag, Element element)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		NodeList nodes = element.getElementsByTagName(tag);
 		if (nodes.getLength() != 1) {
 			String mensaje = "Debe existir un nodo " + tag + ".";
-			throw new XmlErroneoExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		Element elemento = (Element) nodes.item(0);
 		String text = elemento.getTextContent();

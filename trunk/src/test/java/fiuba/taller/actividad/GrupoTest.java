@@ -2,14 +2,13 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import fiuba.taller.actividad.Grupo;
-import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class GrupoTest {
 
@@ -41,25 +40,21 @@ public class GrupoTest {
 	}
 
 	@Test
-	public void agregarParticipanteCorrecto()
-			throws ParticipanteExistenteExcepcion {
+	public void agregarParticipanteCorrecto() throws RemoteException {
 		grupo.agregarParticipante(usernameParticipante1);
 		grupo.agregarParticipante(usernameParticipante2);
 		assertTrue(grupo.contieneParticipante(usernameParticipante1));
 		assertTrue(grupo.contieneParticipante(usernameParticipante2));
 	}
 
-	@Test(expected = ParticipanteExistenteExcepcion.class)
-	public void agregarParticipanteExistente()
-			throws ParticipanteExistenteExcepcion {
+	@Test(expected = RemoteException.class)
+	public void agregarParticipanteExistente() throws RemoteException {
 		grupo.agregarParticipante(usernameParticipante1);
 		grupo.agregarParticipante(usernameParticipante1);
 	}
 
 	@Test
-	public void eliminarParticipanteCorrecto()
-			throws ParticipanteExistenteExcepcion,
-			ParticipanteInexistenteExcepcion {
+	public void eliminarParticipanteCorrecto() throws RemoteException {
 		grupo.agregarParticipante(usernameParticipante1);
 
 		assertTrue(grupo.contieneParticipante(usernameParticipante1));
@@ -69,15 +64,14 @@ public class GrupoTest {
 		assertFalse(grupo.contieneParticipante(usernameParticipante1));
 	}
 
-	@Test(expected = ParticipanteInexistenteExcepcion.class)
-	public void eliminarParticipanteInexistente()
-			throws ParticipanteInexistenteExcepcion {
+	@Test(expected = RemoteException.class)
+	public void eliminarParticipanteInexistente() throws RemoteException {
 		grupo.eliminarParticipante(usernameParticipante1);
 	}
 
 	@Test
 	public void contieneParticipantesDeDosGruposDistintos()
-			throws ParticipanteExistenteExcepcion {
+			throws RemoteException {
 		Grupo grupoUno = new Grupo();
 		idGrupo = 1;
 		String usernameParticipante1 = "pepe";
@@ -98,7 +92,7 @@ public class GrupoTest {
 
 	@Test
 	public void contieneParticipantesDeDosGruposConUnParticipanteRepetido()
-			throws ParticipanteExistenteExcepcion {
+			throws RemoteException {
 		Grupo grupoUno = new Grupo();
 		idGrupo = 1;
 		String usernameParticipante1 = "pepe";
@@ -119,7 +113,7 @@ public class GrupoTest {
 
 	@Test
 	public void contieneParticipantesConGrupoBaseVacio()
-			throws ParticipanteExistenteExcepcion {
+			throws RemoteException {
 		Grupo grupoUno = new Grupo();
 
 		Grupo grupoDos = new Grupo();
@@ -135,7 +129,7 @@ public class GrupoTest {
 
 	@Test
 	public void contieneParticipantesConGrupoExternoVacio()
-			throws ParticipanteExistenteExcepcion {
+			throws RemoteException {
 		Grupo grupoUno = new Grupo();
 
 		Grupo grupoDos = new Grupo();
@@ -150,7 +144,7 @@ public class GrupoTest {
 	}
 
 	@Test
-	public void serializarCorrecto() throws XmlErroneoExcepcion {
+	public void serializarCorrecto() throws RemoteException {
 		grupo.descerializar(xmlADescerializar);
 
 		String xmlFinal = grupo.serializar();
@@ -159,7 +153,7 @@ public class GrupoTest {
 	}
 
 	@Test
-	public void descerializarConXMLCorrecto() throws XmlErroneoExcepcion {
+	public void descerializarConXMLCorrecto() throws RemoteException {
 		grupo.descerializar(xmlADescerializar);
 		assertEquals(idActividad, grupo.getIdActividad());
 		assertEquals(idGrupo, grupo.getId());
@@ -167,8 +161,8 @@ public class GrupoTest {
 		assertTrue(grupo.contieneParticipante(usernameParticipante2));
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLSinNodoGrupo() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLSinNodoGrupo() throws RemoteException {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS>" 
 				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
 				+ "<usernameParticipante>" + usernameParticipante1
@@ -179,9 +173,8 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLConDosNodosGrupo()
-			throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLConDosNodosGrupo() throws RemoteException {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>" + "<IdGrupo>"
 				+ idGrupo + "</IdGrupo>" + "<usernameParticipante>"
 				+ usernameParticipante1 + "</usernameParticipante>"
@@ -190,9 +183,8 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLSinNodoIdActividad()
-			throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLSinNodoIdActividad() throws RemoteException {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>" + "<IdGrupo>"
 				+ idGrupo + "</IdGrupo>" + "<usernameParticipante>"
 				+ usernameParticipante1 + "</usernameParticipante>"
@@ -201,9 +193,9 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
+	@Test(expected = RemoteException.class)
 	public void descerializarConXMLConDosNodosIdActividad()
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
@@ -215,8 +207,8 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLSinNodoIdGrupo() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLSinNodoIdGrupo() throws RemoteException {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<usernameParticipante>" + usernameParticipante1
@@ -226,8 +218,8 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLConDosNodosIdGrupo() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLConDosNodosIdGrupo() throws RemoteException {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"

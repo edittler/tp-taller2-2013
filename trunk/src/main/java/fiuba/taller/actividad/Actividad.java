@@ -19,9 +19,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import fiuba.taller.actividad.excepcion.FechaErroneaExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
-
 //import com.ws.services.*;
 
 @SuppressWarnings("unused")
@@ -112,11 +109,11 @@ public class Actividad implements Serializable {
 	}
 
 	public void setFecha(long fechaInicio, long fechaFin)
-			throws FechaErroneaExcepcion {
+			throws RemoteException {
 		if (fechaInicio > fechaFin) {
 			String mensaje = "La fecha de inicio no puede ser posterior a la "
 					+ "fecha de fin";
-			throw new FechaErroneaExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -182,7 +179,7 @@ public class Actividad implements Serializable {
 	}
 
 	@Override
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
+	public void descerializar(String xml) throws RemoteException {
 		Document doc = getDocumentElement(xml);
 		descerializar(doc);
 	}
@@ -226,7 +223,7 @@ public class Actividad implements Serializable {
 		return Actividad.AuxHastaQIntegracionAnde.get(this.id);
 	}
 
-	public void actualizar(String xml) throws XmlErroneoExcepcion {
+	public void actualizar(String xml) throws RemoteException {
 		Actividad actividadTemporal = new Actividad();
 		actividadTemporal.descerializar(xml);
 		actualizar(actividadTemporal);
@@ -235,7 +232,7 @@ public class Actividad implements Serializable {
 	/* METODOS DE CLASE (ESTATICOS) */
 
 	public static Actividad getActividad(long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
 		 * lanzar la excepcion ActividadInexistenteExcepcion
@@ -267,7 +264,7 @@ public class Actividad implements Serializable {
 		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
 
-	protected void levantarEstado(long idActividad) throws XmlErroneoExcepcion {
+	protected void levantarEstado(long idActividad) throws RemoteException {
 		id = idActividad;
 		descerializar(realizarConsulta());
 	}
@@ -305,10 +302,10 @@ public class Actividad implements Serializable {
 		return xml;
 	}
 
-	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+	protected void descerializar(Document doc) throws RemoteException {
 		NodeList nodes = doc.getElementsByTagName("Actividad");
 		if (nodes.getLength() != 1) {
-			throw new XmlErroneoExcepcion(
+			throw new RemoteException(
 					"Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
@@ -333,7 +330,7 @@ public class Actividad implements Serializable {
 	}
 
 	protected void actualizar(Actividad actividadConDatosNuevos)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		if (actividadConDatosNuevos.getNombre().length() > 0) {
 			setNombre(actividadConDatosNuevos.getNombre());
 		}
@@ -345,10 +342,10 @@ public class Actividad implements Serializable {
 				try {
 					setFecha(actividadConDatosNuevos.getFechaInicio(),
 							actividadConDatosNuevos.getFechaFin());
-				} catch (FechaErroneaExcepcion e) {
+				} catch (RemoteException e) {
 					String mensaje = "La fecha de inicio no puede ser posterior "
 							+ "a la fecha de fin.";
-					throw new XmlErroneoExcepcion(mensaje);
+					throw new RemoteException(mensaje);
 				}
 			} else {
 				setFecha(actividadConDatosNuevos.getFechaInicio());
@@ -357,7 +354,7 @@ public class Actividad implements Serializable {
 	}
 
 	protected static Document getDocumentElement(String xml)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		Document doc = null;
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
@@ -366,18 +363,18 @@ public class Actividad implements Serializable {
 			doc = builder.parse(is);
 			doc.getDocumentElement().normalize();
 		} catch (ParserConfigurationException | SAXException | IOException e) {
-			throw new XmlErroneoExcepcion("Error al parsear el XML.");
+			throw new RemoteException("Error al parsear el XML.");
 		}
 		return doc;
 	}
 
 	// metodo interno de ayuda para el parseo
 	protected static String getValue(String tag, Element element)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		NodeList nodes = element.getElementsByTagName(tag);
 		if (nodes.getLength() != 1) {
 			String mensaje = "Debe existir un nodo " + tag + ".";
-			throw new XmlErroneoExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		Element elemento = (Element) nodes.item(0);
 		return elemento.getTextContent();

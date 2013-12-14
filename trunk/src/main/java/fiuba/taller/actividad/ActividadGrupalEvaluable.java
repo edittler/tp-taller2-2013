@@ -1,13 +1,11 @@
 package fiuba.taller.actividad;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		Evaluable {
@@ -48,7 +46,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 
 	@Override
-	public Nota getNota(Object idGrupo) throws NotaInexistenteExcepcion {
+	public Nota getNota(Object idGrupo) throws RemoteException {
 		long longGrupo = (long) idGrupo;
 		NotaGrupal nota = NotaGrupal.getNota(id, longGrupo);
 		return nota;
@@ -61,7 +59,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 
 	@Override
-	public void actualizar(String xml) throws XmlErroneoExcepcion {
+	public void actualizar(String xml) throws RemoteException {
 		ActividadGrupalEvaluable actividadTemporal = new ActividadGrupalEvaluable();
 		actividadTemporal.descerializar(xml);
 		super.actualizar(actividadTemporal);
@@ -74,7 +72,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		Actividad actividad = new Actividad();
 		try {
 			actividad.descerializar(xml);
-		} catch (XmlErroneoExcepcion e) {
+		} catch (RemoteException e) {
 			return false;
 		}
 		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_GRUPAL_EVALUABLE)) {
@@ -84,7 +82,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 
 	public static ActividadGrupalEvaluable crearActividad(String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
 		actividad.descerializar(xmlPropiedades);
 		// TODO(Pampa) Obtener un ID nuevo
@@ -96,7 +94,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 
 	public static ActividadGrupalEvaluable getActividad(long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
 		 * lanzar la excepcion ActividadInexistenteExcepcion
@@ -114,12 +112,12 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	
 	// Para el caso de las evaluables, se agrega el Tag "TipoEscala"
 	@Override
-	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+	protected void descerializar(Document doc) throws RemoteException {
 		super.descerializar(doc);
 		NodeList nodes = doc.getElementsByTagName("Actividad");
 		if (nodes.getLength() != 1) {
 			throw new 
-			XmlErroneoExcepcion("Debe haber solamente un nodo Actividad");
+			RemoteException("Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
 		this.escala = getValue("TipoEscala", element);

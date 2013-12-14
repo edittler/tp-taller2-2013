@@ -1,13 +1,13 @@
 package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
-import junit.framework.Assert;
+
+import java.rmi.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadControladorTest {
 	ActividadControlador controlador;
@@ -46,7 +46,7 @@ public class ActividadControladorTest {
 	}
 	*/
 	@Test
-	public void testCrearActividadIndividual() throws XmlErroneoExcepcion {
+	public void testCrearActividadIndividual() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
 				ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL, "", "");
 		long actHandler = controlador.crearActividadIndividual("pancho", xml);
@@ -55,7 +55,7 @@ public class ActividadControladorTest {
 	}
 
 	@Test
-	public void testCrearActividadGrupal() throws XmlErroneoExcepcion {
+	public void testCrearActividadGrupal() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
 				ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL, "", "true");
 		long actHandler = controlador.crearActividadGrupal("pancho", xml);
@@ -64,7 +64,7 @@ public class ActividadControladorTest {
 	}
 
 	@Test
-	public void testCrearActividadIndividualEvaluable() throws XmlErroneoExcepcion {
+	public void testCrearActividadIndividualEvaluable() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
 				ActividadIndividualEvaluable.TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE, "gausiana", "");
 		long actHandler = controlador.crearActividadIndividualEvaluable("pancho", xml);
@@ -73,7 +73,7 @@ public class ActividadControladorTest {
 	}
 
 	@Test
-	public void testCrearActividadGrupalEvaluable() throws XmlErroneoExcepcion {
+	public void testCrearActividadGrupalEvaluable() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
 				ActividadGrupalEvaluable.TIPO_ACTIVIDAD_GRUPAL_EVALUABLE, "gausiana", "false");
 		long actHandler = controlador.crearActividadGrupalEvaluable("pancho", xml);

@@ -3,6 +3,7 @@ package fiuba.taller.actividad;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.rmi.RemoteException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,9 +24,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class NotaIndividual extends Nota {
 
@@ -100,7 +98,7 @@ public class NotaIndividual extends Nota {
 	 *             y participante.
 	 */
 	public static NotaIndividual getNota(long idActividad, String username)
-			throws NotaInexistenteExcepcion {
+			throws RemoteException {
 		// TODO Corregir
 		NotaIndividual nota = new NotaIndividual(idActividad, username);
 		return nota;
@@ -159,7 +157,7 @@ public class NotaIndividual extends Nota {
 	}
 
 	@Override
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
+	public void descerializar(String xml) throws RemoteException {
 
 		Document doc = null;
 		try {
@@ -169,20 +167,20 @@ public class NotaIndividual extends Nota {
 			doc = builder.parse(is);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			String message = "Error al cargar el string como XML.";
-			throw new XmlErroneoExcepcion(message);
+			throw new RemoteException(message);
 		}
 		doc.getDocumentElement().normalize();
 
 		NodeList nodes = doc.getElementsByTagName(NODO_NOTA);
 		if (nodes.getLength() != 1) {
 			String message = "La cantidad de nodos Nota no es unica.";
-			throw new XmlErroneoExcepcion(message);
+			throw new RemoteException(message);
 		}
 
 		Node node = nodes.item(0);
 		if (node.getNodeType() != Node.ELEMENT_NODE) {
 			String message = "El nodo Nota no es de tipo Element";
-			throw new XmlErroneoExcepcion(message);
+			throw new RemoteException(message);
 		}
 
 		Element element = (Element) node;

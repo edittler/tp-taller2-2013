@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 /* FORMATO DEL XML GRUPO
  * 
@@ -84,12 +81,11 @@ public class Grupo implements Serializable {
 	 * @throws ParticipanteExistenteExcepcion
 	 *             Si el participante ya se encuentra en el grupo
 	 */
-	public void agregarParticipante(String username)
-			throws ParticipanteExistenteExcepcion {
+	public void agregarParticipante(String username) throws RemoteException {
 		if (contieneParticipante(username)) {
 			String mensaje = "El username " + username
 					+ "ya se encuentra en el grupo.";
-			throw new ParticipanteExistenteExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		usernameParticipantes.add(username);
 	}
@@ -102,12 +98,11 @@ public class Grupo implements Serializable {
 	 * @throws ParticipanteInexistenteExcepcion
 	 *             Si el participante a eliminar no existe.
 	 */
-	public void eliminarParticipante(String username)
-			throws ParticipanteInexistenteExcepcion {
+	public void eliminarParticipante(String username) throws RemoteException {
 		if (!contieneParticipante(username)) {
 			String mensaje = "El username " + username
 					+ "no se encuentra en el grupo.";
-			throw new ParticipanteInexistenteExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		usernameParticipantes.remove(username);
 	}
@@ -167,7 +162,7 @@ public class Grupo implements Serializable {
 	}
 
 	@Override
-	public void descerializar(String xml) throws XmlErroneoExcepcion {
+	public void descerializar(String xml) throws RemoteException {
 		Document doc = null;
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
@@ -176,14 +171,13 @@ public class Grupo implements Serializable {
 			doc = builder.parse(is);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			String mensaje = "Error de parseo del string recibido";
-			throw new XmlErroneoExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		doc.getDocumentElement().normalize();
 
 		NodeList nodes = doc.getElementsByTagName("Grupo");
 		if (nodes.getLength() != 1) {
-			throw new XmlErroneoExcepcion(
-					"Debe haber solamente un nodo Grupo");
+			throw new RemoteException("Debe haber solamente un nodo Grupo");
 		}
 
 		Element grupoElement = (Element) nodes.item(0);
@@ -240,11 +234,11 @@ public class Grupo implements Serializable {
 	/* METODOS PRIVADOS AUXILIARES */
 
 	private static String getValue(String tag, Element element)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		NodeList nodes = element.getElementsByTagName(tag);
 		if (nodes.getLength() != 1) {
 			String mensaje = "Debe existir un nodo " + tag + ".";
-			throw new XmlErroneoExcepcion(mensaje);
+			throw new RemoteException(mensaje);
 		}
 		Element elemento = (Element) nodes.item(0);
 		return elemento.getTextContent();

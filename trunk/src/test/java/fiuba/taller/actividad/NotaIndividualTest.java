@@ -2,11 +2,11 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 @SuppressWarnings("deprecation")
 public class NotaIndividualTest {
@@ -39,8 +39,8 @@ public class NotaIndividualTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLSinNodoNota() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLSinNodoNota() throws RemoteException {
 		String xmlADescerializar = "<WS><Notita>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<Username>" + username + "</Username>"
@@ -53,8 +53,8 @@ public class NotaIndividualTest {
 		fail("Se esperaba una excepcion por no existir el nodo Nota.");
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLConDosNodosNota() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLConDosNodosNota() throws RemoteException {
 		String xmlADescerializar = "<WS><Notas><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<UsernameParticipante>" + username + "</UsernameParticipante>"
@@ -72,8 +72,8 @@ public class NotaIndividualTest {
 		fail("Se esperaba una excepcion por existir más de 2 nodos Nota.");
 	}
 
-	@Test(expected = XmlErroneoExcepcion.class)
-	public void descerializarConXMLConDosNodosValor() throws XmlErroneoExcepcion {
+	@Test(expected = RemoteException.class)
+	public void descerializarConXMLConDosNodosValor() throws RemoteException {
 		String xmlADescerializar = "<WS><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<Username>" + username + "</Username>"
@@ -88,7 +88,8 @@ public class NotaIndividualTest {
 	}
 
 	@Test
-	public void descerializarConXMLConComentarioDentroDeNodoValor() throws XmlErroneoExcepcion {
+	public void descerializarConXMLConComentarioDentroDeNodoValor()
+			throws RemoteException {
 		String xmlADescerializar = "<WS><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<Username>" + username + "</Username>"
@@ -105,7 +106,7 @@ public class NotaIndividualTest {
 	}
 
 	@Test
-	public void serializarCorrecto() throws XmlErroneoExcepcion {
+	public void serializarCorrecto() throws RemoteException {
 		nota.descerializar(xmlADescerializar);
 
 		String xmlFinal = nota.serializar();

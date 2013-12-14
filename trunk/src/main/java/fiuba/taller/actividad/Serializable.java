@@ -1,6 +1,6 @@
 package fiuba.taller.actividad;
 
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
+import java.rmi.RemoteException;
 
 public interface Serializable {
 
@@ -19,7 +19,7 @@ public interface Serializable {
 	 * @throws XmlErroneoExcepcion
 	 *             cuando el XML es erroneo.
 	 */
-	public void descerializar(String xml) throws XmlErroneoExcepcion;
+	public void descerializar(String xml) throws RemoteException;
 
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.

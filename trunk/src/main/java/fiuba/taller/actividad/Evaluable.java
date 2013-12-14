@@ -1,8 +1,7 @@
 package fiuba.taller.actividad;
 
+import java.rmi.RemoteException;
 import java.util.List;
-
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
 
 /**
  * Interfaz que determina el comportamiento de las actividades evaluables.
@@ -51,7 +50,7 @@ public interface Evaluable {
 	 *            Identificador del evaluado que se desea obtener la nota.
 	 * @throws NotaInexistenteExcepcion Si la nota asociada al evaluado no existe.
 	 */
-	public Nota getNota(Object idEvaluado) throws NotaInexistenteExcepcion;
+	public Nota getNota(Object idEvaluado) throws RemoteException;
 
 	/**
 	 * Retorna una lista de las notas asignadas a los evaluados de la actividad.

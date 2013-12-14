@@ -2,13 +2,11 @@ package fiuba.taller.actividad;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadIndividualTest {
 
@@ -24,47 +22,42 @@ public class ActividadIndividualTest {
 	}
 
 	@Test
-	public void AgregarUnParticipante() throws ParticipanteExistenteExcepcion {
+	public void AgregarUnParticipante() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
 		assertEquals("Deberia haber un participante", 1, actIndividual
 				.getParticipantes().size());
 	}
 
 	@Test
-	public void AgregarDosParticipantes() throws ParticipanteExistenteExcepcion {
+	public void AgregarDosParticipantes() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
 		actIndividual.agregarParticipante("tito");
 		assertEquals("Deberia haber dos participantes", 2, actIndividual
 				.getParticipantes().size());
 	}
 
-	@Test(expected = ParticipanteExistenteExcepcion.class)
-	public void AgregarParticipantesConMismoUsername()
-			throws ParticipanteExistenteExcepcion {
+	@Test(expected = RemoteException.class)
+	public void AgregarParticipantesConMismoUsername() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
 		actIndividual.agregarParticipante("juancito");
 	}
 
 	@Test
-	public void EliminarParticipanteExistente()
-			throws ParticipanteExistenteExcepcion,
-			ParticipanteInexistenteExcepcion {
+	public void EliminarParticipanteExistente() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
 		actIndividual.eliminarParticipante("juancito");
 		assertEquals("No deberia haber ningun participante", 0, actIndividual
 				.getParticipantes().size());
 	}
 
-	@Test(expected = ParticipanteInexistenteExcepcion.class)
-	public void EliminarParticipanteInexistente()
-			throws ParticipanteExistenteExcepcion,
-			ParticipanteInexistenteExcepcion {
+	@Test(expected = RemoteException.class)
+	public void EliminarParticipanteInexistente() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
 		actIndividual.eliminarParticipante("tito");
 	}
 
 	@Test
-	public void actualizarNombreCorrecto() throws XmlErroneoExcepcion {
+	public void actualizarNombreCorrecto() throws RemoteException {
 		String tipo = ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL;
 		String xml = AuxiliarPruebas.auxGenerarXml(tipo,"","");
 		

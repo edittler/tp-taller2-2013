@@ -3,6 +3,7 @@ package fiuba.taller.actividad;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,25 +20,19 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import fiuba.taller.actividad.excepcion.GrupoNoExclusivoExcepcion;
-import fiuba.taller.actividad.excepcion.GrupoInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteExistenteExcepcion;
-import fiuba.taller.actividad.excepcion.ParticipanteInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
-
 public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
 
 	public String getPropiedades(String username, long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		Actividad actividad = new Actividad();
 		actividad.setId(idActividad);
 		return actividad.realizarConsulta();
 	}
 
-	public void setPropiedades(String username, long idActividad, String propiedades) throws XmlErroneoExcepcion {
+	public void setPropiedades(String username, long idActividad,
+			String propiedades) throws RemoteException {
 		Actividad actividad = new Actividad();
 		actividad.setId(idActividad);
 		String xml = actividad.realizarConsulta();
@@ -96,28 +91,28 @@ public class ActividadControlador {
 	 * @throws XmlErroneoExcepcion
 	 */
 	public long crearActividadIndividual(String username, String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadIndividual actividad = ActividadIndividual
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
 	public long crearActividadGrupal(String username, String xmlPropiedades)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadGrupal actividad = ActividadGrupal
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
 	public long crearActividadIndividualEvaluable(String username,
-			String xmlPropiedades) throws XmlErroneoExcepcion {
+			String xmlPropiedades) throws RemoteException {
 		ActividadIndividualEvaluable actividad = ActividadIndividualEvaluable
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
 	public long crearActividadGrupalEvaluable(String username,
-			String xmlPropiedades) throws XmlErroneoExcepcion {
+			String xmlPropiedades) throws RemoteException {
 		ActividadGrupalEvaluable actividad = ActividadGrupalEvaluable
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
@@ -126,40 +121,38 @@ public class ActividadControlador {
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
 	public void agregarParticipante(String username, long idActividad,
-			String usernameNuevoParticipante)
-			throws XmlErroneoExcepcion, ParticipanteExistenteExcepcion {
+			String usernameNuevoParticipante) throws RemoteException {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
-		try {
-			actividad.agregarParticipante(usernameNuevoParticipante);
-		} catch (ParticipanteExistenteExcepcion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		actividad.agregarParticipante(usernameNuevoParticipante);
 	}
 
 	public void eliminarParticipante(String username, long idActividad,
-			String usernameParticipanteAEliminar) 
-			throws XmlErroneoExcepcion, ParticipanteInexistenteExcepcion {
+			String usernameParticipanteAEliminar) throws RemoteException {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
 		actividad.eliminarParticipante(usernameParticipanteAEliminar);
 	}
 	
 	// TODO: Refactorizar! Mover este metodo al lugar adecuado
-	protected String getStringFromDocument(Document doc) 
-			throws TransformerException {
-	    DOMSource domSource = new DOMSource(doc);
-	    StringWriter writer = new StringWriter();
-	    StreamResult result = new StreamResult(writer);
-	    TransformerFactory tf = TransformerFactory.newInstance();
-	    Transformer transformer = tf.newTransformer();
-	    transformer.transform(domSource, result);
-	    return writer.toString();
+	protected String getStringFromDocument(Document doc) throws RemoteException {
+		DOMSource domSource = new DOMSource(doc);
+		StringWriter writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer;
+		try {
+			transformer = tf.newTransformer();
+			transformer.transform(domSource, result);
+		} catch (TransformerException e) {
+			throw new RemoteException("Error al parsear el XML.");
+		}
+
+		return writer.toString();
 	}
 
 	public String getParticipantes(String username, long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadIndividual actInd = 
 				ActividadIndividual.getActividad(idActividad);		
 		/* Se obtiene la lista de participantes inscriptos a la 
@@ -194,11 +187,7 @@ public class ActividadControlador {
 		
 		// Convierto el documento a string XML para retornar
 		String xmlParticipantes = null;
-		try {
-			xmlParticipantes = this.getStringFromDocument(docParticipantes);
-		} catch (TransformerException e) {
-			// TODO Do something Ferno!
-		}
+		xmlParticipantes = this.getStringFromDocument(docParticipantes);
 		
 		return xmlParticipantes;
 	}
@@ -206,29 +195,19 @@ public class ActividadControlador {
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
 
 	public void agregarGrupo(String username, long idActividad, String grupo) 
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadGrupal actividad = ActividadGrupal
 				.getActividad(idActividad);
 		// TODO Descerializar el grupo
 		Grupo nuevoGrupo = new Grupo();
-		try {
-			actividad.agregarGrupo(nuevoGrupo);
-		} catch (GrupoNoExclusivoExcepcion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		actividad.agregarGrupo(nuevoGrupo);
+	
 	}
 
 	public void eliminarGrupo(String username ,long idActividad, long idGrupo) 
-			throws XmlErroneoExcepcion {
-		ActividadGrupal actividad = ActividadGrupal
-				.getActividad(idActividad);
-		try {
-			actividad.eliminarGrupo(idGrupo);
-		} catch (GrupoInexistenteExcepcion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			throws RemoteException {
+		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
+		actividad.eliminarGrupo(idGrupo);
 	}
 
 	public void agregarParticipanteAGrupo(String username, long idActividad,
@@ -242,7 +221,7 @@ public class ActividadControlador {
 	}
 
 	public String getGrupos(String username, long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
 		/* Se obtiene la lista de grupos inscriptos a la 
 		* actividad. TODO: Hay que ver que informacion nos dan!
@@ -290,12 +269,8 @@ public class ActividadControlador {
 		
 		String xmlGrupos = null;
 		
-		try {
-			xmlGrupos = this.getStringFromDocument(docGrupos);
-		} catch (TransformerException e) {
-			// TODO do something Ferno!
-		}
-				
+		xmlGrupos = this.getStringFromDocument(docGrupos);
+
 		return xmlGrupos;
 	}
 
@@ -303,7 +278,8 @@ public class ActividadControlador {
 
 	// Evaluado puede ser un participante o un grupo, dependiendo si la
 	// actividad es ind o grupal
-	public void evaluar(String username, long idActividad, String notas) throws XmlErroneoExcepcion {
+	public void evaluar(String username, long idActividad, String notas)
+			throws RemoteException {
 		Actividad actividad = Actividad.getActividad(idActividad);
 		String xml = actividad.serializar();
 		Evaluable evaluable = null;
@@ -318,7 +294,8 @@ public class ActividadControlador {
 	}
 	
 	// TODO: Refactorizar
-	private Evaluable encontrarActividadEvaluable(long idActividad) throws XmlErroneoExcepcion {
+	private Evaluable encontrarActividadEvaluable(long idActividad)
+			throws RemoteException {
 		// TODO Refactorizar la busqueda de actividades evaluables
 		Actividad actividad = Actividad.getActividad(idActividad);
 		String xml = actividad.serializar();
@@ -332,7 +309,8 @@ public class ActividadControlador {
 		}
 	}
 
-	public String getNota(String username ,long idActividad, long idEvaluado) throws XmlErroneoExcepcion, NotaInexistenteExcepcion {
+	public String getNota(String username ,long idActividad, long idEvaluado)
+			throws RemoteException {
 		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
@@ -382,7 +360,7 @@ public class ActividadControlador {
 	}
 
 	// Verificar que la actividad sea evaluable
-	public String getNotas(String username ,long idActividad) throws XmlErroneoExcepcion {
+	public String getNotas(String username ,long idActividad) throws RemoteException {
 		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion

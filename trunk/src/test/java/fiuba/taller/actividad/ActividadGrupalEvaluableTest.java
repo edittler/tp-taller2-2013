@@ -6,8 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
-
 public class ActividadGrupalEvaluableTest {
 	
 	public ActividadGrupalEvaluable actGrupal;

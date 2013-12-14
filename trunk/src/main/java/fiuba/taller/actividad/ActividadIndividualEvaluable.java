@@ -1,13 +1,11 @@
 package fiuba.taller.actividad;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import fiuba.taller.actividad.excepcion.NotaInexistenteExcepcion;
-import fiuba.taller.actividad.excepcion.XmlErroneoExcepcion;
 
 public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		Evaluable {
@@ -49,8 +47,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	@Override
-	public Nota getNota(Object usernameParticipante)
-			throws NotaInexistenteExcepcion {
+	public Nota getNota(Object usernameParticipante) throws RemoteException {
 		String username = (String) usernameParticipante;
 		NotaIndividual nota = NotaIndividual.getNota(id, username);
 		return nota;
@@ -63,7 +60,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	@Override
-	public void actualizar(String xml) throws XmlErroneoExcepcion {
+	public void actualizar(String xml) throws RemoteException {
 		ActividadIndividualEvaluable actividadTemporal = new ActividadIndividualEvaluable();
 		actividadTemporal.descerializar(xml);
 		super.actualizar(actividadTemporal);
@@ -76,7 +73,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		Actividad actividad = new Actividad();
 		try {
 			actividad.descerializar(xml);
-		} catch (XmlErroneoExcepcion e) {
+		} catch (RemoteException e) {
 			return false;
 		}
 		if (actividad.tipo.startsWith(TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE)) {
@@ -86,7 +83,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	public static ActividadIndividualEvaluable crearActividad(
-			String xmlPropiedades) throws XmlErroneoExcepcion {
+			String xmlPropiedades) throws RemoteException {
 		ActividadIndividualEvaluable actividad = new ActividadIndividualEvaluable();
 		actividad.descerializar(xmlPropiedades);
 		// TODO(Pampa) Obtener un ID nuevo
@@ -98,7 +95,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	public static ActividadIndividualEvaluable getActividad(long idActividad)
-			throws XmlErroneoExcepcion {
+			throws RemoteException {
 		ActividadIndividualEvaluable actividad = new ActividadIndividualEvaluable();
 		actividad.levantarEstado(idActividad);
 		return actividad;
@@ -112,12 +109,12 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 
 	// Para el caso de las evaluables, se agrega el Tag "TipoEscala"
 	@Override
-	protected void descerializar(Document doc) throws XmlErroneoExcepcion {
+	protected void descerializar(Document doc) throws RemoteException {
 		super.descerializar(doc);
 		NodeList nodes = doc.getElementsByTagName("Actividad");
 		if (nodes.getLength() != 1) {
 			throw new 
-			XmlErroneoExcepcion("Debe haber solamente un nodo Actividad");
+			RemoteException("Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
 		this.escala = getValue("TipoEscala", element);
