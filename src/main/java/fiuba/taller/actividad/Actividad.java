@@ -291,14 +291,14 @@ public class Actividad implements Serializable {
 			fehcaIniStr = String.valueOf(fechaInicio);
 		}
 
-		String xml = "<Id>" + identifStr + "</Id>"
-				+ "<Nombre>" + nombre + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>"
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Descripcion>" + descripcion + "</Descripcion>"
-				+ "<FechaInicio>" + fehcaIniStr + "</FechaInicio>"
-				+ "<FechaFin>" + fehcaFinStr + "</FechaFin>";
+		String xml = "<actividadId>" + identifStr +"</actividadId>"
+				+ "<nombre>" + nombre + "</nombre>"
+				+ "<tipo>" + tipo + "</tipo>"
+				+ "<actividadSuperiorId>" + idAmbSupStr + "</actividadSuperiorId>"
+				+ "<ambitoSuperiorId>" + idActSupStr + "</ambitoSuperiorId>"
+				+ "<descripcion>" + descripcion + "</descripcion>"
+				+ "<fechaInicio>" + fehcaIniStr + "</fechaInicio>"
+				+ "<fechaFin>" + fehcaFinStr + "</fechaFin>";
 		return xml;
 	}
 
