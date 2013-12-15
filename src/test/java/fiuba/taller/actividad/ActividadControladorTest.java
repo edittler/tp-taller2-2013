@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -45,6 +46,8 @@ public class ActividadControladorTest {
 		fail("Not yet implemented");
 	}
 	*/
+	
+	@Ignore
 	@Test
 	public void testCrearActividadIndividual() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
