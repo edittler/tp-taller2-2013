@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-//import com.ws.services.*;
+import com.ws.services.*;
 
 @SuppressWarnings("unused")
 public class Actividad implements Serializable {
@@ -249,7 +249,7 @@ public class Actividad implements Serializable {
 	}
 
 	protected void guardarNuevoElemento() {
-/*		GuardarDatosResponse response = new GuardarDatosResponse();
+		GuardarDatosResponse response = new GuardarDatosResponse();
 		GuardarDatos envio = new GuardarDatos();
 		envio.setXml(serializar());
 		IntegracionStub servicio;
@@ -260,8 +260,8 @@ public class Actividad implements Serializable {
 			System.out.print("Ocurrio un Error en el metodo setNombre\n");
 			e.printStackTrace();
 		} 
-		System.out.print(response.get_return()); */
-		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
+		System.out.print(response.get_return());
+//		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
 
 	protected void levantarEstado(long idActividad) throws RemoteException {
