@@ -188,16 +188,19 @@ public class Actividad implements Serializable {
 	 * Guarda el estado actual del objeto a la base de datos.
 	 */
 	public void guardarEstado() {
-	/*	GuardarDatosResponse response = new GuardarDatosResponse();
-		GuardarDatos envio = new GuardarDatos();
+		ActualizarDatosResponse response = new ActualizarDatosResponse();
+		ActualizarDatos envio = new ActualizarDatos();
 		envio.setXml(serializar());
 		IntegracionStub servicio;
 		try {
 			servicio = new IntegracionStub();
-			response = servicio.guardarDatos(envio);
-		} catch (RemoteException e) { System.out.print("Ocurrio un Error en el metodo setNombre\n");
-		 e.printStackTrace(); } System.out.print(response.get_return());*/
-		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
+			response = servicio.actualizarDatos(envio);
+		} catch (RemoteException e) {
+			System.out.println("Ocurrio un Error en el metodo guardarEstado");
+			e.printStackTrace();
+		}
+		System.out.print(response.get_return());
+//		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
 
 	/**
@@ -227,6 +230,7 @@ public class Actividad implements Serializable {
 		Actividad actividadTemporal = new Actividad();
 		actividadTemporal.descerializar(xml);
 		actualizar(actividadTemporal);
+		guardarEstado();
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
@@ -248,10 +252,11 @@ public class Actividad implements Serializable {
 		this.id = id;
 	}
 
-	protected void guardarNuevoElemento() {
+	protected void guardarNuevoElemento() throws RemoteException {
 		GuardarDatosResponse response = new GuardarDatosResponse();
 		GuardarDatos envio = new GuardarDatos();
 		envio.setXml(serializar());
+//		System.out.println(serializar());
 		IntegracionStub servicio;
 		try {
 			servicio = new IntegracionStub();
@@ -259,9 +264,41 @@ public class Actividad implements Serializable {
 		} catch (RemoteException e) { 
 			System.out.print("Ocurrio un Error en el metodo setNombre\n");
 			e.printStackTrace();
-		} 
-		System.out.print(response.get_return());
+		}
+		String integracionReturn = response.get_return();
+		System.out.println(integracionReturn);
+		String idStr = procesarNotificacionIntegracion(integracionReturn);
+		id = Long.valueOf(idStr);
 //		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
+	}
+
+	protected String procesarNotificacionIntegracion(String xmlMensaje)
+			throws RemoteException {
+		Document doc = getDocumentElement(xmlMensaje);
+		NodeList nodes = doc.getElementsByTagName("notificacion");
+		if (nodes.getLength() != 1) {
+			throw new RemoteException(
+					"Integracion no devolvio un unico nodo notificacion");
+		}
+		Element element = (Element) nodes.item(0);
+		String numeroStr = getValue("numero", element);
+		int numero = Integer.valueOf(numeroStr);
+		String mensaje = getValue("mensaje", element);
+		String datos = "";
+		try {
+			datos = getValue("datos", element);
+		} catch (RemoteException e) {
+		}
+		switch (numero) {
+		case 0:
+			throw new RemoteException("Integracion: " + mensaje);
+		case 1:
+			throw new RemoteException("Integracion: " + mensaje);
+		case 2:
+			return datos;
+		default:
+			throw new RemoteException("Integracion: Codigo desconocido.");
+		}
 	}
 
 	protected void levantarEstado(long idActividad) throws RemoteException {
@@ -276,30 +313,36 @@ public class Actividad implements Serializable {
 		String idActSupStr = "";
 		String fehcaFinStr = "";
 		String fehcaIniStr = "";
-		if (id >= 0) {
+		if (id > 0) {
 			identifStr = String.valueOf(id);
-			xml = "<id>" + identifStr +"</id>";
+			xml = "<id>" + identifStr + "</id>";
 		}
-		if (idAmbitoSuperior >= 0) {
+		if (nombre.length() > 0) {
+			xml += "<nombre>" + nombre + "</nombre>";
+		}
+		if (tipo.length() > 0) {
+			xml += "<tipo>" + tipo + "</tipo>";
+		}
+		if (idAmbitoSuperior > 0) {
 			idAmbSupStr = String.valueOf(idAmbitoSuperior);
+			xml += "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>";
 		}
-		if (idActividadSuperior >= 0) {
+		if (idActividadSuperior > 0) {
 			idActSupStr = String.valueOf(idActividadSuperior);
+			xml += "<actividadSuperiorId>" + idActSupStr
+					+ "</actividadSuperiorId>";
 		}
-		if (fechaFin >= 0) {
-			fehcaFinStr = String.valueOf(fechaFin);
+		if (descripcion.length() > 0) {
+			xml += "<descripcion>" + descripcion + "</descripcion>";
 		}
 		if (fechaInicio >= 0) {
 			fehcaIniStr = String.valueOf(fechaInicio);
+			xml += "<fechaInicio>" + fehcaIniStr + "</fechaInicio>";
 		}
-
-		xml += "<nombre>" + nombre + "</nombre>"
-				+ "<tipo>" + tipo + "</tipo>"
-				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
-				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
-				+ "<descripcion>" + descripcion + "</descripcion>"
-				+ "<fechaInicio>" + fehcaIniStr + "</fechaInicio>"
-				+ "<fechaFin>" + fehcaFinStr + "</fechaFin>";
+		if (fechaFin >= 0) {
+			fehcaFinStr = String.valueOf(fechaFin);
+			xml += "<fechaFin>" + fehcaFinStr + "</fechaFin>";
+		}
 		return xml;
 	}
 
