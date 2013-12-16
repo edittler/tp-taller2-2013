@@ -33,15 +33,16 @@ public class ActividadTest {
 		long fechaFin = 121212;
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<Id>" + idPrueba + "</Id>" 
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>" 
-				+ "<Descripcion>" + descripcion + "</Descripcion>" 
-				+ "<FechaInicio>" + fechaIni + "</FechaInicio>" 
-				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
+				+ "<id>" + idPrueba + "</id>" 
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<tipo>" + tipo + "</tipo>" 
+				+ "<descripcion>" + descripcion + "</descripcion>" 
+				+ "<fechaInicio>" + fechaIni + "</fechaInicio>" 
+				+ "<fechaFin>" + fechaFin + "</fechaFin>" 
 				+ "</Actividad></WS>";
+		
 		
 		act.descerializar(xmlADescerializar);
 		
@@ -67,14 +68,14 @@ public class ActividadTest {
 		long fechaFin = 121212;
 		
 		String xmlADescerializar = "<Actividad>"
-				+ "<Id>" + idPrueba + "</Id>" 
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>"+ tipo + "</Tipo>" 
-				+ "<Descripcion>"+ descripcion + "</Descripcion>" 
-				+ "<FechaInicio>"+ fechaIni + "</FechaInicio>" 
-				+ "<FechaFin>"+ fechaFin + "</FechaFin>" 
+				+ "<id>" + idPrueba + "</id>" 
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<tipo>"+ tipo + "</tipo>" 
+				+ "<descripcion>"+ descripcion + "</descripcion>" 
+				+ "<fechaInicio>"+ fechaIni + "</fechaInicio>" 
+				+ "<fechaFin>"+ fechaFin + "</fechaFin>" 
 				+ "</Actividad>";
 		
 		act.descerializar(xmlADescerializar);
@@ -102,14 +103,14 @@ public class ActividadTest {
 		
 		// Cambiamos el tag <Actividad> por <TAGACTIVIDAD> para que falle
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><TAGACTIVIDAD>"
-				+ "<Id>" + idPrueba + "</Id>" 
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>" 
-				+ "<Descripcion>" + descripcion + "</Descripcion>" 
-				+ "<FechaInicio>" + fechaIni + "</FechaInicio>" 
-				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
+				+ "<id>" + idPrueba + "</id>" 
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<tipo>" + tipo + "</tipo>" 
+				+ "<descripcion>" + descripcion + "</descripcion>" 
+				+ "<fechaInicio>" + fechaIni + "</fechaInicio>" 
+				+ "<fechaFin>" + fechaFin + "</fechaFin>" 
 				+ "</TAGACTIVIDAD></WS>";
 		
 		act.descerializar(xmlADescerializar);
@@ -128,24 +129,24 @@ public class ActividadTest {
 		
 		// Agregamos dos nodos <Actividad> para que falle
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<Id>" + idPrueba + "</Id>" 
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>"
-				+ "<Descripcion>" + descripcion + "</Descripcion>"
-				+ "<FechaInicio>" + fechaIni + "</FechaInicio>"
-				+ "<FechaFin>" + fechaFin + "</FechaFin>" 
+				+ "<id>" + idPrueba + "</id>" 
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<tipo>" + tipo + "</tipo>"
+				+ "<descripcion>" + descripcion + "</descripcion>"
+				+ "<fechaInicio>" + fechaIni + "</fechaInicio>"
+				+ "<fechaFin>" + fechaFin + "</fechaFin>" 
 				+ "</Actividad>"
 				+ "<Actividad>"
-				+ "<Id>" + idPrueba + "</Id>"
-				+ "<IdAmbitoSuperior>" + idAmbSupStr + "</IdAmbitoSuperior>"
-				+ "<IdActividadSuperior>" + idActSupStr + "</IdActividadSuperior>"
-				+ "<Nombre>" + nombrePrueba + "</Nombre>"
-				+ "<Tipo>" + tipo + "</Tipo>"
-				+ "<Descripcion>" + descripcion + "</Descripcion>"
-				+ "<FechaInicio>" + fechaIni + "</FechaInicio>"
-				+ "<FechaFin>" + fechaFin + "</FechaFin>"
+				+ "<id>" + idPrueba + "</id>"
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<tipo>" + tipo + "</tipo>"
+				+ "<descripcion>" + descripcion + "</descripcion>"
+				+ "<fechaInicio>" + fechaIni + "</fechaInicio>"
+				+ "<fechaFin>" + fechaFin + "</fechaFin>"
 				+ "</Actividad>"
 				+ "</WS>";
 		

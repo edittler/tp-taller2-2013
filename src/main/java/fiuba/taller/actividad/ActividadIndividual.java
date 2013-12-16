@@ -88,6 +88,7 @@ public class ActividadIndividual extends Actividad {
 			throws RemoteException {
 		ActividadIndividual actividad = new ActividadIndividual();
 		actividad.descerializar(xmlPropiedades);
+		actividad.setId(-1);
 		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
 		// TODO(Pampa) Validar fecha y lanzar excepcion
 		actividad.guardarNuevoElemento();

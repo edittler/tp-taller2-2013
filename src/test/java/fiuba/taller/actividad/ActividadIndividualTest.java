@@ -67,15 +67,15 @@ public class ActividadIndividualTest {
 		String nuevoNombre = "Esta actividad tiene un nombre cambiado";
 		
 		String xmlActualizacion = "<WS><Actividad>"
-					+ "<Id></Id>"
-					+ "<Nombre>" + nuevoNombre + "</Nombre>"
-					+ "<Tipo></Tipo>"
-					+ "<IdAmbitoSuperior></IdAmbitoSuperior>"
-					+ "<IdActividadSuperior></IdActividadSuperior>"
-					+ "<Descripcion></Descripcion>"
-					+ "<FechaInicio></FechaInicio>"
-					+ "<FechaFin></FechaFin>"
-					+ "<GruposExclusivos></GruposExclusivos>"
+					+ "<id></id>"
+					+ "<nombre>" + nuevoNombre + "</nombre>"
+					+ "<tipo></tipo>"
+					+ "<ambitoSuperiorId></ambitoSuperiorId>"
+					+ "<actividadSuperiorId></actividadSuperiorId>"
+					+ "<descripcion></descripcion>"
+					+ "<fechaInicio></fechaInicio>"
+					+ "<fechaFin></fechaFin>"
+					+ "<gruposExclusivos></gruposExclusivos>"
 					+ "</Actividad></WS>";
 		
 		actividad.actualizar(xmlActualizacion);
