@@ -12,20 +12,20 @@ public class AuxiliarPruebas {
 		String fechaFin = "121212";
 		
 		String xml = "<?xml version=\"1.0\"?><WS><Actividad>"
-				  + "<Id>"+idPrueba+ "</Id>"
-				  + "<Nombre>"+nombrePrueba+ "</Nombre>"
-				  + "<Tipo>"+ tipo +"</Tipo>"
-				  + "<IdAmbitoSuperior>"+idAmbSupStr+ "</IdAmbitoSuperior>"
-				  + "<IdActividadSuperior>"+idActSupStr+ "</IdActividadSuperior>"
-				  +"<Descripcion>"+descripcion+ "</Descripcion>"
-				  + "<FechaInicio>"+fechaIni+ "</FechaInicio>"
-				  + "<FechaFin>"+fechaFin+ "</FechaFin>";
+				+ "<id>" + idPrueba + "</id>"
+				+ "<nombre>" + nombrePrueba + "</nombre>"
+				+ "<tipo>" + tipo + "</tipo>"
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
+				+ "<descripcion>" + descripcion + "</descripcion>"
+				+ "<fechaInicio>" + fechaIni + "</fechaInicio>"
+				+ "<fechaFin>" + fechaFin + "</fechaFin>";
 					if (gruposExclusivos != "") {
-						xml += "<GruposExclusivos>" + gruposExclusivos
-								+ "</GruposExclusivos>";
+						xml += "<gruposExclusivos>" + gruposExclusivos
+								+ "</gruposExclusivos>";
 					}
 					if (tipoEscala != "") {
-						xml += "<TipoEscala>" + tipoEscala + "</TipoEscala>";
+						xml += "<tipoEscala>" + tipoEscala + "</tipoEscala>";
 					}
 				  xml +="</Actividad></WS>";
 		

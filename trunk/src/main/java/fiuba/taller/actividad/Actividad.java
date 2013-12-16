@@ -270,6 +270,7 @@ public class Actividad implements Serializable {
 	}
 
 	protected String serializarInterno() {
+		String xml = "";
 		String identifStr = "";
 		String idAmbSupStr = "";
 		String idActSupStr = "";
@@ -277,6 +278,7 @@ public class Actividad implements Serializable {
 		String fehcaIniStr = "";
 		if (id >= 0) {
 			identifStr = String.valueOf(id);
+			xml = "<id>" + identifStr +"</id>";
 		}
 		if (idAmbitoSuperior >= 0) {
 			idAmbSupStr = String.valueOf(idAmbitoSuperior);
@@ -291,11 +293,10 @@ public class Actividad implements Serializable {
 			fehcaIniStr = String.valueOf(fechaInicio);
 		}
 
-		String xml = "<actividadId>" + identifStr +"</actividadId>"
-				+ "<nombre>" + nombre + "</nombre>"
+		xml += "<nombre>" + nombre + "</nombre>"
 				+ "<tipo>" + tipo + "</tipo>"
-				+ "<actividadSuperiorId>" + idAmbSupStr + "</actividadSuperiorId>"
-				+ "<ambitoSuperiorId>" + idActSupStr + "</ambitoSuperiorId>"
+				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
+				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
 				+ "<descripcion>" + descripcion + "</descripcion>"
 				+ "<fechaInicio>" + fehcaIniStr + "</fechaInicio>"
 				+ "<fechaFin>" + fehcaFinStr + "</fechaFin>";
@@ -309,22 +310,22 @@ public class Actividad implements Serializable {
 					"Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		String idStr = getValue("Id", element);
+		String idStr = getValue("id", element);
 		if (idStr.length() > 0)
-			id = Long.valueOf(getValue("Id", element));
-		String idAmbSupStr = getValue("IdAmbitoSuperior", element);
+			id = Long.valueOf(idStr);
+		String idAmbSupStr = getValue("ambitoSuperiorId", element);
 		if(idAmbSupStr.length() > 0)
 			idAmbitoSuperior = Long.valueOf(idAmbSupStr);
-		String idActSupStr = getValue("IdActividadSuperior", element);
+		String idActSupStr = getValue("actividadSuperiorId", element);
 		if(idActSupStr.length() > 0)
 			idActividadSuperior = Long.valueOf(idActSupStr);
-		nombre = getValue("Nombre", element);
-		tipo = getValue("Tipo", element);
-		descripcion = getValue("Descripcion", element);
-		String fechaInicioStr = getValue("FechaInicio", element);
+		nombre = getValue("nombre", element);
+		tipo = getValue("tipo", element);
+		descripcion = getValue("descripcion", element);
+		String fechaInicioStr = getValue("fechaInicio", element);
 		if(fechaInicioStr.length() > 0)
 			fechaInicio = Long.valueOf(fechaInicioStr);
-		String fechaFinStr = getValue("FechaFin", element);
+		String fechaFinStr = getValue("fechaFin", element);
 		if(fechaFinStr.length() > 0)
 			fechaFin = Long.valueOf(fechaFinStr);
 	}

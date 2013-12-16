@@ -133,8 +133,8 @@ public class ActividadGrupal extends Actividad {
 
 	@Override
 	protected String serializarInterno() {
-		return super.serializarInterno() + "<GruposExclusivos>"
-				+ gruposExclusivos + "</GruposExclusivos>";
+		return super.serializarInterno() + "<gruposExclusivos>"
+				+ gruposExclusivos + "</gruposExclusivos>";
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class ActividadGrupal extends Actividad {
 		if (node.getNodeType() == Node.ELEMENT_NODE) {
 			Element element = (Element) node;
 			this.gruposExclusivos = Boolean.valueOf(getValue(
-					"GruposExclusivos", element));
+					"gruposExclusivos", element));
 		}
 	}
 

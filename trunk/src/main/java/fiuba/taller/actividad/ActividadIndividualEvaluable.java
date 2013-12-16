@@ -103,8 +103,8 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 
 	@Override
 	protected String serializarInterno() {
-		return super.serializarInterno() + "<TipoEscala>" + escala
-				+ "</TipoEscala>";
+		return super.serializarInterno() + "<tipoEscala>" + escala
+				+ "</tipoEscala>";
 	}
 
 	// Para el caso de las evaluables, se agrega el Tag "TipoEscala"
@@ -117,6 +117,6 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 			RemoteException("Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		this.escala = getValue("TipoEscala", element);
+		this.escala = getValue("tipoEscala", element);
 	}
 }

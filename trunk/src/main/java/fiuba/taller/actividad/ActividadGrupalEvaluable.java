@@ -105,8 +105,8 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 	
 	protected String serializarInterno() {
-		return super.serializarInterno() + "<TipoEscala>" + escala
-				+ "</TipoEscala>";
+		return super.serializarInterno() + "<tipoEscala>" + escala
+				+ "</tipoEscala>";
 	}
 
 	
@@ -120,7 +120,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 			RemoteException("Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		this.escala = getValue("TipoEscala", element);
+		this.escala = getValue("tipoEscala", element);
 	}
 	
 }
