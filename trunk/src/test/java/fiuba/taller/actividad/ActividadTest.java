@@ -153,16 +153,6 @@ public class ActividadTest {
 		act.descerializar(xmlADescerializar);
 	}
 
-	@Test
-	public void testSerializar() throws RemoteException {
-		String xmlADescerializar = AuxiliarPruebas.auxGenerarXml("no me importa el tipo","","");
-		
-		act.descerializar(xmlADescerializar);
-		
-		String xmlFinal = act.serializar();
-		
-		assertEquals(xmlADescerializar, xmlFinal);
-	}
 /*
 	@Test
 	public void testGuardarEstado() {

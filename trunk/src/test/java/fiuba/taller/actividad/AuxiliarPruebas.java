@@ -4,10 +4,10 @@ public class AuxiliarPruebas {
 	public static String auxGenerarXml(String tipo,String tipoEscala, String gruposExclusivos) {
 		
 		long idPrueba = 22;
-		long idAmbSupStr = 99;
-		long idActSupStr = 77;
-		String nombrePrueba = "El mago asecino de lombrices";
-		String descripcion = "nada q ver nada q oler";
+		long idAmbSupStr = 2;
+		long idActSupStr = -1;
+		String nombrePrueba = "Una gran actividad";
+		String descripcion = "La mejor actividad del mundo";
 		String fechaIni = "111111";
 		String fechaFin = "121212";
 		

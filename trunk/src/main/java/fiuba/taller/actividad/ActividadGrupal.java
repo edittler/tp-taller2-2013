@@ -110,11 +110,10 @@ public class ActividadGrupal extends Actividad {
 			throws RemoteException {
 		ActividadGrupal actividad = new ActividadGrupal();
 		actividad.descerializar(xmlPropiedades);
-		// TODO(Pampa) Obtener un ID nuevo
-		// actividad.id = nuevoId;
+		actividad.setId(-1);
 		actividad.tipo = TIPO_ACTIVIDAD_GRUPAL;
 		// TODO(Pampa) Validar fecha y lanzar excepcion
-		actividad.guardarEstado();
+		actividad.guardarNuevoElemento();
 		return actividad;
 	}
 
