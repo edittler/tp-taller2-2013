@@ -1,7 +1,7 @@
 <!DOCTYPE configuration>
-<service name="ActividadControlador" >
+<service name="Actividad">
 	<Description>
-		Please Type your service description here
+		Interfaz para manipular el paquete de Actividad de la Red Social Educativa.
 	</Description>
 	<messageReceivers>
 		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
