@@ -31,6 +31,7 @@
         <configuration>
           <className>fiuba.taller.actividad.ActividadControlador</className>
           <serviceName>Actividad</serviceName>
+          <outputFileName>${basedir}/target/generated-resources/actividad.wsdl</outputFileName>
         </configuration>
         <executions>
           <execution>
@@ -54,7 +55,7 @@
             </goals>
             <configuration>
               <packageName>fiuba.taller.actividad</packageName>
-              <wsdlFile>${basedir}/target/generated-resources/service.wsdl</wsdlFile>
+              <wsdlFile>${basedir}/target/generated-resources/actividad.wsdl</wsdlFile>
               <databindingName>xmlbeans</databindingName>
             </configuration>
           </execution>
@@ -78,8 +79,8 @@
             </fileSet>
           </fileSets>
           <servicesXmlFile>${basedir}/src/main/webapp/META-INF/services.xml</servicesXmlFile>
-          <wsdlFile>${basedir}/target/generated-resources/service.wsdl</wsdlFile>
-          <wsdlFileName>Actividad.wsdl</wsdlFileName>
+          <wsdlFile>${basedir}/target/generated-resources/actividad.wsdl</wsdlFile>
+          <wsdlFileName>actividad.wsdl</wsdlFileName>
         </configuration>
         <executions>
           <execution>
