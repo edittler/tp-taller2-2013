@@ -56,7 +56,7 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	@Override
-	public void guardarEstado() {
+	public void guardarEstado() throws RemoteException {
 		super.guardarEstado();
 		/*
 		 * TODO(Jorge) Se debe guardar la lista de usernames.
