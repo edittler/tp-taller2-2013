@@ -76,7 +76,7 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	@Override
-	public void guardarEstado() {
+	public void guardarEstado() throws RemoteException {
 		super.guardarEstado();
 		/*
 		 * TODO(Jorge) Se debe guardar además el atributo "gruposExclusivos".

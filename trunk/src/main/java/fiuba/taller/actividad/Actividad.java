@@ -186,19 +186,15 @@ public class Actividad implements Serializable {
 
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.
+	 * @throws RemoteException 
 	 */
-	public void guardarEstado() {
+	public void guardarEstado() throws RemoteException {
 		ActualizarDatosResponse response = new ActualizarDatosResponse();
 		ActualizarDatos envio = new ActualizarDatos();
 		envio.setXml(serializar());
 		IntegracionStub servicio;
-		try {
-			servicio = new IntegracionStub();
-			response = servicio.actualizarDatos(envio);
-		} catch (RemoteException e) {
-			System.out.println("Ocurrio un Error en el metodo guardarEstado");
-			e.printStackTrace();
-		}
+		servicio = new IntegracionStub();
+		response = servicio.actualizarDatos(envio);
 		System.out.print(response.get_return());
 //		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
@@ -209,28 +205,21 @@ public class Actividad implements Serializable {
 	 * todos los datos y este es devuelto. NOTA: integracion puede devolver mas
 	 * de 1 XML según los valores de los parametros internos de la instancia.
 	 */
-	public String realizarConsulta() {
-		// "No implementado todavia :)";
-		// devuelve siempre lo mismo
-		
-		 String xml = serializar(); // TODO llamar a integrar y conseguir el
-		/* xml completo String xmlDevuelto =
-		 * "<?xml version=\"1.0\"?><WS><Actividad>" + "<Id>" + 45 + "</Id>" +
-		 * "<IdAmbitoSuperior>" + 88 + "</IdAmbitoSuperior>" +
-		 * "<IdActividadSuperior>" + 90 + "</IdActividadSuperior>" + "<Nombre>"
-		 * + "pepe" + "</Nombre>" + "<Tipo>" + "ActividadIndividual" + "</Tipo>"
-		 * + "<Descripcion>" + "esto es una descripcion" + "</Descripcion>" +
-		 * "<FechaInicio>" + fechaInicio + "</FechaInicio>" + "<FechaFin>" +
-		 * fechaFin + "</FechaFin>" + "</Actividad></WS>";
-		 */
-		return Actividad.AuxHastaQIntegracionAnde.get(this.id);
+	public String realizarConsulta() throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		SeleccionarDatos envio = new SeleccionarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
+		String retorno = respuesta.get_return();
+		return retorno;
+		//return Actividad.AuxHastaQIntegracionAnde.get(this.id);
 	}
 
 	public void actualizar(String xml) throws RemoteException {
 		Actividad actividadTemporal = new Actividad();
 		actividadTemporal.descerializar(xml);
 		actualizar(actividadTemporal);
-		guardarEstado();
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
@@ -244,6 +233,25 @@ public class Actividad implements Serializable {
 		Actividad actividad = new Actividad();
 		actividad.levantarEstado(idActividad);
 		return actividad;
+	}
+
+	public static String getPropiedades(long idActividad)
+			throws RemoteException {
+		/*
+		 * FIXME Si no existe la actividad con el ID especificado, se debe
+		 * lanzar la excepcion ActividadInexistenteExcepcion
+		 */
+		IntegracionStub servicio = new IntegracionStub();
+		SeleccionarDatos envio = new SeleccionarDatos();
+		String xml = "<WS><Actividad>"
+				+ "<id>" + idActividad + "</id>"
+				+ "<gruposExclusivo>true</gruposExclusivo>"
+				+ "</Actividad></WS>";
+		envio.setXml(xml);
+		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
+		String retorno = respuesta.get_return();
+//		System.out.print(retorno);
+		return retorno;
 	}
 
 	/* METODOS PROTEGIDOS AUXILIARES */
@@ -302,8 +310,7 @@ public class Actividad implements Serializable {
 	}
 
 	protected void levantarEstado(long idActividad) throws RemoteException {
-		id = idActividad;
-		descerializar(realizarConsulta());
+		descerializar(getPropiedades(idActividad));
 	}
 
 	protected String serializarInterno() {

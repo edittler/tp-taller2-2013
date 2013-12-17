@@ -26,16 +26,13 @@ public class ActividadControlador {
 
 	public String getPropiedades(String username, long idActividad)
 			throws RemoteException {
-		Actividad actividad = new Actividad();
-		actividad.setId(idActividad);
-		return actividad.realizarConsulta();
+		String propiedades = Actividad.getPropiedades(idActividad);
+		return propiedades;
 	}
 
 	public void setPropiedades(String username, long idActividad,
 			String propiedades) throws RemoteException {
-		Actividad actividad = new Actividad();
-		actividad.setId(idActividad);
-		String xml = actividad.realizarConsulta();
+		String xml = Actividad.getPropiedades(idActividad);
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			ActividadIndividualEvaluable actividadIndividual = new ActividadIndividualEvaluable();
 			actividadIndividual.descerializar(xml);
@@ -56,19 +53,22 @@ public class ActividadControlador {
 		 * que actualizar. (En ActividadGrupal no se puede cambiar si es de 
 		 * grupos exclusivos)
 		 */
+		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
 		actividad.actualizar(propiedades);
 		actividad.guardarEstado();
 	}
 
-	public String getActividadesDeAmbito(String username, long idAmbito) {
+	public String getActividadesDeAmbito(String username, long idAmbito)
+			throws RemoteException {
 		Actividad act = new Actividad();
 		act.setIdAmbitoSuperior(idAmbito);
 		String xml = act.realizarConsulta();
 		return xml;
 	}
 
-	public String getActividadesDeActividad(String username, long idActividad) {
+	public String getActividadesDeActividad(String username, long idActividad)
+			throws RemoteException {
 		Actividad act = new Actividad();
 		act.setIdActividadSuperior(idActividad);
 		String xml = act.realizarConsulta();
