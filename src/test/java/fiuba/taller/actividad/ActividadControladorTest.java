@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
+
 public class ActividadControladorTest {
 	ActividadControlador controlador;
 
@@ -60,7 +60,23 @@ public class ActividadControladorTest {
 
 	@Test
 	public void getPropiedades() throws RemoteException {
-		String propiedades = Actividad.getPropiedades(28);
+		String propiedades = controlador.getPropiedades("pepe", 28);
+//		assertEquals("no son iguales:",xml,xmlProp);
+	}
+
+	@Test
+	public void setPropiedadesConNombreNuevo() throws RemoteException {
+		String xml = "<WS><Actividad>"
+				+ "<id></id>"
+				+ "<nombre>Nuevo Nombre</nombre>"
+				+ "<tipo></tipo>"
+				+ "<ambitoSuperiorId></ambitoSuperiorId>"
+				+ "<actividadSuperiorId></actividadSuperiorId>"
+				+ "<descripcion></descripcion>"
+				+ "<fechaInicio></fechaInicio>"
+				+ "<fechaFin></fechaFin>"
+				+ "</Actividad></WS>";
+		controlador.setPropiedades("pampa", 28, xml);
 //		assertEquals("no son iguales:",xml,xmlProp);
 	}
 }
