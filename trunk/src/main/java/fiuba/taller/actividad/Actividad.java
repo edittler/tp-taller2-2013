@@ -245,12 +245,11 @@ public class Actividad implements Serializable {
 		SeleccionarDatos envio = new SeleccionarDatos();
 		String xml = "<WS><Actividad>"
 				+ "<id>" + idActividad + "</id>"
-				+ "<gruposExclusivo>true</gruposExclusivo>"
 				+ "</Actividad></WS>";
 		envio.setXml(xml);
 		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
 		String retorno = respuesta.get_return();
-//		System.out.print(retorno);
+//		System.out.println(retorno);
 		return retorno;
 	}
 
@@ -261,21 +260,15 @@ public class Actividad implements Serializable {
 	}
 
 	protected void guardarNuevoElemento() throws RemoteException {
-		GuardarDatosResponse response = new GuardarDatosResponse();
+		IntegracionStub servicio = new IntegracionStub();
 		GuardarDatos envio = new GuardarDatos();
-		envio.setXml(serializar());
-//		System.out.println(serializar());
-		IntegracionStub servicio;
-		try {
-			servicio = new IntegracionStub();
-			response = servicio.guardarDatos(envio);
-		} catch (RemoteException e) { 
-			System.out.print("Ocurrio un Error en el metodo setNombre\n");
-			e.printStackTrace();
-		}
-		String integracionReturn = response.get_return();
-		System.out.println(integracionReturn);
-		String idStr = procesarNotificacionIntegracion(integracionReturn);
+		String xml = serializar();
+		envio.setXml(xml);
+//		System.out.println(xml);
+		GuardarDatosResponse response = servicio.guardarDatos(envio);
+		String retorno = response.get_return();
+		System.out.println(retorno);
+		String idStr = procesarNotificacionIntegracion(retorno);
 		id = Long.valueOf(idStr);
 //		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
