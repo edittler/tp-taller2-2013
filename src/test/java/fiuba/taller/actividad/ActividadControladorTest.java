@@ -60,7 +60,7 @@ public class ActividadControladorTest {
 
 	@Test
 	public void getPropiedades() throws RemoteException {
-		String propiedades = controlador.getPropiedades("pepe", 28);
+		String propiedades = controlador.getPropiedades("pepe", 13);
 //		assertEquals("no son iguales:",xml,xmlProp);
 	}
 
@@ -76,7 +76,7 @@ public class ActividadControladorTest {
 				+ "<fechaInicio></fechaInicio>"
 				+ "<fechaFin></fechaFin>"
 				+ "</Actividad></WS>";
-		controlador.setPropiedades("pampa", 28, xml);
+		controlador.setPropiedades("pampa", 14, xml);
 //		assertEquals("no son iguales:",xml,xmlProp);
 	}
 }
