@@ -39,12 +39,6 @@ public class Actividad implements Serializable {
 	protected List<Long> actividadesInternas;
 	protected long idChat;
 
-	/*
-	 * Mapa donde se van a guardar provisoriamente las actividades hasta que lo
-	 * de Integracion ande.
-	 */
-	protected static HashMap<Long, String> AuxHastaQIntegracionAnde = new HashMap<Long, String>();
-
 	public Actividad() {
 		id = -1;
 		idAmbitoSuperior = -1;
@@ -189,14 +183,12 @@ public class Actividad implements Serializable {
 	 * @throws RemoteException 
 	 */
 	public void guardarEstado() throws RemoteException {
-		ActualizarDatosResponse response = new ActualizarDatosResponse();
+		IntegracionStub servicio = new IntegracionStub();
 		ActualizarDatos envio = new ActualizarDatos();
-		envio.setXml(serializar());
-		IntegracionStub servicio;
-		servicio = new IntegracionStub();
-		response = servicio.actualizarDatos(envio);
-		System.out.print(response.get_return());
-//		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
+		String xml = serializar();
+		envio.setXml(xml);
+		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
+		System.out.println(respuesta.get_return());
 	}
 
 	/**
@@ -213,7 +205,6 @@ public class Actividad implements Serializable {
 		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
 		String retorno = respuesta.get_return();
 		return retorno;
-		//return Actividad.AuxHastaQIntegracionAnde.get(this.id);
 	}
 
 	public void actualizar(String xml) throws RemoteException {
@@ -226,10 +217,6 @@ public class Actividad implements Serializable {
 
 	public static Actividad getActividad(long idActividad)
 			throws RemoteException {
-		/*
-		 * FIXME Si no existe la actividad con el ID especificado, se debe
-		 * lanzar la excepcion ActividadInexistenteExcepcion
-		 */
 		Actividad actividad = new Actividad();
 		actividad.levantarEstado(idActividad);
 		return actividad;
@@ -237,10 +224,6 @@ public class Actividad implements Serializable {
 
 	public static String getPropiedades(long idActividad)
 			throws RemoteException {
-		/*
-		 * FIXME Si no existe la actividad con el ID especificado, se debe
-		 * lanzar la excepcion ActividadInexistenteExcepcion
-		 */
 		IntegracionStub servicio = new IntegracionStub();
 		SeleccionarDatos envio = new SeleccionarDatos();
 		String xml = "<WS><Actividad>"
@@ -249,7 +232,7 @@ public class Actividad implements Serializable {
 		envio.setXml(xml);
 		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
 		String retorno = respuesta.get_return();
-//		System.out.println(retorno);
+		procesarConsultaIndividualIntegracion(retorno);
 		return retorno;
 	}
 
@@ -273,34 +256,7 @@ public class Actividad implements Serializable {
 //		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
 	}
 
-	protected String procesarNotificacionIntegracion(String xmlMensaje)
-			throws RemoteException {
-		Document doc = getDocumentElement(xmlMensaje);
-		NodeList nodes = doc.getElementsByTagName("notificacion");
-		if (nodes.getLength() != 1) {
-			throw new RemoteException(
-					"Integracion no devolvio un unico nodo notificacion");
-		}
-		Element element = (Element) nodes.item(0);
-		String numeroStr = getValue("numero", element);
-		int numero = Integer.valueOf(numeroStr);
-		String mensaje = getValue("mensaje", element);
-		String datos = "";
-		try {
-			datos = getValue("datos", element);
-		} catch (RemoteException e) {
-		}
-		switch (numero) {
-		case 0:
-			throw new RemoteException("Integracion: " + mensaje);
-		case 1:
-			throw new RemoteException("Integracion: " + mensaje);
-		case 2:
-			return datos;
-		default:
-			throw new RemoteException("Integracion: Codigo desconocido.");
-		}
-	}
+
 
 	protected void levantarEstado(long idActividad) throws RemoteException {
 		descerializar(getPropiedades(idActividad));
@@ -323,10 +279,14 @@ public class Actividad implements Serializable {
 		if (tipo.length() > 0) {
 			xml += "<tipo>" + tipo + "</tipo>";
 		}
-		if (idAmbitoSuperior > 0) {
+		/*
+		 * FIXME Descomentar cuando Integracion y Base de datos corrijan el
+		 * error.
+		 */
+/*		if (idAmbitoSuperior > 0) {
 			idAmbSupStr = String.valueOf(idAmbitoSuperior);
 			xml += "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>";
-		}
+		}*/
 		if (idActividadSuperior > 0) {
 			idActSupStr = String.valueOf(idActividadSuperior);
 			xml += "<actividadSuperiorId>" + idActSupStr
@@ -395,6 +355,55 @@ public class Actividad implements Serializable {
 				setFecha(actividadConDatosNuevos.getFechaInicio());
 			}
 		}
+	}
+
+	protected static String procesarNotificacionIntegracion(String xmlMensaje)
+			throws RemoteException {
+		Document doc = getDocumentElement(xmlMensaje);
+		NodeList nodes = doc.getElementsByTagName("notificacion");
+		if (nodes.getLength() != 1) {
+			throw new RemoteException(
+					"Integracion no devolvio un unico nodo notificacion");
+		}
+		Element element = (Element) nodes.item(0);
+		String numeroStr = getValue("numero", element);
+		int numero = Integer.valueOf(numeroStr);
+		String mensaje = getValue("mensaje", element);
+		String datos = "";
+		try {
+			datos = getValue("datos", element);
+		} catch (RemoteException e) {
+		}
+		switch (numero) {
+		// Codigo 0: Operación no permitida
+		case 0:
+			throw new RemoteException("Integracion: " + mensaje);
+		// Codigo 1: Error al realizar la operación
+		case 1:
+			throw new RemoteException("Integracion: " + mensaje);
+		// Codigo 2: Operación correcta
+		case 2:
+			return datos;
+		default:
+			throw new RemoteException("Integracion: Codigo desconocido.");
+		}
+	}
+
+	protected static String procesarConsultaIndividualIntegracion(String xmlMensaje)
+			throws RemoteException {
+		Document doc = getDocumentElement(xmlMensaje);
+		NodeList nodes = doc.getElementsByTagName("Actividad");
+		int cantidadActividades = nodes.getLength();
+		switch (cantidadActividades) {
+		case 0:
+			procesarNotificacionIntegracion(xmlMensaje);
+			break;
+		case 1:
+			return xmlMensaje;
+		default:
+			throw new RemoteException("Integracion no devolvio un unico nodo Actividad");
+		}
+		return xmlMensaje;
 	}
 
 	protected static Document getDocumentElement(String xml)
