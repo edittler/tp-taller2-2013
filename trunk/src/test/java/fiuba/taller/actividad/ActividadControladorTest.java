@@ -67,14 +67,7 @@ public class ActividadControladorTest {
 	@Test
 	public void setPropiedadesConNombreNuevo() throws RemoteException {
 		String xml = "<WS><Actividad>"
-				+ "<id></id>"
 				+ "<nombre>Nuevo Nombre</nombre>"
-				+ "<tipo></tipo>"
-				+ "<ambitoSuperiorId></ambitoSuperiorId>"
-				+ "<actividadSuperiorId></actividadSuperiorId>"
-				+ "<descripcion></descripcion>"
-				+ "<fechaInicio></fechaInicio>"
-				+ "<fechaFin></fechaFin>"
 				+ "</Actividad></WS>";
 		controlador.setPropiedades("pampa", 14, xml);
 //		assertEquals("no son iguales:",xml,xmlProp);

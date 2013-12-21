@@ -188,7 +188,9 @@ public class Actividad implements Serializable {
 		String xml = serializar();
 		envio.setXml(xml);
 		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
-		System.out.println(respuesta.get_return());
+		String retorno = respuesta.get_return();
+		System.out.println(retorno);
+		//procesarNotificacionIntegracion(retorno);
 	}
 
 	/**
@@ -425,12 +427,17 @@ public class Actividad implements Serializable {
 	protected static String getValue(String tag, Element element)
 			throws RemoteException {
 		NodeList nodes = element.getElementsByTagName(tag);
-		if (nodes.getLength() != 1) {
-			String mensaje = "Debe existir un nodo " + tag + ".";
+		int numeroNodos = nodes.getLength();
+		switch (numeroNodos) {
+		case 0:
+			return "";
+		case 1:
+			Element elemento = (Element) nodes.item(0);
+			return elemento.getTextContent();
+		default:
+			String mensaje = "No debe existir mas de un nodo " + tag + ".";
 			throw new RemoteException(mensaje);
 		}
-		Element elemento = (Element) nodes.item(0);
-		return elemento.getTextContent();
 	}
 
 	/* METODOS PUBLICOS DE TESTING */
