@@ -202,7 +202,7 @@
      */
     public IntegracionStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://200.68.65.249:8080/axis2/services/integracion.integracionHttpSoap12Endpoint/" );
+                    this(configurationContext,"http://200.68.65.249:58080/axis2/services/integracion.integracionHttpSoap12Endpoint/" );
                 
     }
 
@@ -211,7 +211,7 @@
      */
     public IntegracionStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://200.68.65.249:8080/axis2/services/integracion.integracionHttpSoap12Endpoint/" );
+                    this("http://200.68.65.249:58080/axis2/services/integracion.integracionHttpSoap12Endpoint/" );
                 
     }
 
@@ -2464,7 +2464,7 @@
         }
         return false;
     }
-     //http://200.68.65.249:8080/axis2/services/integracion.integracionHttpSoap12Endpoint/
+     //http://200.68.65.249:58080/axis2/services/integracion.integracionHttpSoap12Endpoint/
             private  org.apache.axiom.om.OMElement  toOM(com.ws.services.SetMockService param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
