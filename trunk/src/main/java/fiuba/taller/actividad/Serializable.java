@@ -26,6 +26,16 @@ public interface Serializable {
 	 * @throws RemoteException 
 	 */
 	public void guardarEstado() throws RemoteException;
+	/**
+	 * Guarda el NUEVO objeto a la base de datos.
+	 * @throws RemoteException 
+	 */
+	public void guardarNuevoEstado() throws RemoteException;
+	/**
+	 * elimina el objeto de la base de datos.
+	 * @throws RemoteException 
+	 */
+	public void eliminarEstado() throws RemoteException;
 
 	/**
 	 * A partir de los valores de los atributos internos de la instancia, genera

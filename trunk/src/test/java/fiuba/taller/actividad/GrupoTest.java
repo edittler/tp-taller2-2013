@@ -29,9 +29,10 @@ public class GrupoTest {
 		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
 				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
-				+ "<usernameParticipante>" + usernameParticipante1
-				+ "</usernameParticipante>" + "<usernameParticipante>"
-				+ usernameParticipante2 + "</usernameParticipante>"
+				+"<list>"
+				+ "<Username>" + usernameParticipante1+ "</Username>"
+				+ "<Username>"+ usernameParticipante2 + "</Username>"
+				+"</list>"
 				+ "</Grupo></WS>";
 	}
 
@@ -155,10 +156,12 @@ public class GrupoTest {
 	@Test
 	public void descerializarConXMLCorrecto() throws RemoteException {
 		grupo.descerializar(xmlADescerializar);
+		assertEquals(xmlADescerializar, grupo.serializar());
 		assertEquals(idActividad, grupo.getIdActividad());
 		assertEquals(idGrupo, grupo.getId());
 		assertTrue(grupo.contieneParticipante(usernameParticipante1));
 		assertTrue(grupo.contieneParticipante(usernameParticipante2));
+		
 	}
 
 	@Test(expected = RemoteException.class)
