@@ -15,39 +15,53 @@ import org.xml.sax.InputSource;
 public class Nota implements Serializable {
 
 	protected long idActividad;
-	protected long idEvaluado;
+	protected String tipo;
+	protected String idEvaluado;
 	protected String valor;
 	protected String observaciones;
-	protected String tipo;
 
-	protected Nota (long idActividad, String tipo) {
+	protected Nota(long idActividad, String tipo) {
 		this.idActividad = idActividad;
 		this.tipo = tipo;
+		idEvaluado = "";
 		valor = "";
 		observaciones = "";
+
 	}
 
 	public long getIdActividad() {
 		return idActividad;
 	}
-	public String getTipo(){
+
+	public String getTipo() {
 		return tipo;
 	}
-	public long getIdEvaluado(){
+
+	public String getIdEvaluado() {
 		return idEvaluado;
 	}
-	public void setIdEvaluado(long idEvaluado){
-		this.idEvaluado=idEvaluado;
+
+	public void setIdEvaluado(String idEvaluado) {
+		this.idEvaluado = idEvaluado;
+		if (this.tipo == "NotaGrupal") {
+			// solo chequea q es un long , Long levanta excepcion si no lo es
+			@SuppressWarnings("unused")
+			long aux = Long.valueOf(idEvaluado);
+		}
 	}
+
 	public String getValor() {
 		return valor;
 	}
+
 	public void setValor(String valor) {
 		this.valor = valor;
 	}
+
 	public String getObservaciones() {
 		return observaciones;
 	}
+
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
 	}
@@ -67,16 +81,11 @@ public class Nota implements Serializable {
 	@Override
 	public String serializar() {
 		String idActividadString = "";
-		String idElementoEvaluadoString = "";
-		if (idActividad >= 0) {
-			idActividadString = String.valueOf(idActividad);
-		}
-		if (idEvaluado >= 0) {
-			idElementoEvaluadoString = String.valueOf(idEvaluado);
-		}
+		
+		
 		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
 				+ idActividadString + "</IdActividad>" + "<Tipo>" + tipo
-				+ "</Tipo>" + "<IdEvaluado>" + idElementoEvaluadoString
+				+ "</Tipo>" + "<IdEvaluado>" + this.getIdEvaluado()
 				+ "</IdEvaluado>" + "<ValorNota>" + valor + "</ValorNota>"
 				+ "<Observaciones>" + observaciones + "</Observaciones>"
 				+ "</Nota></WS>";
@@ -99,7 +108,7 @@ public class Nota implements Serializable {
 					Element element = (Element) node;
 					idActividad = Long.valueOf(getValue("IdActividad", element));
 					tipo = getValue("Tipo", element);
-					idEvaluado = Long.valueOf(getValue("IdEvaluado", element));
+					this.setIdEvaluado(idEvaluado = getValue("IdEvaluado", element));
 					valor = getValue("ValorNota", element);
 					observaciones = getValue("Observaciones", element);
 				}
@@ -110,7 +119,7 @@ public class Nota implements Serializable {
 	}
 
 	public static Nota crearNota(long idActividad, String tipo,
-			String valorNota, long idEvaluado, String observaciones)
+			String valorNota, String idEvaluado, String observaciones)
 			throws RemoteException {
 		Nota nuevaNota = new Nota(idActividad, tipo);
 		String xml = nuevaNota.realizarConsulta();
@@ -133,7 +142,7 @@ public class Nota implements Serializable {
 		nota.descerializar(xml);
 		return nota;
 	}
-
+	
 	public void guardarEstado() {
 		/*
 		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
