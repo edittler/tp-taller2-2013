@@ -22,15 +22,16 @@ import org.xml.sax.SAXException;
  * FIXME ACLARACION: Revisar el formato XML que necesitan los de Integracion 
  * para poder persistir este objeto (incluyendo la lista de strings).
  * 
- * <Grupo>
- * 		<IdGrupo></IdGrupo>
- * 		<list>
- * 			<UsernameParticipante></UsernameParticipante>
- * 				.
- * 				.
- * 			<UsernameParticipante></UsernameParticipante>
- * 		</list>
- * </Grupo>
+	<Grupo>
+	   <IdActividad> </IdActividad>
+	   <IdGrupo> </IdGrupo>
+	   <list>
+	      <Username> </Username>
+	      .
+	      . 
+	      <Username> </Username>
+	   </list>
+	</Grupo>
  * 
  * ws->seleccionarDatos(xml)
  * 
@@ -152,12 +153,12 @@ public class Grupo implements Serializable {
 	public String serializar() {
 		String xml = "<?xml version=\"1.0\"?><WS><Grupo>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<IdGrupo>" + id + "</IdGrupo>";
+				+ "<IdGrupo>" + id + "</IdGrupo>"
+				+ "<list>";
 		for (String participante : usernameParticipantes) {
-			xml += "<usernameParticipante>" + participante
-					+ "</usernameParticipante>";
+			xml += "<Username>" + participante + "</Username>";
 		}
-		xml += "</Grupo></WS>";
+		xml += "</list></Grupo></WS>";
 		return xml;
 	}
 
@@ -184,8 +185,10 @@ public class Grupo implements Serializable {
 		idActividad = Long.valueOf(getValue("IdActividad", grupoElement));
 		id = Long.valueOf(getValue("IdGrupo", grupoElement));
 
-		NodeList participantes = ((Element) grupoElement)
-				.getElementsByTagName("usernameParticipante");
+		NodeList lista = ((Element) grupoElement).getElementsByTagName("list");
+		Element listaE = (Element)lista.item(0);
+		
+		NodeList participantes = listaE.getElementsByTagName("Username");
 		for (int j = 0; j < participantes.getLength(); j++) {
 			// System.out.print("LARGO: "+participantes.getLength()+"\n");
 			Node nodde = participantes.item(j);
@@ -242,5 +245,17 @@ public class Grupo implements Serializable {
 		}
 		Element elemento = (Element) nodes.item(0);
 		return elemento.getTextContent();
+	}
+
+	@Override
+	public void guardarNuevoEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eliminarEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 }

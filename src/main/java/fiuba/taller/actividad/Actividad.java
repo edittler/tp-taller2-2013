@@ -418,7 +418,9 @@ public class Actividad implements Serializable {
 			doc = builder.parse(is);
 			doc.getDocumentElement().normalize();
 		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
 			throw new RemoteException("Error al parsear el XML.");
+			
 		}
 		return doc;
 	}
@@ -447,5 +449,17 @@ public class Actividad implements Serializable {
 				+ "NOMBRE: " + nombre + "\n" + "FECHA INI: " + fechaInicio
 				+ "\n" + "FECHA FIN: " + fechaFin + "\n" + "DESCRIPCION: "
 				+ descripcion + "\n";
+	}
+
+	@Override
+	public void guardarNuevoEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eliminarEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 }
