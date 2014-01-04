@@ -124,20 +124,4 @@ public class NotaGrupal extends Nota {
 			ex.printStackTrace();
 		}
 	}
-
-	@Override
-	public void guardarEstado() {
-		/* 
-		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
-		 * datos.
-		 */
-	}
-
-	@Override
-	public String realizarConsulta() {
-		/*
-		 * TODO(Jorge) Implementar
-		 */
-		return "";
-	}
 }

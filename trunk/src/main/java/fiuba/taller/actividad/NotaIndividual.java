@@ -189,20 +189,4 @@ public class NotaIndividual extends Nota {
 		valor = getValue(NODO_VALOR, element);
 		observaciones = getValue(NODO_OBSERVACIONES, element);
 	}
-
-	@Override
-	public void guardarEstado() {
-		/* 
-		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
-		 * datos.
-		 */
-	}
-
-	@Override
-	public String realizarConsulta() {
-		/*
-		 * TODO(Jorge) Implementar
-		 */
-		return "";
-	}
 }

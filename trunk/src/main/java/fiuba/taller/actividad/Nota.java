@@ -1,53 +1,29 @@
 package fiuba.taller.actividad;
 
-import java.io.StringReader;
 import java.rmi.RemoteException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-public class Nota implements Serializable {
+public abstract class Nota implements Serializable {
 
 	protected long idActividad;
-	protected String tipo;
-	protected String idEvaluado;
 	protected String valor;
 	protected String observaciones;
+	
+	protected static final String NODO_NOTA = "Nota";
+	protected static final String NODO_ID_ACTIVIDAD = "IdActividad";
+	protected static final String NODO_VALOR = "Valor";
+	protected static final String NODO_OBSERVACIONES = "Observaciones";
 
-	protected Nota(long idActividad, String tipo) {
+	protected Nota(long idActividad) {
 		this.idActividad = idActividad;
-		this.tipo = tipo;
-		idEvaluado = "";
 		valor = "";
 		observaciones = "";
-
 	}
 
 	public long getIdActividad() {
 		return idActividad;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public String getIdEvaluado() {
-		return idEvaluado;
-	}
-
-	public void setIdEvaluado(String idEvaluado) {
-		this.idEvaluado = idEvaluado;
-		if (this.tipo == "NotaGrupal") {
-			// solo chequea q es un long , Long levanta excepcion si no lo es
-			@SuppressWarnings("unused")
-			long aux = Long.valueOf(idEvaluado);
-		}
 	}
 
 	public String getValor() {
@@ -77,83 +53,19 @@ public class Nota implements Serializable {
 		String text = elemento.getTextContent();
 		return text;
 	}
-
-	@Override
-	public String serializar() {
-		String idActividadString = "";
-		
-		
-		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
-				+ idActividadString + "</IdActividad>" + "<Tipo>" + tipo
-				+ "</Tipo>" + "<IdEvaluado>" + this.getIdEvaluado()
-				+ "</IdEvaluado>" + "<ValorNota>" + valor + "</ValorNota>"
-				+ "<Observaciones>" + observaciones + "</Observaciones>"
-				+ "</Nota></WS>";
-	}
-
-	@Override
-	public void descerializar(String xml) throws RemoteException {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			Document doc = builder.parse(is);
-			doc.getDocumentElement().normalize();
-
-			NodeList nodes = doc.getElementsByTagName("Nota");
-			for (int i = 0; i < nodes.getLength(); i++) {
-				Node node = nodes.item(i);
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) node;
-					idActividad = Long.valueOf(getValue("IdActividad", element));
-					tipo = getValue("Tipo", element);
-					this.setIdEvaluado(idEvaluado = getValue("IdEvaluado", element));
-					valor = getValue("ValorNota", element);
-					observaciones = getValue("Observaciones", element);
-				}
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public static Nota crearNota(long idActividad, String tipo,
-			String valorNota, String idEvaluado, String observaciones)
-			throws RemoteException {
-		Nota nuevaNota = new Nota(idActividad, tipo);
-		String xml = nuevaNota.realizarConsulta();
-		// TODO ver como devuelve integracion un xml no encontrado / encontrado ??¿¿
-		if (xml == "encontrado??") {
-			nuevaNota.descerializar(xml);
-			return nuevaNota;
-		}
-		nuevaNota.setValor(valorNota);
-		nuevaNota.setIdEvaluado(idEvaluado);
-		nuevaNota.setObservaciones(observaciones);
-		nuevaNota.guardarNuevoEstado();
-		return nuevaNota;
-	}
-
-	public static Nota getNota(long idActividad, String tipo)
-			throws RemoteException {
-		Nota nota = new Nota(idActividad, tipo);
-		String xml = nota.realizarConsulta();
-		nota.descerializar(xml);
-		return nota;
-	}
 	
+	@Override
 	public void guardarEstado() {
-		/*
-		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
+		/* 
+		 * TODO Implementar. Se debe persistir el objeto en la base de
 		 * datos.
 		 */
 	}
 
 	@Override
-	public String realizarConsulta() throws RemoteException {
+	public String realizarConsulta() {
 		/*
-		 * TODO(Jorge) Implementar
+		 * TODO Implementar
 		 */
 		return "";
 	}
@@ -161,12 +73,12 @@ public class Nota implements Serializable {
 	@Override
 	public void guardarNuevoEstado() throws RemoteException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void eliminarEstado() throws RemoteException {
 		// TODO Auto-generated method stub
-
+		
 	}
 }
