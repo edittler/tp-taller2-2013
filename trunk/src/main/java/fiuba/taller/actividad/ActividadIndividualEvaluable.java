@@ -35,6 +35,8 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		String username = (String) usernameParticipante;
 		NotaIndividual notaIndividual = NotaIndividual.crearNota(id, username);
 		notaIndividual.setValor(nota);
+		// TODO: Llamar a integracion para persistir nota.
+		// Se necesita: idActividad, username, nota, ¿observaciones?
 	}
 
 	@Override
@@ -44,6 +46,8 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		NotaIndividual notaIndividual = NotaIndividual.crearNota(id, username);
 		notaIndividual.setValor(nota);
 		notaIndividual.setObservaciones(observaciones);
+		// TODO: Llamar a integracion para persistir nota.
+		// Se necesita: idActividad, username, nota, ¿observaciones?
 	}
 
 	@Override
