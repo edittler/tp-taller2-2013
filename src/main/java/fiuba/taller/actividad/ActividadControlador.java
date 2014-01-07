@@ -75,6 +75,12 @@ public class ActividadControlador {
 		// por ahora devolvemos los xml directamente
 		return xml;
 	}
+	
+
+	public String getActividadesDeMiembro() {
+		// TODO: Implementar. Obtener todas las actividades de un participante
+		return "";
+	}
 
 	public void destruirActividad(String username, long idActividad){
 		// TODO Implementar
@@ -92,6 +98,7 @@ public class ActividadControlador {
 	 */
 	public long crearActividadIndividual(String username, String xmlPropiedades)
 			throws RemoteException {
+		// TODO: Corroborar con Participacion si "username" puede crear actividad
 		ActividadIndividual actividad = ActividadIndividual
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
@@ -280,16 +287,13 @@ public class ActividadControlador {
 	// actividad es ind o grupal
 	public void evaluar(String username, long idActividad, String notas)
 			throws RemoteException {
-		Actividad actividad = Actividad.getActividad(idActividad);
-		String xml = actividad.serializar();
-		Evaluable evaluable = null;
-		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
-			evaluable = ActividadIndividualEvaluable.getActividad(idActividad);
-		} else if (ActividadGrupalEvaluable.esTipoValido(xml)) {
-			evaluable = ActividadGrupalEvaluable.getActividad(idActividad);
-		} else {
+		Evaluable evaluable = this.encontrarActividadEvaluable(idActividad);
+		if (evaluable == null) {
 			// LEVANTAR EXCEPCION
 		}
+		// FIXME El "username" debe ser un participante o el identificador de un grupo
+		// particular. Discutir la relacion entre ambos identificadores
+		evaluable.evaluar(username, notas);
 		// TODO Terminar de implementar
 	}
 	
