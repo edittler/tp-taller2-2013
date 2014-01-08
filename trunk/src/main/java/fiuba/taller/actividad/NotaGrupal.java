@@ -83,18 +83,19 @@ public class NotaGrupal extends Nota {
 	@Override
 	public String serializar() {
 		String idActividadString = "";
-		String idElementoEvaluadoString = "";
+		String idGrupoString = "";
 		if (idActividad >= 0) {
 			idActividadString = String.valueOf(idActividad);
 		}
 		if (idGrupo >= 0) {
-			idElementoEvaluadoString = String.valueOf(idGrupo);
+			idGrupoString = String.valueOf(idGrupo);
 		}
-		return "<?xml version=\"1.0\"?><WS><Nota>" + "<IdActividad>"
-				+ idActividadString + "</IdActividad>" + "<IdEvaluado>"
-				+ idElementoEvaluadoString + "</IdEvaluado>" + "<ValorNota>"
-				+ valor + "</ValorNota>" + "<Observaciones>" + observaciones
-				+ "</Observaciones>" + "</Nota></WS>";
+		return "<WS><Nota>"
+				+ "<idActividad>" + idActividadString + "</idActividad>"
+				+ "<idGrupo>" + idGrupoString + "</idGrupo>"
+				+ "<valor>" + valor + "</valor>"
+				+ "<observaciones>" + observaciones + "</Observaciones>"
+				+ "</Nota></WS>";
 	}
 
 	@Override
@@ -119,9 +120,32 @@ public class NotaGrupal extends Nota {
 					observaciones = getValue("Observaciones", element);
 				}
 			}
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	@Override
+	public void guardarEstado() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void guardarNuevoEstado() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eliminarEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String realizarConsulta() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

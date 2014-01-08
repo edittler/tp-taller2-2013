@@ -24,6 +24,22 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A TODAS LAS ACTIVIDADES */
 
+	/**
+	 * Se obtienen las propiedades basicas de las actividades: nombre,
+	 * descripcion, tipo, fecha de inicio, fecha de fin, tipo de escala (en
+	 * actividades evaluables) y si es de grupos exlusivos (en actividades
+	 * grupales).
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea obtener las
+	 *            propiedades.
+	 * @return XML con las propiedades de la actividad.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para consultar las propiedades
+	 *             de la actividad o si la actividad no existe.
+	 */
 	public String getPropiedades(String username, long idActividad)
 			throws RemoteException {
 		String propiedades = Actividad.getPropiedades(idActividad);
@@ -77,7 +93,7 @@ public class ActividadControlador {
 	}
 	
 
-	public String getActividadesDeMiembro() {
+	public String getActividadesDeMiembro(String username) {
 		// TODO: Implementar. Obtener todas las actividades de un participante
 		return "";
 	}
