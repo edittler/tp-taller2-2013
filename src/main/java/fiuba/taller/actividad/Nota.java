@@ -12,9 +12,9 @@ public abstract class Nota implements Serializable {
 	protected String observaciones;
 	
 	protected static final String NODO_NOTA = "Nota";
-	protected static final String NODO_ID_ACTIVIDAD = "IdActividad";
-	protected static final String NODO_VALOR = "Valor";
-	protected static final String NODO_OBSERVACIONES = "Observaciones";
+	protected static final String NODO_ID_ACTIVIDAD = "idActividad";
+	protected static final String NODO_VALOR = "valor";
+	protected static final String NODO_OBSERVACIONES = "observaciones";
 
 	protected Nota(long idActividad) {
 		this.idActividad = idActividad;
@@ -55,30 +55,14 @@ public abstract class Nota implements Serializable {
 	}
 	
 	@Override
-	public void guardarEstado() {
-		/* 
-		 * TODO Implementar. Se debe persistir el objeto en la base de
-		 * datos.
-		 */
-	}
+	public abstract void guardarEstado();
 
 	@Override
-	public String realizarConsulta() {
-		/*
-		 * TODO Implementar
-		 */
-		return "";
-	}
+	public abstract void guardarNuevoEstado();
 
 	@Override
-	public void guardarNuevoEstado() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void eliminarEstado() throws RemoteException;
 
 	@Override
-	public void eliminarEstado() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract String realizarConsulta();
 }

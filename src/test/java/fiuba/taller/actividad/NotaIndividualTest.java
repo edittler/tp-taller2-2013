@@ -28,10 +28,10 @@ public class NotaIndividualTest {
 		observaciones = "pibe metele pata que asi vas a terminar laburando de panadero";
 
 		xmlADescerializar = "<WS><Nota>"
-				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<Username>" + username + "</Username>"
-				+ "<Valor>" + valorNota + "</Valor>"
-				+ "<Observaciones>" + observaciones + "</Observaciones>"
+				+ "<idActividad>" + idActividad + "</idActividad>"
+				+ "<username>" + username + "</username>"
+				+ "<valor>" + valorNota + "</valor>"
+				+ "<observaciones>" + observaciones + "</observaciones>"
 				+ "</Nota></WS>";
 	}
 
@@ -91,10 +91,10 @@ public class NotaIndividualTest {
 	public void descerializarConXMLConComentarioDentroDeNodoValor()
 			throws RemoteException {
 		String xmlADescerializar = "<WS><Nota>"
-				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<Username>" + username + "</Username>"
-				+ "<Valor><!-- Comentario -->" + valorNota + "</Valor>"
-				+ "<Observaciones>" + observaciones + "</Observaciones>"
+				+ "<idActividad>" + idActividad + "</idActividad>"
+				+ "<username>" + username + "</username>"
+				+ "<valor><!-- Comentario -->" + valorNota + "</valor>"
+				+ "<observaciones>" + observaciones + "</observaciones>"
 				+ "</Nota></WS>";
 
 		nota.descerializar(xmlADescerializar);

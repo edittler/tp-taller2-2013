@@ -1,7 +1,5 @@
 package fiuba.taller.actividad;
 
-import static org.junit.Assert.*;
-
 import java.rmi.RemoteException;
 
 import org.junit.After;
@@ -9,7 +7,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-
+@Ignore
+@SuppressWarnings("unused")
 public class ActividadControladorTest {
 	ActividadControlador controlador;
 
