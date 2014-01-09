@@ -35,6 +35,8 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 		long longGrupo = (long) idGrupo;
 		NotaGrupal notaGrupal = NotaGrupal.crearNota(id, longGrupo);
 		notaGrupal.setValor(nota);
+		// TODO Falta comunicacion con integracion
+		// Se necesita: idActividad, identificadorGrupo, nota, ¿observaciones?
 	}
 
 	@Override

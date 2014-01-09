@@ -224,7 +224,6 @@ public class ActividadControlador {
 		// TODO Descerializar el grupo
 		Grupo nuevoGrupo = new Grupo();
 		actividad.agregarGrupo(nuevoGrupo);
-	
 	}
 
 	public void eliminarGrupo(String username ,long idActividad, long idGrupo) 
@@ -234,13 +233,17 @@ public class ActividadControlador {
 	}
 
 	public void agregarParticipanteAGrupo(String username, long idActividad,
-			long idGrupo, String usernameNuevoParticipante) {
-		// TODO Implementar cuando esté el resto terminado
+			long idGrupo, String usernameNuevoParticipante) throws RemoteException {
+		// TODO: Ver si 'username' esta habilitado para esto (Participacion)
+		ActividadGrupal actGrupal = ActividadGrupal.getActividad(idActividad);
+		actGrupal.agregarParticipanteAGrupo(idGrupo, usernameNuevoParticipante);
 	}
 
 	public void eliminarParticipanteAGrupo(String username, long idActividad,
-			long idGrupo, String usernameNuevoParticipante) {
-		// TODO Implementar cuando esté el resto terminado
+			long idGrupo, String usernameNuevoParticipante) throws RemoteException {
+		// TODO: Ver si 'username' esta habilitado para esto (Participacion)
+		Grupo grupo = Grupo.getGrupo(idActividad, idGrupo);
+		grupo.eliminarParticipante(usernameNuevoParticipante);
 	}
 
 	public String getGrupos(String username, long idActividad)

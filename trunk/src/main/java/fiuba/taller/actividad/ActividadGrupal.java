@@ -62,6 +62,22 @@ public class ActividadGrupal extends Actividad {
 		 * grupo o con el método "GuardarEstado" alcanza?
 		 */
 	}
+	
+	public void agregarParticipanteAGrupo(long idGrupo, 
+			String usernameNuevoParticipante) throws RemoteException {
+		Grupo grupo = this.getGrupo(idGrupo);
+		grupo.agregarParticipante(usernameNuevoParticipante);
+		if (this.gruposExclusivos) {
+			try {
+				this.verificarParticipantes(grupo);
+			} catch (RemoteException e) {
+				// Si el participante ya se encuentra en otro grupo, 
+				// lo borro y lanzo excepcion
+				grupo.eliminarParticipante(usernameNuevoParticipante);
+				throw e;
+			}
+		}
+	}
 
 	public void eliminarGrupo(long idGrupo) throws RemoteException {
 		if (!gruposCargados()) {
@@ -168,15 +184,17 @@ public class ActividadGrupal extends Actividad {
 	private void verificarParticipantes(Grupo grupoNuevo)
 			throws RemoteException {
 		for (Grupo grupo : grupos) {
-			if (grupo.contieneParticipantesDe(grupo)) {
-				List<String> participantesRepetidos = grupo
-						.getParticipantesDuplicados(grupoNuevo);
-				String mensaje = "El grupo a agregar tiene los siguientes "
-						+ "participantes duplicados: ";
-				for (String participante : participantesRepetidos) {
-					mensaje += participante;
+			if (grupoNuevo != grupo) {
+				if (grupo.contieneParticipantesDe(grupo)) {
+					List<String> participantesRepetidos = grupo
+							.getParticipantesDuplicados(grupoNuevo);
+					String mensaje = "El grupo a agregar tiene los siguientes "
+							+ "participantes duplicados: ";
+					for (String participante : participantesRepetidos) {
+						mensaje += participante;
+					}
+					throw new RemoteException(mensaje);
 				}
-				throw new RemoteException(mensaje);
 			}
 		}
 	}
