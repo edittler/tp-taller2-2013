@@ -27,6 +27,10 @@ public class ActividadGrupal extends Actividad {
 		return gruposExclusivos;
 	}
 
+	public void setGruposExclusivos() {
+		gruposExclusivos = true;
+	}
+	
 	public Grupo getGrupo(long idGrupo) throws RemoteException {
 		if (!gruposCargados()) {
 			cargarGrupos();

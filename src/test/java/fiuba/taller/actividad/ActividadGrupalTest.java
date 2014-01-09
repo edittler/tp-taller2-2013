@@ -84,6 +84,26 @@ public class ActividadGrupalTest {
 	}
 	
 	@Test
+	public void AgregarParticipanteAGrupo() throws RemoteException {
+		Grupo grupo = new Grupo();
+		actGrupal.agregarGrupo(grupo);
+		actGrupal.agregarParticipanteAGrupo(grupo.getId(),"pepito");
+		assertTrue("Deberia existir el particiapante",
+				actGrupal.getGrupo(grupo.getId()).contieneParticipante("pepito"));
+	}
+	
+	@Test(expected=RemoteException.class)
+	public void AgregarMismoParticipanteAGruposExclusivos() throws RemoteException {
+		Grupo grupo1 = new Grupo();
+		actGrupal.agregarGrupo(grupo1);
+		Grupo grupo2 = new Grupo();
+		actGrupal.agregarGrupo(grupo2);
+		actGrupal.setGruposExclusivos();
+		actGrupal.agregarParticipanteAGrupo(grupo1.getId(),"pepito");
+		actGrupal.agregarParticipanteAGrupo(grupo2.getId(),"pepito");
+	}
+	
+	@Test
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
 
