@@ -104,6 +104,34 @@ public class ActividadGrupalTest {
 	}
 	
 	@Test
+	public void EliminarParticipanteDeGrupo() throws RemoteException {
+		Grupo grupo = new Grupo();
+		actGrupal.agregarGrupo(grupo);
+		actGrupal.agregarParticipanteAGrupo(grupo.getId(),"pepito");
+		actGrupal.agregarParticipanteAGrupo(grupo.getId(),"juancito");
+		actGrupal.eliminarParticipanteDeGrupo(grupo.getId(),"pepito");
+		assertFalse("No deberia existir el particiapante", 
+				actGrupal.getGrupo(grupo.getId()).contieneParticipante("pepito"));
+	}
+	
+	@Test(expected=RemoteException.class)
+	public void EliminarParticipanteInexistenteDeGrupo() throws RemoteException {
+		Grupo grupo = new Grupo();
+		actGrupal.agregarGrupo(grupo);
+		actGrupal.agregarParticipanteAGrupo(grupo.getId(),"pepito");
+		actGrupal.eliminarParticipanteDeGrupo(grupo.getId(),"pepe");
+	}
+	
+	@Test(expected=RemoteException.class)
+	public void EliminarUltimoParticipanteDeGrupo() throws RemoteException {
+		Grupo grupo = new Grupo();
+		actGrupal.agregarGrupo(grupo);
+		actGrupal.agregarParticipanteAGrupo(grupo.getId(),"pepito");
+		actGrupal.eliminarParticipanteDeGrupo(grupo.getId(),"pepito");
+		actGrupal.getGrupo(grupo.getId());
+	}
+	
+	@Test
 	public void esTipoValidoConTipoCorrecto() {
 		String tipo = ActividadGrupal.TIPO_ACTIVIDAD_GRUPAL;
 
