@@ -46,20 +46,37 @@ public class ActividadControlador {
 		return propiedades;
 	}
 
+	/**
+	 * Se modifican las propiedades basicas de las actividades: nombre,
+	 * descripcion, tipo, fecha de inicio, fecha de fin, tipo de escala (en
+	 * actividades evaluables) y si es de grupos exlusivos (en actividades
+	 * grupales).
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea modificar
+	 *            las propiedades.
+	 * @param xmlPropiedades
+	 *            String que contiene el XML con las propiedades a modificar.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para consultar las propiedades
+	 *             de la actividad o si la actividad no existe.
+	 */
 	public void setPropiedades(String username, long idActividad,
-			String propiedades) throws RemoteException {
+			String xmlPropiedades) throws RemoteException {
 		String xml = Actividad.getPropiedades(idActividad);
 		if (ActividadIndividualEvaluable.esTipoValido(xml)) {
 			ActividadIndividualEvaluable actividadIndividual = new ActividadIndividualEvaluable();
 			actividadIndividual.descerializar(xml);
-			actividadIndividual.actualizar(propiedades);
+			actividadIndividual.actualizar(xmlPropiedades);
 			actividadIndividual.guardarEstado();
 			return;
 		}
 		if (ActividadGrupalEvaluable.esTipoValido(xml)) {
 			ActividadGrupalEvaluable actividadGrupal = new ActividadGrupalEvaluable();
 			actividadGrupal.descerializar(xml);
-			actividadGrupal.actualizar(propiedades);
+			actividadGrupal.actualizar(xmlPropiedades);
 			actividadGrupal.guardarEstado();
 			return;
 		}
@@ -71,10 +88,24 @@ public class ActividadControlador {
 		 */
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
-		actividad.actualizar(propiedades);
+		actividad.actualizar(xmlPropiedades);
 		actividad.guardarEstado();
 	}
 
+	/**
+	 * Se obtienen las propiedades de las actividades internas de un ambito (que
+	 * no es una actividad).
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idAmbito
+	 *            Identificador del ambito del cual se desea obtener las
+	 *            propiedades de las actividades internas.
+	 * @return XML con las propiedades de las actividades internas del ambito.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para consultar las propiedades
+	 *             del ambito o si el ambito no existe.
+	 */
 	public String getActividadesDeAmbito(String username, long idAmbito)
 			throws RemoteException {
 		Actividad act = new Actividad();
@@ -83,6 +114,19 @@ public class ActividadControlador {
 		return xml;
 	}
 
+	/**
+	 * Se obtienen las propiedades de las actividades internas de una actividad.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idAmbito
+	 *            Identificador de la actividad de la cual se desea obtener las
+	 *            propiedades de las actividades internas.
+	 * @return XML con las propiedades de las actividades internas de la actividad.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para consultar las propiedades
+	 *             de la actividad o si la actividad no existe.
+	 */
 	public String getActividadesDeActividad(String username, long idActividad)
 			throws RemoteException {
 		Actividad act = new Actividad();
@@ -91,14 +135,35 @@ public class ActividadControlador {
 		// por ahora devolvemos los xml directamente
 		return xml;
 	}
-	
 
-	public String getActividadesDeMiembro(String username) {
+	/**
+	 * Se obtienen las propiedades de las actividades en las cuales participa un
+	 * miembro.
+	 * 
+	 * @param username
+	 *            Identificador del miembro del cual se desea obtener las
+	 *            propiedades de las actividades en las que participa.
+	 * @return XML con las propiedades de las actividades en las cuales
+	 *         participa el miembro.
+	 * @throws RemoteException
+	 */
+	public String getActividadesDeMiembro(String username)
+			throws RemoteException {
 		// TODO: Implementar. Obtener todas las actividades de un participante
 		return "";
 	}
 
-	public void destruirActividad(String username, long idActividad){
+	/**
+	 * Se destruye la actividad, eliminando sus propiedades, grupos asociados
+	 * (en actividades grupales) y notas asociadas (en actividades evaluables).
+	 * 
+	 * @param username
+	 *            Identificador del miembro que desea destruir la actividad.
+	 * @throws RemoteException
+	 *             Si la actividad no existe.
+	 */
+	public void destruirActividad(String username, long idActividad)
+			throws RemoteException {
 		// TODO Implementar
 	}
 
@@ -108,34 +173,82 @@ public class ActividadControlador {
 	 * Crea una actividad individual con las propiedades especificadas.
 	 * 
 	 * @param xmlPropiedades
-	 *            XML que contiene las propiedades de la actividad a crear
-	 * @return Identificador de la actividad creada
-	 * @throws XmlErroneoExcepcion
+	 *            XML que contiene las propiedades de la actividad a crear.
+	 * @return Identificador de la actividad creada.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para crear la actividad.
 	 */
 	public long crearActividadIndividual(String username, String xmlPropiedades)
 			throws RemoteException {
-		// TODO: Corroborar con Participacion si "username" puede crear actividad
+		/*
+		 * FIXME Corroborar con Participacion si "username" puede crear
+		 * actividad. Obtener el identificador del ambito o actividad del xml de
+		 * propiedades. Si no existe algún identificador, lanzar una excepcion.
+		 */
 		ActividadIndividual actividad = ActividadIndividual
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
+	/**
+	 * Crea una actividad grupal con las propiedades especificadas.
+	 * 
+	 * @param xmlPropiedades
+	 *            XML que contiene las propiedades de la actividad a crear.
+	 * @return Identificador de la actividad creada.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para crear la actividad.
+	 */
 	public long crearActividadGrupal(String username, String xmlPropiedades)
 			throws RemoteException {
+		/*
+		 * FIXME Corroborar con Participacion si "username" puede crear
+		 * actividad. Obtener el identificador del ambito o actividad del xml de
+		 * propiedades. Si no existe algún identificador, lanzar una excepcion.
+		 */
 		ActividadGrupal actividad = ActividadGrupal
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
+	/**
+	 * Crea una actividad individual evaluable con las propiedades
+	 * especificadas.
+	 * 
+	 * @param xmlPropiedades
+	 *            XML que contiene las propiedades de la actividad a crear.
+	 * @return Identificador de la actividad creada.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para crear la actividad.
+	 */
 	public long crearActividadIndividualEvaluable(String username,
 			String xmlPropiedades) throws RemoteException {
+		/*
+		 * FIXME Corroborar con Participacion si "username" puede crear
+		 * actividad. Obtener el identificador del ambito o actividad del xml de
+		 * propiedades. Si no existe algún identificador, lanzar una excepcion.
+		 */
 		ActividadIndividualEvaluable actividad = ActividadIndividualEvaluable
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
 	}
 
+	/**
+	 * Crea una actividad grupal evaluable con las propiedades especificadas.
+	 * 
+	 * @param xmlPropiedades
+	 *            XML que contiene las propiedades de la actividad a crear.
+	 * @return Identificador de la actividad creada.
+	 * @throws RemoteException
+	 *             Si el usuario no tiene permiso para crear la actividad.
+	 */
 	public long crearActividadGrupalEvaluable(String username,
 			String xmlPropiedades) throws RemoteException {
+		/*
+		 * FIXME Corroborar con Participacion si "username" puede crear
+		 * actividad. Obtener el identificador del ambito o actividad del xml de
+		 * propiedades. Si no existe algún identificador, lanzar una excepcion.
+		 */
 		ActividadGrupalEvaluable actividad = ActividadGrupalEvaluable
 				.crearActividad(xmlPropiedades);
 		return actividad.getId();
