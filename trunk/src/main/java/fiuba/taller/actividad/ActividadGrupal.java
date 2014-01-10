@@ -153,10 +153,15 @@ public class ActividadGrupal extends Actividad {
 			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
-		 * lanzar la excepcion ActividadInexistenteExcepcion
+		 * lanzar la excepcion.
 		 */
+		String propiedades = getPropiedades(idActividad);
+		if(!esTipoValido(propiedades)) {
+			String mensaje = "La actividad a cargar no es Grupal";
+			throw new RemoteException(mensaje);
+		}
 		ActividadGrupal actividad = new ActividadGrupal();
-		actividad.levantarEstado(idActividad);
+		actividad.descerializar(propiedades);
 		return actividad;
 	}
 

@@ -220,7 +220,7 @@ public class Actividad implements Serializable {
 	public static Actividad getActividad(long idActividad)
 			throws RemoteException {
 		Actividad actividad = new Actividad();
-		actividad.levantarEstado(idActividad);
+		actividad.descerializar(getPropiedades(idActividad));
 		return actividad;
 	}
 
@@ -255,13 +255,6 @@ public class Actividad implements Serializable {
 		System.out.println(retorno);
 		String idStr = procesarNotificacionIntegracion(retorno);
 		id = Long.valueOf(idStr);
-//		Actividad.AuxHastaQIntegracionAnde.put(this.id, serializar());
-	}
-
-
-
-	protected void levantarEstado(long idActividad) throws RemoteException {
-		descerializar(getPropiedades(idActividad));
 	}
 
 	protected String serializarInterno() {

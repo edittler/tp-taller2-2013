@@ -172,6 +172,8 @@ public class ActividadControlador {
 	/**
 	 * Crea una actividad individual con las propiedades especificadas.
 	 * 
+	 * @param username
+	 *            Identificador del miembro que desea crear la actividad.
 	 * @param xmlPropiedades
 	 *            XML que contiene las propiedades de la actividad a crear.
 	 * @return Identificador de la actividad creada.
@@ -193,6 +195,8 @@ public class ActividadControlador {
 	/**
 	 * Crea una actividad grupal con las propiedades especificadas.
 	 * 
+	 * @param username
+	 *            Identificador del miembro que desea crear la actividad.
 	 * @param xmlPropiedades
 	 *            XML que contiene las propiedades de la actividad a crear.
 	 * @return Identificador de la actividad creada.
@@ -215,6 +219,8 @@ public class ActividadControlador {
 	 * Crea una actividad individual evaluable con las propiedades
 	 * especificadas.
 	 * 
+	 * @param username
+	 *            Identificador del miembro que desea crear la actividad.
 	 * @param xmlPropiedades
 	 *            XML que contiene las propiedades de la actividad a crear.
 	 * @return Identificador de la actividad creada.
@@ -236,6 +242,8 @@ public class ActividadControlador {
 	/**
 	 * Crea una actividad grupal evaluable con las propiedades especificadas.
 	 * 
+	 * @param username
+	 *            Identificador del miembro que desea crear la actividad.
 	 * @param xmlPropiedades
 	 *            XML que contiene las propiedades de la actividad a crear.
 	 * @return Identificador de la actividad creada.
@@ -256,6 +264,22 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES INDIVIDUALES */
 
+	/**
+	 * Agrega un participante a la actividad individual.
+	 * 
+	 * @param username
+	 *            Identificador del miembro que desea agregar un participante en
+	 *            la actividad.
+	 * @param idActividad
+	 *            Identificador de la actividad en la cual se desea agregar el
+	 *            participante.
+	 * @param usernameNuevoParticipante
+	 *            Identificador del miembro a agregar como participante en la
+	 *            actividad.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para agregar el participante
+	 *             o si la actividad no es individual.
+	 */
 	public void agregarParticipante(String username, long idActividad,
 			String usernameNuevoParticipante) throws RemoteException {
 		ActividadIndividual actividad = ActividadIndividual
@@ -263,30 +287,44 @@ public class ActividadControlador {
 		actividad.agregarParticipante(usernameNuevoParticipante);
 	}
 
+	/**
+	 * Elimina un participante de la actividad individual.
+	 * 
+	 * @param username
+	 *            Identificador del miembro que desea eliminar un participante
+	 *            de la actividad.
+	 * @param idActividad
+	 *            Identificador de la actividad en la cual se desea eliminar el
+	 *            participante.
+	 * @param usernameParticipanteAEliminar
+	 *            Identificador del miembro a eliminar como participante de la
+	 *            actividad.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para eliminar el
+	 *             participante, si la actividad no es individual o si el
+	 *             miembro a eliminar no es participante de la actividad.
+	 */
 	public void eliminarParticipante(String username, long idActividad,
 			String usernameParticipanteAEliminar) throws RemoteException {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
 		actividad.eliminarParticipante(usernameParticipanteAEliminar);
 	}
-	
-	// TODO: Refactorizar! Mover este metodo al lugar adecuado
-	protected String getStringFromDocument(Document doc) throws RemoteException {
-		DOMSource domSource = new DOMSource(doc);
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult(writer);
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer transformer;
-		try {
-			transformer = tf.newTransformer();
-			transformer.transform(domSource, result);
-		} catch (TransformerException e) {
-			throw new RemoteException("Error al parsear el XML.");
-		}
 
-		return writer.toString();
-	}
-
+	/**
+	 * Se obtienen todos los participantes de una actividad individual.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea obtener los
+	 *            participantes.
+	 * @return String con XML que contiene la lista de los participantes de la
+	 *         actividad.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para realizar la consulta o
+	 *             si la actividad no es individual.
+	 */
 	public String getParticipantes(String username, long idActividad)
 			throws RemoteException {
 		ActividadIndividual actInd = 
@@ -550,7 +588,24 @@ public class ActividadControlador {
 		
 		return xmlNotas;*/
 	}
-	
+
+	// TODO: Refactorizar! Mover este metodo al lugar adecuado
+		protected String getStringFromDocument(Document doc) throws RemoteException {
+			DOMSource domSource = new DOMSource(doc);
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer;
+			try {
+				transformer = tf.newTransformer();
+				transformer.transform(domSource, result);
+			} catch (TransformerException e) {
+				throw new RemoteException("Error al parsear el XML.");
+			}
+
+			return writer.toString();
+		}
+
 	private Document readXml(String xml) {
 		DocumentBuilder db = null;
 		try {

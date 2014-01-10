@@ -98,10 +98,15 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
-		 * lanzar la excepcion ActividadInexistenteExcepcion
+		 * lanzar la excepcion.
 		 */
+		String propiedades = getPropiedades(idActividad);
+		if(!esTipoValido(propiedades)) {
+			String mensaje = "La actividad a cargar no es Grupal Evaluable";
+			throw new RemoteException(mensaje);
+		}
 		ActividadGrupalEvaluable actividad = new ActividadGrupalEvaluable();
-		actividad.levantarEstado(idActividad);
+		actividad.descerializar(propiedades);
 		return actividad;
 	}
 	
