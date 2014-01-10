@@ -94,6 +94,18 @@ public class ActividadGrupal extends Actividad {
 		 * grupo o con el método "GuardarEstado" alcanza?
 		 */
 	}
+	
+	public void eliminarParticipanteDeGrupo(long idGrupo, 
+			String usernameParticipanteAEliminar) 
+					throws RemoteException {
+		Grupo grupo = this.getGrupo(idGrupo);
+		grupo.eliminarParticipante(usernameParticipanteAEliminar);
+		// Si ya no quedan participantes, elimino totalmente el grupo
+		if (grupo.tamanio() == 0) {
+			Grupo.eliminarGrupo(this.id, idGrupo);
+			this.grupos.remove(grupo);
+		}
+	}
 
 	@Override
 	public void guardarEstado() throws RemoteException {
