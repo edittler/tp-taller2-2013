@@ -346,17 +346,21 @@ public class ActividadControlador {
 	}
 
 	public void agregarParticipanteAGrupo(String username, long idActividad,
-			long idGrupo, String usernameNuevoParticipante) throws RemoteException {
+			long idGrupo, String usernameNuevoParticipante) 
+					throws RemoteException {
 		// TODO: Ver si 'username' esta habilitado para esto (Participacion)
 		ActividadGrupal actGrupal = ActividadGrupal.getActividad(idActividad);
-		actGrupal.agregarParticipanteAGrupo(idGrupo, usernameNuevoParticipante);
+		actGrupal.agregarParticipanteAGrupo(idGrupo, 
+				usernameNuevoParticipante);
 	}
 
 	public void eliminarParticipanteAGrupo(String username, long idActividad,
-			long idGrupo, String usernameNuevoParticipante) throws RemoteException {
+			long idGrupo, String usernameParticipanteAEliminar) 
+					throws RemoteException {
 		// TODO: Ver si 'username' esta habilitado para esto (Participacion)
-		Grupo grupo = Grupo.getGrupo(idActividad, idGrupo);
-		grupo.eliminarParticipante(usernameNuevoParticipante);
+		ActividadGrupal actGrupal = ActividadGrupal.getActividad(idActividad);
+		actGrupal.eliminarParticipanteDeGrupo(idGrupo, 
+				usernameParticipanteAEliminar);
 	}
 
 	public String getGrupos(String username, long idActividad)
