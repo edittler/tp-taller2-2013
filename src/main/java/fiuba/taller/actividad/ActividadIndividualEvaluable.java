@@ -99,8 +99,17 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 
 	public static ActividadIndividualEvaluable getActividad(long idActividad)
 			throws RemoteException {
+		/*
+		 * FIXME Si no existe la actividad con el ID especificado, se debe
+		 * lanzar la excepcion.
+		 */
+		String propiedades = getPropiedades(idActividad);
+		if(!esTipoValido(propiedades)) {
+			String mensaje = "La actividad a cargar no es Individual Evaluable";
+			throw new RemoteException(mensaje);
+		}
 		ActividadIndividualEvaluable actividad = new ActividadIndividualEvaluable();
-		actividad.levantarEstado(idActividad);
+		actividad.descerializar(propiedades);
 		return actividad;
 	}
 

@@ -106,10 +106,15 @@ public class ActividadIndividual extends Actividad {
 			throws RemoteException {
 		/*
 		 * FIXME Si no existe la actividad con el ID especificado, se debe
-		 * lanzar la excepcion ActividadInexistenteExcepcion
+		 * lanzar la excepcion.
 		 */
+		String propiedades = getPropiedades(idActividad);
+		if(!esTipoValido(propiedades)) {
+			String mensaje = "La actividad a cargar no es Individual";
+			throw new RemoteException(mensaje);
+		}
 		ActividadIndividual actividad = new ActividadIndividual();
-		actividad.levantarEstado(idActividad);
+		actividad.descerializar(propiedades);
 		return actividad;
 	}
 
