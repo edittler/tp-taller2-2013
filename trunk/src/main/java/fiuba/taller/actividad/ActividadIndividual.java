@@ -97,9 +97,9 @@ public class ActividadIndividual extends Actividad {
 
 	public static void eliminarActividad(long idActividad)
 			throws RemoteException {
-		/*
-		 * TODO(Jorge?) Implementar.
-		 */
+		
+		ActividadIndividual actividad = ActividadIndividual.getActividad(idActividad);
+		actividad.eliminarEstado();
 	}
 
 	public static ActividadIndividual getActividad(long idActividad)

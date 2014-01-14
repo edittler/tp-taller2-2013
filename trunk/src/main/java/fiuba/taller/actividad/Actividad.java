@@ -446,13 +446,26 @@ public class Actividad implements Serializable {
 
 	@Override
 	public void guardarNuevoEstado() throws RemoteException {
-		// TODO Auto-generated method stub
 		
+		IntegracionStub servicio = new IntegracionStub();
+		GuardarDatos envio = new GuardarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		GuardarDatosResponse respuesta = servicio.guardarDatos(envio);
+		String retorno = respuesta.get_return();
+		System.out.println(retorno);
 	}
 
 	@Override
 	public void eliminarEstado() throws RemoteException {
-		// TODO Auto-generated method stub
+		// TODO ver formato de eliminacion de una instancia
+		IntegracionStub servicio = new IntegracionStub();
+		EliminarDatos envio = new EliminarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		EliminarDatosResponse respuesta = servicio.eliminarDatos(envio);
+		String retorno = respuesta.get_return();
+		System.out.println(retorno);
 		
 	}
 }
