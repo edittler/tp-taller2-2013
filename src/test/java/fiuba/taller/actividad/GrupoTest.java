@@ -26,12 +26,12 @@ public class GrupoTest {
 		idGrupo = 10;
 		usernameParticipante1 = "pepe";
 		usernameParticipante2 = "tito";
-		xmlADescerializar = "<?xml version=\"1.0\"?><WS><Grupo>"
-				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<IdGrupo>" + idGrupo + "</IdGrupo>"
+		xmlADescerializar = "<WS><Grupo>"
+				+ "<idActividad>" + idActividad + "</idActividad>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
 				+"<list>"
-				+ "<Username>" + usernameParticipante1+ "</Username>"
-				+ "<Username>"+ usernameParticipante2 + "</Username>"
+				+ "<username>" + usernameParticipante1+ "</username>"
+				+ "<username>"+ usernameParticipante2 + "</username>"
 				+"</list>"
 				+ "</Grupo></WS>";
 	}
