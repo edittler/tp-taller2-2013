@@ -70,14 +70,14 @@ public class ActividadControlador {
 			ActividadIndividualEvaluable actividadIndividual = new ActividadIndividualEvaluable();
 			actividadIndividual.descerializar(xml);
 			actividadIndividual.actualizar(xmlPropiedades);
-			actividadIndividual.guardarEstado();
+			actividadIndividual.actualizarEstado();
 			return;
 		}
 		if (ActividadGrupalEvaluable.esTipoValido(xml)) {
 			ActividadGrupalEvaluable actividadGrupal = new ActividadGrupalEvaluable();
 			actividadGrupal.descerializar(xml);
 			actividadGrupal.actualizar(xmlPropiedades);
-			actividadGrupal.guardarEstado();
+			actividadGrupal.actualizarEstado();
 			return;
 		}
 		/*
@@ -89,7 +89,7 @@ public class ActividadControlador {
 		Actividad actividad = new Actividad();
 		actividad.descerializar(xml);
 		actividad.actualizar(xmlPropiedades);
-		actividad.guardarEstado();
+		actividad.actualizarEstado();
 	}
 
 	/**
@@ -368,6 +368,21 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
 
+	/**
+	 * Agrega un grupo a la actividad grupal.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad en la cual se desea agregar el
+	 *            grupo.
+	 * @param grupo
+	 *            Identificadores de los usernames que conforman el grupo a
+	 *            agregar, separadas con el caracter ":".
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para agregar el grupo o si la
+	 *             actividad no es individual.
+	 */
 	public void agregarGrupo(String username, long idActividad, String grupo) 
 			throws RemoteException {
 		ActividadGrupal actividad = ActividadGrupal

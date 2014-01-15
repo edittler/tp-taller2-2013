@@ -84,13 +84,13 @@ public class NotaIndividual extends Nota {
 	}
 
 	@Override
-	public void guardarEstado() {
+	public void guardarNuevoEstado() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void guardarNuevoEstado() {
+	public void actualizarEstado() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -23,17 +23,22 @@ public interface Serializable {
 
 	/**
 	 * Guarda el estado actual del objeto a la base de datos.
-	 * @throws RemoteException 
-	 */
-	public void guardarEstado() throws RemoteException;
-	/**
-	 * Guarda el NUEVO objeto a la base de datos.
-	 * @throws RemoteException 
+	 * 
+	 * @throws RemoteException
 	 */
 	public void guardarNuevoEstado() throws RemoteException;
+
+	/**
+	 * Actualiza el estado del objeto en la base de datos.
+	 * 
+	 * @throws RemoteException
+	 */
+	public void actualizarEstado() throws RemoteException;
+
 	/**
 	 * elimina el objeto de la base de datos.
-	 * @throws RemoteException 
+	 * 
+	 * @throws RemoteException
 	 */
 	public void eliminarEstado() throws RemoteException;
 
@@ -41,7 +46,8 @@ public interface Serializable {
 	 * A partir de los valores de los atributos internos de la instancia, genera
 	 * un XML que es enviado a Integracion. Integracion devuelve un XML con
 	 * todos los datos y este es devuelto.
-	 * @throws RemoteException 
+	 * 
+	 * @throws RemoteException
 	 */
 	public String realizarConsulta() throws RemoteException;
 }
