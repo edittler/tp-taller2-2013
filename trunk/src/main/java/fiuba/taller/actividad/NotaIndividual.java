@@ -1,19 +1,17 @@
 package fiuba.taller.actividad;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.rmi.RemoteException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
+import com.ws.services.ActualizarDatos;
+import com.ws.services.ActualizarDatosResponse;
+import com.ws.services.GuardarDatos;
+import com.ws.services.GuardarDatosResponse;
+import com.ws.services.IntegracionStub;
 
 public class NotaIndividual extends Nota {
 
@@ -34,6 +32,20 @@ public class NotaIndividual extends Nota {
 		this.username = username;
 	}
 
+	public NotaIndividual(long idActividad, String username, String valorNota) {
+		super(idActividad);
+		this.username = username;
+		this.valor = valorNota;
+	}
+
+	public NotaIndividual(long idActividad, String username, String valorNota,
+			String observaciones) {
+		super(idActividad);
+		this.username = username;
+		this.valor = valorNota;
+		this.observaciones = observaciones;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -52,17 +64,7 @@ public class NotaIndividual extends Nota {
 	@Override
 	public void descerializar(String xml) throws RemoteException {
 
-		Document doc = null;
-		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			doc = builder.parse(is);
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			String message = "Error al cargar el string como XML.";
-			throw new RemoteException(message);
-		}
-		doc.getDocumentElement().normalize();
+		Document doc = getDocumentElement(xml);
 
 		NodeList nodes = doc.getElementsByTagName(NODO_NOTA);
 		if (nodes.getLength() != 1) {
@@ -84,15 +86,32 @@ public class NotaIndividual extends Nota {
 	}
 
 	@Override
-	public void guardarNuevoEstado() {
-		// TODO Auto-generated method stub
-		
+	public void guardarNuevoEstado() throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		GuardarDatos envio = new GuardarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+//		System.out.println(xml);
+		GuardarDatosResponse response = servicio.guardarDatos(envio);
+		String retorno = response.get_return();
+		System.out.println(retorno);
+		procesarNotificacionIntegracion(retorno);
 	}
 
 	@Override
-	public void actualizarEstado() {
-		// TODO Auto-generated method stub
-		
+	public void actualizarEstado() throws RemoteException {
+		if (!notaCreada(idActividad, username)) {
+			guardarNuevoEstado();
+		} else {
+			IntegracionStub servicio = new IntegracionStub();
+			ActualizarDatos envio = new ActualizarDatos();
+			String xml = serializar();
+			envio.setXml(xml);
+			ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
+			String retorno = respuesta.get_return();
+			System.out.println(retorno);
+			procesarNotificacionIntegracion(retorno);
+		}
 	}
 
 	@Override
@@ -105,31 +124,6 @@ public class NotaIndividual extends Nota {
 	public String realizarConsulta() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	/**
-	 * Crea e inicializa en la base de datos la nota para la actividad
-	 * individual y participante dado. Si la nota ya fue inicializada, retorna
-	 * la nota almacenada.
-	 * 
-	 * @param idActividad
-	 *            Identificador de la actividad individual evaluable.
-	 * @param username
-	 *            Identificador del participante.
-	 * @return NotaIndividual inicializada e instanciada.
-	 * @throws RemoteExcepcion
-	 *             Si no existe la actividad, si no es individual evaluable, si
-	 *             no existe el participante.
-	 */
-	public static NotaIndividual crearNota(long idActividad, String username) {
-		/*
-		 * TODO Verificar si la nota ya fue inicializada. En caso afirmativo, se
-		 * ejecuta el método "getNota". Si no está cargada la nota, verificar si
-		 * la actividad existe y es individual evaluable. Luego, verificar si
-		 * existe el usuario y si es participante de la actividad mencionada.
-		 */
-		NotaIndividual nota = new NotaIndividual(idActividad, username);
-		return nota;
 	}
 
 	/**
@@ -161,5 +155,14 @@ public class NotaIndividual extends Nota {
 		// TODO Corregir
 		NotaIndividual nota = new NotaIndividual(idActividad, username);
 		return nota;
+	}
+
+	private static boolean notaCreada(long idActividad, String username) {
+		try {
+			getNota(idActividad, username);
+		} catch (RemoteException e) {
+			return false;
+		}
+		return true;
 	}
 }
