@@ -31,23 +31,19 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 	}
 
 	@Override
-	public void evaluar(Object usernameParticipante, String nota) {
+	public void evaluar(Object usernameParticipante, String nota) throws RemoteException {
 		String username = (String) usernameParticipante;
-		NotaIndividual notaIndividual = NotaIndividual.crearNota(id, username);
-		notaIndividual.setValor(nota);
-		// TODO: Llamar a integracion para persistir nota.
-		// Se necesita: idActividad, username, nota, ¿observaciones?
+		NotaIndividual notaIndividual = new NotaIndividual(id, username, nota);
+		notaIndividual.actualizarEstado();
 	}
 
 	@Override
 	public void evaluar(Object usernameParticipante, String nota,
-			String observaciones) {
+			String observaciones) throws RemoteException {
 		String username = (String) usernameParticipante;
-		NotaIndividual notaIndividual = NotaIndividual.crearNota(id, username);
-		notaIndividual.setValor(nota);
-		notaIndividual.setObservaciones(observaciones);
-		// TODO: Llamar a integracion para persistir nota.
-		// Se necesita: idActividad, username, nota, ¿observaciones?
+		NotaIndividual notaIndividual = new NotaIndividual(id, username, nota,
+				observaciones);
+		notaIndividual.actualizarEstado();
 	}
 
 	@Override
