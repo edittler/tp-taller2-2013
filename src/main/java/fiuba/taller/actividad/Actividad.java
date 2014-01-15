@@ -160,6 +160,12 @@ public class Actividad implements Serializable {
 		return idChat;
 	}
 
+	public void actualizar(String xml) throws RemoteException {
+		Actividad actividadTemporal = new Actividad();
+		actividadTemporal.descerializar(xml);
+		actualizar(actividadTemporal);
+	}
+
 	// serializa a la actividad
 	// devuelve xml
 	// este metodo intenta ser util tanto para cuando:
@@ -178,11 +184,35 @@ public class Actividad implements Serializable {
 		descerializar(doc);
 	}
 
-	/**
-	 * Guarda el estado actual del objeto a la base de datos.
-	 * @throws RemoteException 
-	 */
-	public void guardarEstado() throws RemoteException {
+	@Override
+	public void guardarNuevoEstado() throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		GuardarDatos envio = new GuardarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+//		System.out.println(xml);
+		GuardarDatosResponse response = servicio.guardarDatos(envio);
+		String retorno = response.get_return();
+		System.out.println(retorno);
+		String idStr = procesarNotificacionIntegracion(retorno);
+		id = Long.valueOf(idStr);
+	}
+
+	@Override
+	public void eliminarEstado() throws RemoteException {
+		// TODO ver formato de eliminacion de una instancia
+		IntegracionStub servicio = new IntegracionStub();
+		EliminarDatos envio = new EliminarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		EliminarDatosResponse respuesta = servicio.eliminarDatos(envio);
+		String retorno = respuesta.get_return();
+		System.out.println(retorno);
+		
+	}
+
+	@Override
+	public void actualizarEstado() throws RemoteException {
 		IntegracionStub servicio = new IntegracionStub();
 		ActualizarDatos envio = new ActualizarDatos();
 		String xml = serializar();
@@ -207,12 +237,6 @@ public class Actividad implements Serializable {
 		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
 		String retorno = respuesta.get_return();
 		return retorno;
-	}
-
-	public void actualizar(String xml) throws RemoteException {
-		Actividad actividadTemporal = new Actividad();
-		actividadTemporal.descerializar(xml);
-		actualizar(actividadTemporal);
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
@@ -242,19 +266,6 @@ public class Actividad implements Serializable {
 
 	protected void setId(long id) {
 		this.id = id;
-	}
-
-	protected void guardarNuevoElemento() throws RemoteException {
-		IntegracionStub servicio = new IntegracionStub();
-		GuardarDatos envio = new GuardarDatos();
-		String xml = serializar();
-		envio.setXml(xml);
-//		System.out.println(xml);
-		GuardarDatosResponse response = servicio.guardarDatos(envio);
-		String retorno = response.get_return();
-		System.out.println(retorno);
-		String idStr = procesarNotificacionIntegracion(retorno);
-		id = Long.valueOf(idStr);
 	}
 
 	protected String serializarInterno() {
@@ -442,30 +453,5 @@ public class Actividad implements Serializable {
 				+ "NOMBRE: " + nombre + "\n" + "FECHA INI: " + fechaInicio
 				+ "\n" + "FECHA FIN: " + fechaFin + "\n" + "DESCRIPCION: "
 				+ descripcion + "\n";
-	}
-
-	@Override
-	public void guardarNuevoEstado() throws RemoteException {
-		
-		IntegracionStub servicio = new IntegracionStub();
-		GuardarDatos envio = new GuardarDatos();
-		String xml = serializar();
-		envio.setXml(xml);
-		GuardarDatosResponse respuesta = servicio.guardarDatos(envio);
-		String retorno = respuesta.get_return();
-		System.out.println(retorno);
-	}
-
-	@Override
-	public void eliminarEstado() throws RemoteException {
-		// TODO ver formato de eliminacion de una instancia
-		IntegracionStub servicio = new IntegracionStub();
-		EliminarDatos envio = new EliminarDatos();
-		String xml = serializar();
-		envio.setXml(xml);
-		EliminarDatosResponse respuesta = servicio.eliminarDatos(envio);
-		String retorno = respuesta.get_return();
-		System.out.println(retorno);
-		
 	}
 }

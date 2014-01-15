@@ -151,12 +151,12 @@ public class Grupo implements Serializable {
 
 	@Override
 	public String serializar() {
-		String xml = "<?xml version=\"1.0\"?><WS><Grupo>"
-				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<IdGrupo>" + id + "</IdGrupo>"
+		String xml = "<WS><Grupo>"
+				+ "<idActividad>" + idActividad + "</idActividad>"
+				+ "<idGrupo>" + id + "</idGrupo>"
 				+ "<list>";
 		for (String participante : usernameParticipantes) {
-			xml += "<Username>" + participante + "</Username>";
+			xml += "<username>" + participante + "</username>";
 		}
 		xml += "</list></Grupo></WS>";
 		return xml;
@@ -182,13 +182,13 @@ public class Grupo implements Serializable {
 		}
 
 		Element grupoElement = (Element) nodes.item(0);
-		idActividad = Long.valueOf(getValue("IdActividad", grupoElement));
-		id = Long.valueOf(getValue("IdGrupo", grupoElement));
+		idActividad = Long.valueOf(getValue("idActividad", grupoElement));
+		id = Long.valueOf(getValue("idGrupo", grupoElement));
 
 		NodeList lista = ((Element) grupoElement).getElementsByTagName("list");
 		Element listaE = (Element)lista.item(0);
 		
-		NodeList participantes = listaE.getElementsByTagName("Username");
+		NodeList participantes = listaE.getElementsByTagName("username");
 		for (int j = 0; j < participantes.getLength(); j++) {
 			// System.out.print("LARGO: "+participantes.getLength()+"\n");
 			Node nodde = participantes.item(j);
@@ -202,11 +202,23 @@ public class Grupo implements Serializable {
 	}
 
 	@Override
-	public void guardarEstado() {
+	public void guardarNuevoEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actualizarEstado() {
 		/* 
 		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
 		 * datos.
 		 */
+	}
+
+	@Override
+	public void eliminarEstado() throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -245,17 +257,5 @@ public class Grupo implements Serializable {
 		}
 		Element elemento = (Element) nodes.item(0);
 		return elemento.getTextContent();
-	}
-
-	@Override
-	public void guardarNuevoEstado() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eliminarEstado() throws RemoteException {
-		// TODO Auto-generated method stub
-		
 	}
 }

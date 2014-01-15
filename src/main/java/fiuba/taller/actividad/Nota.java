@@ -53,16 +53,4 @@ public abstract class Nota implements Serializable {
 		String text = elemento.getTextContent();
 		return text;
 	}
-	
-	@Override
-	public abstract void guardarEstado();
-
-	@Override
-	public abstract void guardarNuevoEstado();
-
-	@Override
-	public abstract void eliminarEstado() throws RemoteException;
-
-	@Override
-	public abstract String realizarConsulta();
 }

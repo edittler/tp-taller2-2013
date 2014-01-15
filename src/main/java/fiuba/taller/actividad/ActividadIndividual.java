@@ -56,8 +56,8 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	@Override
-	public void guardarEstado() throws RemoteException {
-		super.guardarEstado();
+	public void actualizarEstado() throws RemoteException {
+		super.actualizarEstado();
 		/*
 		 * TODO(Jorge) Se debe guardar la lista de usernames.
 		 */
@@ -91,7 +91,7 @@ public class ActividadIndividual extends Actividad {
 		actividad.setId(-1);
 		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
 		// TODO(Pampa) Validar fecha y lanzar excepcion
-		actividad.guardarNuevoElemento();
+		actividad.guardarNuevoEstado();
 		return actividad;
 	}
 

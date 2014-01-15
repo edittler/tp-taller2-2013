@@ -93,7 +93,7 @@ public class ActividadIndividualEvaluable extends ActividadIndividual implements
 		actividad.setId(-1);
 		actividad.tipo = TIPO_ACTIVIDAD_INDIVIDUAL_EVALUABLE;
 		// TODO(Pampa) Validar fecha y lanzar excepcion
-		actividad.guardarNuevoElemento();
+		actividad.guardarNuevoEstado();
 		return actividad;
 	}
 

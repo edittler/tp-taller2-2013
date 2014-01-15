@@ -108,8 +108,8 @@ public class ActividadGrupal extends Actividad {
 	}
 
 	@Override
-	public void guardarEstado() throws RemoteException {
-		super.guardarEstado();
+	public void actualizarEstado() throws RemoteException {
+		super.actualizarEstado();
 		/*
 		 * TODO(Jorge) Se debe guardar además el atributo "gruposExclusivos".
 		 * Como "guardarEstado" llama al método descerializar que está 
@@ -145,7 +145,7 @@ public class ActividadGrupal extends Actividad {
 		actividad.setId(-1);
 		actividad.tipo = TIPO_ACTIVIDAD_GRUPAL;
 		// TODO(Pampa) Validar fecha y lanzar excepcion
-		actividad.guardarNuevoElemento();
+		actividad.guardarNuevoEstado();
 		return actividad;
 	}
 

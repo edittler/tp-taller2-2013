@@ -126,7 +126,7 @@ public class NotaGrupal extends Nota {
 	}
 
 	@Override
-	public void guardarEstado() {
+	public void actualizarEstado() {
 		// TODO Auto-generated method stub
 		
 	}
