@@ -381,7 +381,7 @@ public class ActividadControlador {
 	 *            agregar, separadas con el caracter ":".
 	 * @throws RemoteException
 	 *             Si el miembro no tiene permisos para agregar el grupo o si la
-	 *             actividad no es individual.
+	 *             actividad no es grupal.
 	 */
 	public void agregarGrupo(String username, long idActividad, String grupo) 
 			throws RemoteException {
@@ -392,12 +392,42 @@ public class ActividadControlador {
 		actividad.agregarGrupo(nuevoGrupo);
 	}
 
+	/**
+	 * Elimina un grupo a la actividad grupal.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea eliminar el
+	 *            grupo.
+	 * @param idGrupo
+	 *            Identificador del grupo a eliminar.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para eliminar el grupo o si
+	 *             la actividad no es grupal.
+	 */
 	public void eliminarGrupo(String username ,long idActividad, long idGrupo) 
 			throws RemoteException {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
 		actividad.eliminarGrupo(idGrupo);
 	}
 
+	/**
+	 * Agrega un participante a un grupo de una actividad grupal.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad en la que se encuentra el grupo
+	 *            a modificar.
+	 * @param idGrupo
+	 *            Identificador del grupo a modificar.
+	 * @param usernameNuevoParticipante
+	 *            Identificador del participante a agregar al grupo.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para modificar el grupo o si
+	 *             la actividad no es grupal.
+	 */
 	public void agregarParticipanteAGrupo(String username, long idActividad,
 			long idGrupo, String usernameNuevoParticipante) 
 					throws RemoteException {
@@ -407,6 +437,22 @@ public class ActividadControlador {
 				usernameNuevoParticipante);
 	}
 
+	/**
+	 * Elimina un participante de un grupo de una actividad grupal.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad en la que se encuentra el grupo
+	 *            a modificar.
+	 * @param idGrupo
+	 *            Identificador del grupo a modificar.
+	 * @param usernameParticipanteAEliminar
+	 *            Identificador del participante a eliminar del grupo.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para eliminar el grupo o si
+	 *             la actividad no es grupal.
+	 */
 	public void eliminarParticipanteAGrupo(String username, long idActividad,
 			long idGrupo, String usernameParticipanteAEliminar) 
 					throws RemoteException {
@@ -416,6 +462,21 @@ public class ActividadControlador {
 				usernameParticipanteAEliminar);
 	}
 
+	/**
+	 * Se obtienen todos los grupos (y sus respectivos participantes) de una
+	 * actividad grupal.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea obtener
+	 *            todos los grupos.
+	 * @return String con XML que contiene el listado de grupos y participantes
+	 *         de cada uno.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para obtener los grupos o si
+	 *             la actividad no es grupal.
+	 */
 	public String getGrupos(String username, long idActividad)
 			throws RemoteException {
 		ActividadGrupal actividad = ActividadGrupal.getActividad(idActividad);
@@ -472,8 +533,22 @@ public class ActividadControlador {
 
 	/* METODOS COMUNES A LAS ACTIVIDADES EVALUABLES */
 
-	// Evaluado puede ser un participante o un grupo, dependiendo si la
-	// actividad es ind o grupal
+	/**
+	 * Evalua varios participantes o grupos, dependiendo si la actividad es
+	 * individual o grupal respectivamente.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea evaluar los
+	 *            participantes o grupos.
+	 * @param notas
+	 *            XML con las notas y observaciones para cada participante o
+	 *            grupo.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para evaluar la actividad o
+	 *             si la actividad no es evaluable.
+	 */
 	public void evaluar(String username, long idActividad, String notas)
 			throws RemoteException {
 		Evaluable evaluable = this.encontrarActividadEvaluable(idActividad);
@@ -502,16 +577,33 @@ public class ActividadControlador {
 		}
 	}
 
-	public String getNota(String username ,long idActividad, long idEvaluado)
-			throws RemoteException {
+	/**
+	 * Obtiene la nota de un participante de una actividad individual evaluable.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea obtener la
+	 *            nota del participante.
+	 * @param usernameParticipante
+	 *            Identificador del participante del cual se desea obtener la
+	 *            nota.
+	 * @return XML con la nota y observaciones realizadas.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para consultar la nota, si la
+	 *             actividad no es evaluable o si el participante no se
+	 *             encuentra en esa actividad.
+	 */
+	public String getNota(String username, long idActividad,
+			String usernameParticipante) throws RemoteException {
 		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
-			//TODO: Lanzar alguna excepcion
+			// TODO: Lanzar alguna excepcion
 		}
+
+		return evaluable.getNota(usernameParticipante).serializar();
 		
-		return evaluable.getNota(idEvaluado).serializar();
-		
-		/*Nota nota = evaluable.getNota(idEvaluado);
+		/*Nota nota = evaluable.getNota(usernameParticipante);
 		// TODO: ¿Muy C? Refactorizar, quizas...
 		if (nota != null) {
 			// Armo el XML correspondiente a la nota
@@ -552,8 +644,23 @@ public class ActividadControlador {
 		return null;*/
 	}
 
-	// Verificar que la actividad sea evaluable
-	public String getNotas(String username ,long idActividad) throws RemoteException {
+	/**
+	 * Obtiene las notas de todos los participante o grupos de una actividad
+	 * evaluable.
+	 * 
+	 * @param username
+	 *            Identificador del usuario que ejecuta el metodo.
+	 * @param idActividad
+	 *            Identificador de la actividad de la cual se desea obtener las
+	 *            notas.
+	 * @return XML con las notas y observaciones realizadas para cada
+	 *         participante o grupo.
+	 * @throws RemoteException
+	 *             Si el miembro no tiene permisos para evaluar la actividad o
+	 *             si la actividad no es evaluable.
+	 */
+	public String getNotas(String username, long idActividad)
+			throws RemoteException {
 		Evaluable evaluable = encontrarActividadEvaluable(idActividad);
 		if (evaluable == null) {
 			//TODO: Lanzar alguna excepcion
