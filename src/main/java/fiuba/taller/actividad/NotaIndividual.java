@@ -12,6 +12,8 @@ import com.ws.services.ActualizarDatosResponse;
 import com.ws.services.GuardarDatos;
 import com.ws.services.GuardarDatosResponse;
 import com.ws.services.IntegracionStub;
+import com.ws.services.SeleccionarDatos;
+import com.ws.services.SeleccionarDatosResponse;
 
 public class NotaIndividual extends Nota {
 
@@ -52,13 +54,21 @@ public class NotaIndividual extends Nota {
 
 	@Override
 	public String serializar() {
-		String output = "<WS><Nota>"
-				+ "<idActividad>" + idActividad + "</idActividad>"
-				+ "<username>" + username + "</username>"
-				+ "<valor>" + valor + "</valor>"
-				+ "<observaciones>" + observaciones + "</observaciones>"
-				+ "</Nota></WS>";
-		return output;
+		String xml = "<WS><Nota>";
+		if (idActividad > 0) {
+			xml += "<idActividad>" + idActividad + "</idActividad>";
+		}
+		if (username.length() > 0) {
+			xml += "<username>" + username + "</username>";
+		}
+		if (valor.length() > 0) {
+			xml += "<valor>" + valor + "</valor>";
+		}
+		if (observaciones.length() > 0) {
+			xml += "<observaciones>" + observaciones + "</observaciones>";
+		}
+		xml += "</Nota></WS>";
+		return xml;
 	}
 
 	@Override
@@ -121,9 +131,14 @@ public class NotaIndividual extends Nota {
 	}
 
 	@Override
-	public String realizarConsulta() {
-		// TODO Auto-generated method stub
-		return null;
+	public String realizarConsulta() throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		SeleccionarDatos envio = new SeleccionarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
+		String retorno = respuesta.get_return();
+		return retorno;
 	}
 
 	/**
@@ -152,8 +167,10 @@ public class NotaIndividual extends Nota {
 	 */
 	public static NotaIndividual getNota(long idActividad, String username)
 			throws RemoteException {
-		// TODO Corregir
 		NotaIndividual nota = new NotaIndividual(idActividad, username);
+		String xml = nota.realizarConsulta();
+		procesarConsultaIndividualIntegracion(xml);
+		nota.descerializar(xml);
 		return nota;
 	}
 
