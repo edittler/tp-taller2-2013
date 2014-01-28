@@ -83,6 +83,24 @@ public abstract class Nota implements Serializable {
 		}
 	}
 
+	protected static String procesarConsultaIndividualIntegracion(
+			String xmlMensaje) throws RemoteException {
+		Document doc = getDocumentElement(xmlMensaje);
+		NodeList nodes = doc.getElementsByTagName("Nota");
+		int cantidadNotas = nodes.getLength();
+		switch (cantidadNotas) {
+		case 0:
+			procesarNotificacionIntegracion(xmlMensaje);
+			break;
+		case 1:
+			return xmlMensaje;
+		default:
+			throw new RemoteException(
+					"Integracion no devolvio un unico nodo Nota");
+		}
+		return xmlMensaje;
+	}
+
 	protected static Document getDocumentElement(String xml)
 			throws RemoteException {
 		Document doc = null;

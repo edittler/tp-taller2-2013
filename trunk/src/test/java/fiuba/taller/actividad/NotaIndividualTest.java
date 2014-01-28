@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @SuppressWarnings("deprecation")
@@ -112,5 +113,12 @@ public class NotaIndividualTest {
 		String xmlFinal = nota.serializar();
 
 		assertEquals(xmlADescerializar, xmlFinal);
+	}
+
+	@Ignore
+	@Test
+	public void almacenarNota() throws RemoteException {
+		NotaIndividual nota = new NotaIndividual(12, "pepito", "8");
+		nota.actualizarEstado();
 	}
 }
