@@ -219,8 +219,8 @@ public class Actividad implements Serializable {
 		envio.setXml(xml);
 		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
 		String retorno = respuesta.get_return();
-		System.out.println(retorno);
-		//procesarNotificacionIntegracion(retorno);
+//		System.out.println(retorno);
+		procesarNotificacionIntegracion(retorno);
 	}
 
 	/**

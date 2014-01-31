@@ -9,10 +9,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class NotaIndividualTest {
-	NotaIndividual nota;
+public class NotaGrupalTest {
+
+
+	NotaGrupal nota;
 	long idActividad;
-	String username;
+	long  idGrupo;
 	String valorNota;
 	String observaciones;
 	String xmlADescerializar;
@@ -20,15 +22,15 @@ public class NotaIndividualTest {
 	@Before
 	public void setUp() throws Exception {
 		idActividad = 100;
-		username = "pepito";
+		idGrupo = 2;
 		valorNota = "4";
-		observaciones = "pibe metele pata que asi vas a terminar laburando de panadero";
+		observaciones = "pibes metanle pata que asi van a terminar laburando de panadero";
 
-		nota = new NotaIndividual(idActividad, username, valorNota, observaciones);
+		nota = new NotaGrupal(idActividad, idGrupo, valorNota, observaciones);
 
 		xmlADescerializar = "<WS><Nota>"
 				+ "<idActividad>" + idActividad + "</idActividad>"
-				+ "<username>" + username + "</username>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
 				+ "<valor>" + valorNota + "</valor>"
 				+ "<observaciones>" + observaciones + "</observaciones>"
 				+ "</Nota></WS>";
@@ -42,8 +44,8 @@ public class NotaIndividualTest {
 	public void descerializarConXMLSinNodoNota() throws RemoteException {
 		String xmlADescerializar = "<WS><Notita>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<Username>" + username + "</Username>"
-				+ "<Valor>" + valorNota + "</Valor>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
+				+ "<valor>" + valorNota + "</valor>"
 				+ "<Observaciones>" + observaciones + "</Observaciones>"
 				+ "</Notita></WS>";
 
@@ -56,12 +58,12 @@ public class NotaIndividualTest {
 	public void descerializarConXMLConDosNodosNota() throws RemoteException {
 		String xmlADescerializar = "<WS><Notas><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<UsernameParticipante>" + username + "</UsernameParticipante>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
 				+ "<Valor>" + valorNota + "</Valor>"
 				+ "<Observaciones>" + observaciones + "</Observaciones>"
 				+ "</Nota><Nota>"
 				+ "<IdActividad>" + idActividad + "</IdActividad>"
-				+ "<Username>" + username + "</Username>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
 				+ "<Valor>" + valorNota + "</Valor>"
 				+ "<Observaciones>" + observaciones + "</Observaciones>"
 				+ "</Nota></Notas></WS>";
@@ -75,7 +77,7 @@ public class NotaIndividualTest {
 	public void descerializarConXMLConDosNodosValor() throws RemoteException {
 		String xmlADescerializar = "<WS><Nota>"
 				+ "<idActividad>" + idActividad + "</idActividad>"
-				+ "<username>" + username + "</username>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
 				+ "<valor>" + valorNota + "</valor>"
 				+ "<observaciones>" + observaciones + "</observaciones>"
 				+ "<valor>" + valorNota + "</valor>"
@@ -91,7 +93,7 @@ public class NotaIndividualTest {
 			throws RemoteException {
 		String xmlADescerializar = "<WS><Nota>"
 				+ "<idActividad>" + idActividad + "</idActividad>"
-				+ "<username>" + username + "</username>"
+				+ "<idGrupo>" + idGrupo + "</idGrupo>"
 				+ "<valor><!-- Comentario -->" + valorNota + "</valor>"
 				+ "<observaciones>" + observaciones + "</observaciones>"
 				+ "</Nota></WS>";
@@ -99,7 +101,7 @@ public class NotaIndividualTest {
 		nota.descerializar(xmlADescerializar);
 
 		assertEquals(idActividad, nota.getIdActividad());
-		assertEquals(username, nota.getUsername());
+		assertEquals(idGrupo, nota.getIdGrupo());
 		assertEquals(valorNota, nota.getValor());
 		assertEquals(observaciones, nota.getObservaciones());
 	}
@@ -116,7 +118,8 @@ public class NotaIndividualTest {
 	@Ignore
 	@Test
 	public void almacenarNota() throws RemoteException {
-		NotaIndividual nota = new NotaIndividual(12, "pepito", "8");
+		NotaGrupal nota = new NotaGrupal(14, 2, "8");
 		nota.actualizarEstado();
 	}
+
 }
