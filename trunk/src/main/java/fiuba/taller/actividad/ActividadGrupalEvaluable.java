@@ -31,20 +31,19 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 	}
 
 	@Override
-	public void evaluar(Object idGrupo, String nota) {
+	public void evaluar(Object idGrupo, String nota) throws RemoteException {
 		long longGrupo = (long) idGrupo;
-		NotaGrupal notaGrupal = NotaGrupal.crearNota(id, longGrupo);
-		notaGrupal.setValor(nota);
-		// TODO Falta comunicacion con integracion
-		// Se necesita: idActividad, identificadorGrupo, nota, ¿observaciones?
+		NotaGrupal notaGrupal = new NotaGrupal(id, longGrupo, nota);
+		notaGrupal.actualizarEstado();
 	}
 
 	@Override
-	public void evaluar(Object idGrupo, String nota, String observaciones) {
+	public void evaluar(Object idGrupo, String nota, String observaciones)
+			throws RemoteException {
 		long longGrupo = (long) idGrupo;
-		NotaGrupal notaGrupal = NotaGrupal.crearNota(id, longGrupo);
-		notaGrupal.setValor(nota);
-		notaGrupal.setObservaciones(observaciones);
+		NotaGrupal notaGrupal = new NotaGrupal(id, longGrupo, nota,
+				observaciones);
+		notaGrupal.actualizarEstado();
 	}
 
 	@Override

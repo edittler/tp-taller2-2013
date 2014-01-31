@@ -21,14 +21,6 @@ public class NotaIndividual extends Nota {
 	
 	private final static String NODO_USERNAME = "username";
 
-	/**
-	 * Constructor utilizado para realizar testing.
-	 */
-	@Deprecated
-	public NotaIndividual() {
-		super(-1);
-	}
-
 	private NotaIndividual(long idActividad, String username) {
 		super(idActividad);
 		this.username = username;
