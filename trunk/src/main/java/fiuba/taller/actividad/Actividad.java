@@ -270,14 +270,9 @@ public class Actividad implements Serializable {
 
 	protected String serializarInterno() {
 		String xml = "";
-		String identifStr = "";
-		String idAmbSupStr = "";
-		String idActSupStr = "";
-		String fehcaFinStr = "";
-		String fehcaIniStr = "";
 		if (id > 0) {
-			identifStr = String.valueOf(id);
-			xml = "<id>" + identifStr + "</id>";
+			String idStr = String.valueOf(id);
+			xml = "<id>" + idStr + "</id>";
 		}
 		if (nombre.length() > 0) {
 			xml += "<nombre>" + nombre + "</nombre>";
@@ -285,16 +280,12 @@ public class Actividad implements Serializable {
 		if (tipo.length() > 0) {
 			xml += "<tipo>" + tipo + "</tipo>";
 		}
-		/*
-		 * FIXME Descomentar cuando Integracion y Base de datos corrijan el
-		 * error.
-		 */
-/*		if (idAmbitoSuperior > 0) {
-			idAmbSupStr = String.valueOf(idAmbitoSuperior);
+		if (idAmbitoSuperior > 0) {
+			String idAmbSupStr = String.valueOf(idAmbitoSuperior);
 			xml += "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>";
-		}*/
+		}
 		if (idActividadSuperior > 0) {
-			idActSupStr = String.valueOf(idActividadSuperior);
+			String idActSupStr = String.valueOf(idActividadSuperior);
 			xml += "<actividadSuperiorId>" + idActSupStr
 					+ "</actividadSuperiorId>";
 		}
@@ -302,11 +293,11 @@ public class Actividad implements Serializable {
 			xml += "<descripcion>" + descripcion + "</descripcion>";
 		}
 		if (fechaInicio >= 0) {
-			fehcaIniStr = String.valueOf(fechaInicio);
+			String fehcaIniStr = String.valueOf(fechaInicio);
 			xml += "<fechaInicio>" + fehcaIniStr + "</fechaInicio>";
 		}
 		if (fechaFin >= 0) {
-			fehcaFinStr = String.valueOf(fechaFin);
+			String fehcaFinStr = String.valueOf(fechaFin);
 			xml += "<fechaFin>" + fehcaFinStr + "</fechaFin>";
 		}
 		return xml;
