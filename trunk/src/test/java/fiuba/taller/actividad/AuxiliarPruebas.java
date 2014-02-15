@@ -4,7 +4,7 @@ public class AuxiliarPruebas {
 	public static String auxGenerarXml(String tipo,String tipoEscala, String gruposExclusivos) {
 		
 		long idPrueba = 22;
-		long idAmbSupStr = 2;
+		long idAmbSupStr = 1;
 		long idActSupStr = -1;
 		String nombrePrueba = "Una gran actividad";
 		String descripcion = "La mejor actividad del mundo";

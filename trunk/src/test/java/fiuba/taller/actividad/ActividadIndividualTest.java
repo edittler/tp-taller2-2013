@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ActividadIndividualTest {
@@ -21,6 +22,7 @@ public class ActividadIndividualTest {
 	public void tearDown() throws Exception {
 	}
 
+	@Ignore
 	@Test
 	public void AgregarUnParticipante() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
@@ -28,6 +30,7 @@ public class ActividadIndividualTest {
 				.getParticipantes().size());
 	}
 
+	@Ignore
 	@Test
 	public void AgregarDosParticipantes() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
@@ -36,12 +39,14 @@ public class ActividadIndividualTest {
 				.getParticipantes().size());
 	}
 
+	@Ignore
 	@Test(expected = RemoteException.class)
 	public void AgregarParticipantesConMismoUsername() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
 		actIndividual.agregarParticipante("juancito");
 	}
 
+	@Ignore
 	@Test
 	public void EliminarParticipanteExistente() throws RemoteException {
 		actIndividual.agregarParticipante("juancito");
