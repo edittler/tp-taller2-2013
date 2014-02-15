@@ -73,30 +73,4 @@ public class ActividadIndividualEvaluableTest {
 		assertFalse("Tipo que deberia ser rechazado fue aceptado",
 				ActividadIndividualEvaluable.esTipoValido(xml));
 	}
-/*
-	@Test
-	public void testEvaluar() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetNota() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetNotas() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCrearInstanciaString() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetActividadLong() {
-		fail("Not yet implemented");
-	}
-*/
 }

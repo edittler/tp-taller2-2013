@@ -71,4 +71,9 @@ public class ActividadControladorTest {
 		controlador.setPropiedades("pampa", 14, xml);
 //		assertEquals("no son iguales:",xml,xmlProp);
 	}
+
+	@Test
+	public void agregarParticipante() throws RemoteException {
+		controlador.agregarParticipante("Pepe", 60, "usuario_prueba1");
+	}
 }
