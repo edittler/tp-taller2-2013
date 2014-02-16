@@ -60,11 +60,8 @@ public class ActividadGrupal extends Actividad {
 		}
 		grupo.setId(nuevoIdentificador());
 		grupo.setIdActividad(id);
+		grupo.guardarNuevoEstado();
 		grupos.add(grupo);
-		/*
-		 * FIXME(Jorge) Hará falta llamar a Integración para agregar el
-		 * grupo o con el método "GuardarEstado" alcanza?
-		 */
 	}
 	
 	public void agregarParticipanteAGrupo(long idGrupo, 
@@ -183,7 +180,7 @@ public class ActividadGrupal extends Actividad {
 		Node node = nodes.item(0);
 		if (node.getNodeType() == Node.ELEMENT_NODE) {
 			Element element = (Element) node;
-			this.gruposExclusivos = Boolean.valueOf(getValue(
+			this.gruposExclusivos = Boolean.valueOf(ParserXml.getValue(
 					"gruposExclusivos", element));
 		}
 	}

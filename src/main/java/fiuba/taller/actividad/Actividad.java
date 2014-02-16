@@ -180,7 +180,7 @@ public class Actividad implements Serializable {
 
 	@Override
 	public void descerializar(String xml) throws RemoteException {
-		Document doc = getDocumentElement(xml);
+		Document doc = ParserXml.getDocumentElement(xml);
 		descerializar(doc);
 	}
 
@@ -310,22 +310,22 @@ public class Actividad implements Serializable {
 					"Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		String idStr = getValue("id", element);
+		String idStr = ParserXml.getValue("id", element);
 		if (idStr.length() > 0)
 			id = Long.valueOf(idStr);
-		String idAmbSupStr = getValue("ambitoSuperiorId", element);
+		String idAmbSupStr = ParserXml.getValue("ambitoSuperiorId", element);
 		if(idAmbSupStr.length() > 0)
 			idAmbitoSuperior = Long.valueOf(idAmbSupStr);
-		String idActSupStr = getValue("actividadSuperiorId", element);
+		String idActSupStr = ParserXml.getValue("actividadSuperiorId", element);
 		if(idActSupStr.length() > 0)
 			idActividadSuperior = Long.valueOf(idActSupStr);
-		nombre = getValue("nombre", element);
-		tipo = getValue("tipo", element);
-		descripcion = getValue("descripcion", element);
-		String fechaInicioStr = getValue("fechaInicio", element);
+		nombre = ParserXml.getValue("nombre", element);
+		tipo = ParserXml.getValue("tipo", element);
+		descripcion = ParserXml.getValue("descripcion", element);
+		String fechaInicioStr = ParserXml.getValue("fechaInicio", element);
 		if(fechaInicioStr.length() > 0)
 			fechaInicio = Long.valueOf(fechaInicioStr);
-		String fechaFinStr = getValue("fechaFin", element);
+		String fechaFinStr = ParserXml.getValue("fechaFin", element);
 		if(fechaFinStr.length() > 0)
 			fechaFin = Long.valueOf(fechaFinStr);
 	}
@@ -356,19 +356,19 @@ public class Actividad implements Serializable {
 
 	protected static String procesarNotificacionIntegracion(String xmlMensaje)
 			throws RemoteException {
-		Document doc = getDocumentElement(xmlMensaje);
+		Document doc = ParserXml.getDocumentElement(xmlMensaje);
 		NodeList nodes = doc.getElementsByTagName("notificacion");
 		if (nodes.getLength() != 1) {
 			throw new RemoteException(
 					"Integracion no devolvio un unico nodo notificacion");
 		}
 		Element element = (Element) nodes.item(0);
-		String numeroStr = getValue("numero", element);
+		String numeroStr = ParserXml.getValue("numero", element);
 		int numero = Integer.valueOf(numeroStr);
-		String mensaje = getValue("mensaje", element);
+		String mensaje = ParserXml.getValue("mensaje", element);
 		String datos = "";
 		try {
-			datos = getValue("datos", element);
+			datos = ParserXml.getValue("datos", element);
 		} catch (RemoteException e) {
 		}
 		switch (numero) {
@@ -388,7 +388,7 @@ public class Actividad implements Serializable {
 
 	protected static String procesarConsultaIndividualIntegracion(String xmlMensaje)
 			throws RemoteException {
-		Document doc = getDocumentElement(xmlMensaje);
+		Document doc = ParserXml.getDocumentElement(xmlMensaje);
 		NodeList nodes = doc.getElementsByTagName("Actividad");
 		int cantidadActividades = nodes.getLength();
 		switch (cantidadActividades) {
@@ -401,40 +401,6 @@ public class Actividad implements Serializable {
 			throw new RemoteException("Integracion no devolvio un unico nodo Actividad");
 		}
 		return xmlMensaje;
-	}
-
-	protected static Document getDocumentElement(String xml)
-			throws RemoteException {
-		Document doc = null;
-		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			doc = builder.parse(is);
-			doc.getDocumentElement().normalize();
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
-			throw new RemoteException("Error al parsear el XML.");
-			
-		}
-		return doc;
-	}
-
-	// metodo interno de ayuda para el parseo
-	protected static String getValue(String tag, Element element)
-			throws RemoteException {
-		NodeList nodes = element.getElementsByTagName(tag);
-		int numeroNodos = nodes.getLength();
-		switch (numeroNodos) {
-		case 0:
-			return "";
-		case 1:
-			Element elemento = (Element) nodes.item(0);
-			return elemento.getTextContent();
-		default:
-			String mensaje = "No debe existir mas de un nodo " + tag + ".";
-			throw new RemoteException(mensaje);
-		}
 	}
 
 	/* METODOS PUBLICOS DE TESTING */

@@ -125,7 +125,7 @@ public class ActividadGrupalEvaluable extends ActividadGrupal implements
 			RemoteException("Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		this.escala = getValue("tipoEscala", element);
+		this.escala = ParserXml.getValue("tipoEscala", element);
 	}
 	
 }

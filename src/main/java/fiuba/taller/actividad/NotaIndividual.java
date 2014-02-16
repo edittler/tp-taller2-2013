@@ -66,7 +66,7 @@ public class NotaIndividual extends Nota {
 	@Override
 	public void descerializar(String xml) throws RemoteException {
 
-		Document doc = getDocumentElement(xml);
+		Document doc = ParserXml.getDocumentElement(xml);
 
 		NodeList nodes = doc.getElementsByTagName(NODO_NOTA);
 		if (nodes.getLength() != 1) {
@@ -81,10 +81,11 @@ public class NotaIndividual extends Nota {
 		}
 
 		Element element = (Element) node;
-		idActividad = Long.valueOf(getValue(NODO_ID_ACTIVIDAD, element));
-		username = getValue(NODO_USERNAME, element);
-		valor = getValue(NODO_VALOR, element);
-		observaciones = getValue(NODO_OBSERVACIONES, element);
+		idActividad = Long.valueOf(ParserXml.getValue(NODO_ID_ACTIVIDAD,
+				element));
+		username = ParserXml.getValue(NODO_USERNAME, element);
+		valor = ParserXml.getValue(NODO_VALOR, element);
+		observaciones = ParserXml.getValue(NODO_OBSERVACIONES, element);
 	}
 
 	@Override

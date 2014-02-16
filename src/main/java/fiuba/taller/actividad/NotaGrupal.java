@@ -65,7 +65,7 @@ public class NotaGrupal extends Nota {
 
 	@Override
 	public void descerializar(String xml) throws RemoteException {
-		Document doc = getDocumentElement(xml);
+		Document doc = ParserXml.getDocumentElement(xml);
 
 		NodeList nodes = doc.getElementsByTagName("Nota");
 		if (nodes.getLength() != 1) {
@@ -80,10 +80,10 @@ public class NotaGrupal extends Nota {
 		}
 
 		Element element = (Element) node;
-		idActividad = Long.valueOf(getValue("idActividad", element));
-		idGrupo = Long.valueOf(getValue("idGrupo", element));
-		valor = getValue("valor", element);
-		observaciones = getValue("observaciones", element);
+		idActividad = Long.valueOf(ParserXml.getValue("idActividad", element));
+		idGrupo = Long.valueOf(ParserXml.getValue("idGrupo", element));
+		valor = ParserXml.getValue("valor", element);
+		observaciones = ParserXml.getValue("observaciones", element);
 	}
 
 	@Override
