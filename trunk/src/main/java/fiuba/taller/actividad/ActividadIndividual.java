@@ -4,47 +4,43 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import com.ws.services.ActualizarDatos;
 import com.ws.services.ActualizarDatosResponse;
 import com.ws.services.IntegracionStub;
-import com.ws.services.SeleccionarDatos;
-import com.ws.services.SeleccionarDatosResponse;
 
 public class ActividadIndividual extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
 
-	protected List<String> usernameParticipantes;
+	protected List<Usuario> participantes;
 
 	public ActividadIndividual() {
 		super();
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
-		usernameParticipantes = null;
+		participantes = null;
 	}
 
 	public List<String> getParticipantes() {
 		if (!participantesCargados()) {
 			cargarParticipantes();
 		}
-		return new ArrayList<>(usernameParticipantes);
+		// FIXME Terminar de implementar
+		return new ArrayList<>();
 	}
 
 	public void agregarParticipante(String username) throws RemoteException {
 		if (!participantesCargados()) {
 			cargarParticipantes();
 		}
-		if (usernameParticipantes.contains(username)) {
+		if (contieneParticipante(username)) {
 			String mensaje = "El usuario " + username
 					+ " ya se encuentra en la actividad";
 			throw new RemoteException(mensaje);
 		}
-		long idUsuario = getIdUsuario(username);
+		Usuario usuario = Usuario.getUsuario(username);
+		String usuarioIdStr = Long.toString(usuario.getId());
 		String xml = "<WS><Actividad><id>" + id + "</id>"
-				+ "<participantes><Usuario><id>" + idUsuario
+				+ "<participantes><Usuario><id>" + usuarioIdStr
 				+ "</id></Usuario></participantes></Actividad></WS>";
 		IntegracionStub servicio = new IntegracionStub();
 		ActualizarDatos envio = new ActualizarDatos();
@@ -52,19 +48,19 @@ public class ActividadIndividual extends Actividad {
 		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
 		String retorno = respuesta.get_return();
 		procesarNotificacionIntegracion(retorno);
-		usernameParticipantes.add(username);
+		participantes.add(usuario);
 	}
 
 	public void eliminarParticipante(String username) throws RemoteException {
 		if (!participantesCargados()) {
 			cargarParticipantes();
 		}
-		if (!usernameParticipantes.contains(username)) {
+		if (!contieneParticipante(username)) {
 			String mensaje = "El usuario " + username
 					+ " no se encuentra en la actividad";
 			throw new RemoteException(mensaje);
 		}
-		usernameParticipantes.remove(username);
+		participantes.remove(username);
 		/*
 		 * FIXME(Jorge) Hará falta llamar a Integración para eliminar el
 		 * participante o con el método "GuardarEstado" alcanza?
@@ -137,38 +133,19 @@ public class ActividadIndividual extends Actividad {
 	/* METODOS PRIVADOS AUXILIARES */
 
 	private boolean participantesCargados() {
-		return usernameParticipantes != null;
+		return participantes != null;
 	}
 
 	private void cargarParticipantes() {
-		usernameParticipantes = new ArrayList<>();
+		participantes = new ArrayList<>();
 		/*
 		 * TODO(Jorge o Pampa?) Implementar. Se debe cargar desde la base de
 		 * datos la lista de participantes.
 		 */
 	}
 
-	private static long getIdUsuario(String username) throws RemoteException {
-		IntegracionStub servicio = new IntegracionStub();
-		SeleccionarDatos envio = new SeleccionarDatos();
-		String xml = "<WS><Usuario><username>" + username
-				+ "</username></Usuario></WS>";
-		envio.setXml(xml);
-		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
-		String retorno = respuesta.get_return();
-		long id = procesarConsultaDeUsuario(retorno);
-		return id;
-	}
-
-	private static long procesarConsultaDeUsuario(String xml) throws RemoteException {
-		Document doc = getDocumentElement(xml);
-		NodeList nodes = doc.getElementsByTagName("Usuario");
-		if (nodes.getLength() == 0) {
-			throw new RemoteException("Integracion no devolvio un unico nodo Usuario");
-		}
-		// Solo tomo el primer usuario. No importa que hayan más usuarios.
-		Element element = (Element) nodes.item(0);
-		String idStr = getValue("id", element);
-		return Long.valueOf(idStr);
+	private boolean contieneParticipante(String username) {
+		// TODO Implementar
+		return false;
 	}
 }

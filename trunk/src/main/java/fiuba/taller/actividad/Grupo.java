@@ -1,21 +1,17 @@
 package fiuba.taller.actividad;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
+import com.ws.services.GuardarDatos;
+import com.ws.services.GuardarDatosResponse;
+import com.ws.services.IntegracionStub;
 
 /* FORMATO DEL XML GRUPO
  * 
@@ -154,27 +150,19 @@ public class Grupo implements Serializable {
 		String xml = "<WS><Grupo>"
 				+ "<idActividad>" + idActividad + "</idActividad>"
 				+ "<idGrupo>" + id + "</idGrupo>"
-				+ "<list>";
+				+ "<usuarios>";
 		for (String participante : usernameParticipantes) {
-			xml += "<username>" + participante + "</username>";
+			xml += "<Usuario><username>" + participante + "</username></Usuario>";
 		}
-		xml += "</list></Grupo></WS>";
+		// FIXME Linea 166 provisoria
+		//xml += "<Usuario><id>3</id><Usuario><Usuario><id>1</id><Usuario>";
+		xml += "</usuarios></Grupo></WS>";
 		return xml;
 	}
 
 	@Override
 	public void descerializar(String xml) throws RemoteException {
-		Document doc = null;
-		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(xml));
-			doc = builder.parse(is);
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			String mensaje = "Error de parseo del string recibido";
-			throw new RemoteException(mensaje);
-		}
-		doc.getDocumentElement().normalize();
+		Document doc = ParserXml.getDocumentElement(xml);
 
 		NodeList nodes = doc.getElementsByTagName("Grupo");
 		if (nodes.getLength() != 1) {
@@ -182,29 +170,34 @@ public class Grupo implements Serializable {
 		}
 
 		Element grupoElement = (Element) nodes.item(0);
-		idActividad = Long.valueOf(getValue("idActividad", grupoElement));
-		id = Long.valueOf(getValue("idGrupo", grupoElement));
+		idActividad = Long.valueOf(ParserXml.getRequiredValue("idActividad",
+				grupoElement));
+		id = Long.valueOf(ParserXml.getValue("id", grupoElement));
 
 		NodeList lista = ((Element) grupoElement).getElementsByTagName("list");
-		Element listaE = (Element)lista.item(0);
-		
+		Element listaE = (Element) lista.item(0);
+
 		NodeList participantes = listaE.getElementsByTagName("username");
 		for (int j = 0; j < participantes.getLength(); j++) {
-			// System.out.print("LARGO: "+participantes.getLength()+"\n");
 			Node nodde = participantes.item(j);
 			if (nodde.getNodeType() == Node.ELEMENT_NODE) {
 				String valor = nodde.getChildNodes().item(0).getNodeValue();
-				// System.out.print("NODO: "+Long.valueOf(valor)+"\n");
 				this.usernameParticipantes.add(valor);
 			}
 		}
-		// System.out.print("ID: "+this.id+" PARTICIPANTES: "+this.idParticipantes);
 	}
 
 	@Override
 	public void guardarNuevoEstado() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		IntegracionStub servicio = new IntegracionStub();
+		GuardarDatos envio = new GuardarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		GuardarDatosResponse response = servicio.guardarDatos(envio);
+		String retorno = response.get_return();
+		System.out.println(retorno);
+		String idStr = procesarNotificacionIntegracion(retorno);
+		id = Long.valueOf(idStr);
 	}
 
 	@Override
@@ -248,14 +241,35 @@ public class Grupo implements Serializable {
 
 	/* METODOS PRIVADOS AUXILIARES */
 
-	private static String getValue(String tag, Element element)
+	protected static String procesarNotificacionIntegracion(String xmlMensaje)
 			throws RemoteException {
-		NodeList nodes = element.getElementsByTagName(tag);
+		Document doc = ParserXml.getDocumentElement(xmlMensaje);
+		NodeList nodes = doc.getElementsByTagName("notificacion");
 		if (nodes.getLength() != 1) {
-			String mensaje = "Debe existir un nodo " + tag + ".";
-			throw new RemoteException(mensaje);
+			throw new RemoteException(
+					"Integracion no devolvio un unico nodo notificacion");
 		}
-		Element elemento = (Element) nodes.item(0);
-		return elemento.getTextContent();
+		Element element = (Element) nodes.item(0);
+		String numeroStr = ParserXml.getValue("numero", element);
+		int numero = Integer.valueOf(numeroStr);
+		String mensaje = ParserXml.getValue("mensaje", element);
+		String datos = "";
+		try {
+			datos = ParserXml.getValue("datos", element);
+		} catch (RemoteException e) {
+		}
+		switch (numero) {
+		// Codigo 0: Operación no permitida
+		case 0:
+			throw new RemoteException("Integracion: " + mensaje);
+		// Codigo 1: Error al realizar la operación
+		case 1:
+			throw new RemoteException("Integracion: " + mensaje);
+		// Codigo 2: Operación correcta
+		case 2:
+			return datos;
+		default:
+			throw new RemoteException("Integracion: Codigo desconocido.");
+		}
 	}
 }
