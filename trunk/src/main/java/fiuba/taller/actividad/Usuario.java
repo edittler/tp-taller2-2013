@@ -21,6 +21,8 @@ public class Usuario implements Serializable {
 	}
 
 	public long getId() {
+		/* TODO: me gustaria que aca se realizara la consulta a integracion
+		y asi mantener transparente para los que usen esta clase */
 		return id;
 	}
 	@Override

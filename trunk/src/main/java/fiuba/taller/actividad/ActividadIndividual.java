@@ -39,7 +39,10 @@ public class ActividadIndividual extends Actividad {
 		}
 		Usuario usuario = Usuario.getUsuario(username);
 		String usuarioIdStr = Long.toString(usuario.getId());
-		String xml = "<WS><Actividad><id>" + id + "</id>"
+		participantes.add(usuario);
+		actualizarEstado();
+		// FIXME : se tiene que usar el metodo ActualizarDatos en vez de hacerlo aca !!
+		/*String xml = "<WS><Actividad><id>" + id + "</id>"
 				+ "<participantes><Usuario><id>" + usuarioIdStr
 				+ "</id></Usuario></participantes></Actividad></WS>";
 		IntegracionStub servicio = new IntegracionStub();
@@ -47,8 +50,9 @@ public class ActividadIndividual extends Actividad {
 		envio.setXml(xml);
 		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
 		String retorno = respuesta.get_return();
-		procesarNotificacionIntegracion(retorno);
-		participantes.add(usuario);
+		procesarNotificacionIntegracion(retorno);*/
+		
+		
 	}
 
 	public void eliminarParticipante(String username) throws RemoteException {
@@ -61,18 +65,15 @@ public class ActividadIndividual extends Actividad {
 			throw new RemoteException(mensaje);
 		}
 		participantes.remove(username);
-		/*
-		 * FIXME(Jorge) Hará falta llamar a Integración para eliminar el
-		 * participante o con el método "GuardarEstado" alcanza?
-		 */
+		actualizarEstado();
 	}
 
 	@Override
 	public void actualizarEstado() throws RemoteException {
+		// Tener en cuenta que actualizar estado llama a serializarInterno
+		// que este serializa la lista de usuarios
 		super.actualizarEstado();
-		/*
-		 * TODO(Jorge) Se debe guardar la lista de usernames.
-		 */
+		
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
@@ -138,14 +139,32 @@ public class ActividadIndividual extends Actividad {
 
 	private void cargarParticipantes() {
 		participantes = new ArrayList<>();
-		/*
-		 * TODO(Jorge o Pampa?) Implementar. Se debe cargar desde la base de
-		 * datos la lista de participantes.
-		 */
+		String xmlConsulta = "<WS><Usuario><join><Actividad>"
+							+"<id> "+this.id+" </id>"
+							+"</Actividad></join></Usuario></WS>";
+	    
+	    // TODO Implementar. Se debe cargar desde la base de datos la lista de participantes.	
+	 	// 1) Se lo envia a Integracion la consulta
+		// 2) Verifica que halla recibido una respuesta valida de parte de integracion
+		// 	  Si no se levanta excepcion
+		// 3) pasa el xml de listas (String) a la lista real (Array<Usuario>)
+		 
 	}
 
 	private boolean contieneParticipante(String username) {
 		// TODO Implementar
 		return false;
+	}
+	
+	protected String serializarInterno() {
+		String xml = serializarInterno();
+		xml+="<usuarios>";
+		for (Usuario usuario : participantes) {
+			// TODO : devolver excepcion si es -1 ?
+			// FIXME : ver si hace falta algo mas para poder pedir el id
+			xml+=usuario.getId();
+		}
+		xml+="</usuarios>";
+		return xml;
 	}
 }
