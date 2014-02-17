@@ -19,14 +19,18 @@ public class GrupoTest {
 	private String xmlADescerializar;
 	String usernameParticipante1;
 	String usernameParticipante2;
+	String usernameParticipante3;
+	String usernameParticipante4;
 
 	@Before
 	public void setUp() throws Exception {
 		grupo = new Grupo();
 		idActividad = 2832;
 		idGrupo = 10;
-		usernameParticipante1 = "pepe";
-		usernameParticipante2 = "tito";
+		usernameParticipante1 = "Seba";
+		usernameParticipante2 = "testUser";
+		usernameParticipante3 = "juan";
+		usernameParticipante4 = "javier";
 		xmlADescerializar = "<WS><Grupo>"
 				+ "<idActividad>" + idActividad + "</idActividad>"
 				+ "<id>" + idGrupo + "</id>"
@@ -76,15 +80,11 @@ public class GrupoTest {
 			throws RemoteException {
 		Grupo grupoUno = new Grupo();
 		idGrupo = 1;
-		String usernameParticipante1 = "pepe";
-		String usernameParticipante2 = "raul";
 		grupoUno.agregarParticipante(usernameParticipante1);
 		grupoUno.agregarParticipante(usernameParticipante2);
 
 		Grupo grupoDos = new Grupo();
 		idGrupo = 2;
-		String usernameParticipante3 = "tincho";
-		String usernameParticipante4 = "juancho";
 		grupoDos.agregarParticipante(usernameParticipante3);
 		grupoDos.agregarParticipante(usernameParticipante4);
 
@@ -97,15 +97,12 @@ public class GrupoTest {
 			throws RemoteException {
 		Grupo grupoUno = new Grupo();
 		idGrupo = 1;
-		String usernameParticipante1 = "pepe";
-		String usernameParticipante2 = "raul";
+		String usernameParticipante1 = "juan";
 		grupoUno.agregarParticipante(usernameParticipante1);
 		grupoUno.agregarParticipante(usernameParticipante2);
 
 		Grupo grupoDos = new Grupo();
 		idGrupo = 2;
-		String usernameParticipante3 = "pepe";
-		String usernameParticipante4 = "juancho";
 		grupoDos.agregarParticipante(usernameParticipante3);
 		grupoDos.agregarParticipante(usernameParticipante4);
 
@@ -120,8 +117,6 @@ public class GrupoTest {
 
 		Grupo grupoDos = new Grupo();
 		idGrupo = 2;
-		String usernameParticipante3 = "pepe";
-		String usernameParticipante4 = "juancho";
 		grupoDos.agregarParticipante(usernameParticipante3);
 		grupoDos.agregarParticipante(usernameParticipante4);
 
@@ -136,8 +131,6 @@ public class GrupoTest {
 
 		Grupo grupoDos = new Grupo();
 		idGrupo = 2;
-		String usernameParticipante3 = "pepe";
-		String usernameParticipante4 = "juancho";
 		grupoDos.agregarParticipante(usernameParticipante3);
 		grupoDos.agregarParticipante(usernameParticipante4);
 
@@ -235,5 +228,13 @@ public class GrupoTest {
 				+ usernameParticipante2 + "</usernameParticipante>"
 				+ "</Grupo></WS>";
 		grupo.descerializar(xmlADescerializar);
+	}
+
+	@Test
+	public void guardarGrupo() throws RemoteException {
+		grupo.agregarParticipante(usernameParticipante1);
+		grupo.agregarParticipante(usernameParticipante2);
+		grupo.setIdActividad(27);
+		grupo.guardarNuevoEstado();
 	}
 }

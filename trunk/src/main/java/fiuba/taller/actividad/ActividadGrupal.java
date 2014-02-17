@@ -2,7 +2,6 @@ package fiuba.taller.actividad;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -58,7 +57,6 @@ public class ActividadGrupal extends Actividad {
 		if (gruposExclusivos) {
 			verificarParticipantes(grupo);
 		}
-		grupo.setId(nuevoIdentificador());
 		grupo.setIdActividad(id);
 		grupo.guardarNuevoEstado();
 		grupos.add(grupo);
@@ -215,17 +213,5 @@ public class ActividadGrupal extends Actividad {
 				}
 			}
 		}
-	}
-
-	private long nuevoIdentificador() {
-		if (grupos.size() == 0) {
-			return 1;
-		}	
-		List<Long> ids = new ArrayList<>();
-		for(Grupo grupo : grupos) {
-			ids.add(grupo.getId());
-		}
-		long maximo = Collections.max(ids);
-		return maximo + 1;
 	}
 }
