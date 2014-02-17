@@ -2,6 +2,7 @@ package fiuba.taller.actividad;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -19,39 +20,47 @@ import com.ws.services.IntegracionStub;
  * para poder persistir este objeto (incluyendo la lista de strings).
  * 
 	<Grupo>
-	   <IdActividad> </IdActividad>
-	   <IdGrupo> </IdGrupo>
-	   <list>
-	      <Username> </Username>
+	   <id> </id>
+	   <idActividad> </idActividad>
+	   <usuarios>
+	      <Usuario>
+	         <id> </id>
+	      </Usuario>
 	      .
 	      . 
-	      <Username> </Username>
-	   </list>
+	      <Usuario>
+	         <id> </id>
+	      </Usuario>
+	   </usuarios>
 	</Grupo>
  * 
  * ws->seleccionarDatos(xml)
  * 
  * "todos los usuarios tales que el id del grupo es 5"
  * <Usuario>
- * <join>
- * 		<Grupo>
- * 			<idGrupo>5</idGrupo>
- * 		</Grupo>
- * </join>
+ * 	<Grupo>
+ * 		<id>5</id>
+ * 	</Grupo>
  * </Usuario>
- * 
  */
-
 public class Grupo implements Serializable {
 
 	private long idActividad;
 	private long id;
-	private List<String> usernameParticipantes;
+	private List<Usuario> participantes;
 
 	public Grupo() {
 		id = -1;
 		idActividad = -1;
-		usernameParticipantes = new ArrayList<>();
+		participantes = new ArrayList<>();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	protected void setId(long id) {
+		this.id = id;
 	}
 
 	public long getIdActividad() {
@@ -60,14 +69,6 @@ public class Grupo implements Serializable {
 
 	public void setIdActividad(long idActividad) {
 		this.idActividad = idActividad;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**
@@ -84,7 +85,8 @@ public class Grupo implements Serializable {
 					+ "ya se encuentra en el grupo.";
 			throw new RemoteException(mensaje);
 		}
-		usernameParticipantes.add(username);
+		Usuario usuario = Usuario.getUsuario(username);
+		participantes.add(usuario);
 	}
 
 	/**
@@ -101,15 +103,27 @@ public class Grupo implements Serializable {
 					+ "no se encuentra en el grupo.";
 			throw new RemoteException(mensaje);
 		}
-		usernameParticipantes.remove(username);
+		boolean encontrado = false;
+		Iterator<Usuario> it = participantes.iterator();
+		while (!encontrado) {
+			Usuario usuario = it.next();
+			if (usuario.getUsername().equals(username)) {
+				participantes.remove(usuario);
+				encontrado = true;
+			}
+		}
 	}
 
 	public List<String> getUsernameParticipantes() {
-		return usernameParticipantes;
+		List<String> usernames = new ArrayList<>();
+		for (Usuario usuario : participantes) {
+			usernames.add(usuario.getUsername());
+		}
+		return usernames;
 	}
 
 	public int tamanio() {
-		return usernameParticipantes.size();
+		return participantes.size();
 	}
 
 	/**
@@ -120,7 +134,12 @@ public class Grupo implements Serializable {
 	 * @return true si el participante ya está en el grupo.
 	 */
 	public boolean contieneParticipante(String username) {
-		return usernameParticipantes.contains(username);
+		for (Usuario usuario : participantes) {
+			if (usuario.getUsername().equals(username)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -132,8 +151,8 @@ public class Grupo implements Serializable {
 	 * @return true si el grupo no posee participantes de otro grupo.
 	 */
 	public boolean contieneParticipantesDe(Grupo grupo) {
-		for (String usernameParticipante : usernameParticipantes) {
-			if (grupo.contieneParticipante(usernameParticipante)) {
+		for (Usuario usuario : participantes) {
+			if (grupo.contieneParticipante(usuario.getUsername())) {
 				return true;
 			}
 		}
@@ -147,16 +166,21 @@ public class Grupo implements Serializable {
 
 	@Override
 	public String serializar() {
-		String xml = "<WS><Grupo>"
-				+ "<idActividad>" + idActividad + "</idActividad>"
-				+ "<idGrupo>" + id + "</idGrupo>"
-				+ "<usuarios>";
-		for (String participante : usernameParticipantes) {
-			xml += "<Usuario><username>" + participante + "</username></Usuario>";
+		String xml = "<WS><Grupo>";
+		if (id > 0) {
+			xml += "<id>" + Long.toString(id) + "</id>";
 		}
-		// FIXME Linea 166 provisoria
-		//xml += "<Usuario><id>3</id><Usuario><Usuario><id>1</id><Usuario>";
-		xml += "</usuarios></Grupo></WS>";
+		if (idActividad > 0) {
+			xml += "<idActividad>" + Long.toString(idActividad) + "</idActividad>";
+		}
+		if (tamanio() > 0) {
+			xml += "<usuarios>";
+			for (Usuario usuario : participantes) {
+				xml += usuario.serializar();
+			}
+			xml += "</usuarios>";
+		}
+		xml += "</Grupo></WS>";
 		return xml;
 	}
 
@@ -172,23 +196,25 @@ public class Grupo implements Serializable {
 		Element grupoElement = (Element) nodes.item(0);
 		idActividad = Long.valueOf(ParserXml.getRequiredValue("idActividad",
 				grupoElement));
-		id = Long.valueOf(ParserXml.getValue("id", grupoElement));
+		id = Long.valueOf(ParserXml.getRequiredValue("id", grupoElement));
 
-		NodeList lista = ((Element) grupoElement).getElementsByTagName("list");
+		NodeList lista = ((Element) grupoElement).getElementsByTagName("usuarios");
 		Element listaE = (Element) lista.item(0);
 
-		NodeList participantes = listaE.getElementsByTagName("username");
+		NodeList participantes = listaE.getElementsByTagName("Usuario");
 		for (int j = 0; j < participantes.getLength(); j++) {
-			Node nodde = participantes.item(j);
-			if (nodde.getNodeType() == Node.ELEMENT_NODE) {
-				String valor = nodde.getChildNodes().item(0).getNodeValue();
-				this.usernameParticipantes.add(valor);
+			Node node = participantes.item(j);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				String nodeStr = node.toString();
+				Usuario usuario = Usuario.deserializar(nodeStr);
+				this.participantes.add(usuario);
 			}
 		}
 	}
 
 	@Override
 	public void guardarNuevoEstado() throws RemoteException {
+		setId(-1);
 		IntegracionStub servicio = new IntegracionStub();
 		GuardarDatos envio = new GuardarDatos();
 		String xml = serializar();

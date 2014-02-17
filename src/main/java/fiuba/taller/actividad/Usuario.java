@@ -25,6 +25,11 @@ public class Usuario implements Serializable {
 		y asi mantener transparente para los que usen esta clase */
 		return id;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
 	@Override
 	public String serializar() {
 		String xml = "<Usuario>";
@@ -79,6 +84,12 @@ public class Usuario implements Serializable {
 		Usuario usuario = new Usuario(username);
 		String xml = usuario.realizarConsulta();
 		usuario.id = procesarConsultaIndividual(xml);
+		return usuario;
+	}
+
+	public static Usuario deserializar(String xml) throws RemoteException {
+		Usuario usuario = new Usuario("");
+		usuario.descerializar(xml);
 		return usuario;
 	}
 
