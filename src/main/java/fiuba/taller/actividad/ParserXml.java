@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -40,14 +41,13 @@ public class ParserXml {
 		return doc;
 	}
 
-	public static String toString(Element element) throws RemoteException {
-		TransformerFactory transFactory = TransformerFactory.newInstance();
+	public static String toString(Node node) throws RemoteException {
 		Transformer transformer;
 		StringWriter buffer = new StringWriter();
 		try {
-			transformer = transFactory.newTransformer();
+			transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			transformer.transform(new DOMSource(element), new StreamResult(buffer));
+			transformer.transform(new DOMSource(node), new StreamResult(buffer));
 		} catch (TransformerException e) {
 			throw new RemoteException("Error al parsear el Elemento XML.");
 		}

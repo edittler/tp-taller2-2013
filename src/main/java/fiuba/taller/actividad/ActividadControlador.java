@@ -1,24 +1,17 @@
 package fiuba.taller.actividad;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
+import com.ws.services.IntegracionStub;
+import com.ws.services.SeleccionarDatos;
+import com.ws.services.SeleccionarDatosResponse;
 
 public class ActividadControlador {
 
@@ -149,8 +142,19 @@ public class ActividadControlador {
 	 */
 	public String getActividadesDeMiembro(String username)
 			throws RemoteException {
-		// TODO: Implementar. Obtener todas las actividades de un participante
-		return "";
+		Usuario usuario = Usuario.getUsuario(username);
+		String xmlConsulta = "<WS><Actividad><join><Usuario>"
+				+ "<id>" + Long.toString(usuario.getId()) + "</id>"
+				+ "</Usuario></join></Actividad></WS>";
+		String xmlRespuesta = realizarConsulta(xmlConsulta);
+		/*
+		 * FIXME Antes de devolver la respuesta, se debe analizar si es correcta
+		 * la respuesta o si se está enviando una notificacion.
+		 * Ahora está asi porque la VM está caída y no puedo probar como
+		 * funciona esto.
+		 * 		--Pampa
+		 */
+		return xmlRespuesta;
 	}
 
 	/**
@@ -164,7 +168,8 @@ public class ActividadControlador {
 	 */
 	public void destruirActividad(String username, long idActividad)
 			throws RemoteException {
-		// TODO Implementar
+		Actividad actividad = Actividad.getActividad(idActividad);
+		actividad.eliminarEstado();
 	}
 
 	/* CREADORES DE ACTIVIDAD */
@@ -285,6 +290,7 @@ public class ActividadControlador {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
 		actividad.agregarParticipante(usernameNuevoParticipante);
+		actividad.actualizarEstado();
 	}
 
 	/**
@@ -309,11 +315,12 @@ public class ActividadControlador {
 		ActividadIndividual actividad = ActividadIndividual
 				.getActividad(idActividad);
 		actividad.eliminarParticipante(usernameParticipanteAEliminar);
+		actividad.actualizarEstado();
 	}
 
 	/**
-	 * Se obtienen todos los participantes de una actividad individual.
-	 * 
+	 * Se obtienen todos los usernames de los participantes de una actividad individual.
+	 * Los usernames están concatenados con el separador ":".
 	 * @param username
 	 *            Identificador del usuario que ejecuta el metodo.
 	 * @param idActividad
@@ -327,43 +334,17 @@ public class ActividadControlador {
 	 */
 	public String getParticipantes(String username, long idActividad)
 			throws RemoteException {
-		ActividadIndividual actInd = 
-				ActividadIndividual.getActividad(idActividad);		
-		/* Se obtiene la lista de participantes inscriptos a la 
-		* actividad y se retornan los usernames
-		*/
-		
-		List<String> participantes = actInd.getParticipantes();
-		
-		// Paso a un XML genérico la lista de participantes obtenida
-		Document docParticipantes = null;
-		try {
-			docParticipantes =  DocumentBuilderFactory.newInstance().
-					newDocumentBuilder().newDocument();
-		} catch(ParserConfigurationException e) {
-			// TODO: Do something Ferno!
+		ActividadIndividual actividad = ActividadIndividual
+				.getActividad(idActividad);
+		List<String> participantes = actividad.getParticipantes();
+		/*
+		 * Se concatenan los usernames con el delimitador ":"
+		 */
+		String usernames = "";
+		for (String user : participantes) {
+			usernames += user + ":";
 		}
-		
-		Element root = docParticipantes.createElement("Participantes");
-		for (String participanteUsername : participantes) {
-			
-			// Agrego un nodo al XML por cada participante
-			Element nodo = docParticipantes.createElement("Participante");
-			
-			// Por ahora solo devuelvo el ID como atributo del nodo
-			nodo.setAttribute("Username", participanteUsername);
-			
-			root.appendChild(nodo);
-		}
-		
-		// Asigno el nodo raiz con todos sus hijos al documento XML
-		docParticipantes.appendChild(root);
-		
-		// Convierto el documento a string XML para retornar
-		String xmlParticipantes = null;
-		xmlParticipantes = this.getStringFromDocument(docParticipantes);
-		
-		return xmlParticipantes;
+		return usernames;
 	}
 
 	/* METODOS COMUNES A LAS ACTIVIDADES GRUPALES */
@@ -526,7 +507,7 @@ public class ActividadControlador {
 		
 		String xmlGrupos = null;
 		
-		xmlGrupos = this.getStringFromDocument(docGrupos);
+		xmlGrupos = ParserXml.toString(docGrupos);
 
 		return xmlGrupos;
 	}
@@ -711,41 +692,14 @@ public class ActividadControlador {
 		return xmlNotas;*/
 	}
 
-	// TODO: Refactorizar! Mover este metodo al lugar adecuado
-		protected String getStringFromDocument(Document doc) throws RemoteException {
-			DOMSource domSource = new DOMSource(doc);
-			StringWriter writer = new StringWriter();
-			StreamResult result = new StreamResult(writer);
-			TransformerFactory tf = TransformerFactory.newInstance();
-			Transformer transformer;
-			try {
-				transformer = tf.newTransformer();
-				transformer.transform(domSource, result);
-			} catch (TransformerException e) {
-				throw new RemoteException("Error al parsear el XML.");
-			}
+	/* METODOS PRIVADOS AUXILIARES */
 
-			return writer.toString();
-		}
-
-	private Document readXml(String xml) {
-		DocumentBuilder db = null;
-		try {
-			db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	    InputSource is = new InputSource();
-	    is.setCharacterStream(new StringReader(xml));
-		    
-	    Document doc = null;;
-		try {
-			doc = db.parse(is);
-		} catch (SAXException | IOException e) {
-			// TODO do something with the exception, Ferno!
-		}
-		
-		return doc;
+	private String realizarConsulta(String xml) throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		SeleccionarDatos envio = new SeleccionarDatos();
+		envio.setXml(xml);
+		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
+		String retorno = respuesta.get_return();
+		return retorno;
 	}
 }
