@@ -46,7 +46,15 @@ public class Usuario implements Serializable {
 
 	@Override
 	public void descerializar(String xml) throws RemoteException {
-		throw new RemoteException("No implementado.");
+		Document doc = ParserXml.getDocumentElement(xml);
+		NodeList nodes = doc.getElementsByTagName("Usuario");
+		if (nodes.getLength() != 1) {
+			throw new RemoteException("Debe haber solamente un nodo Usuario.");
+		}
+		Element element = (Element) nodes.item(0);
+		String idStr = ParserXml.getRequiredValue("id", element);
+		id = Long.valueOf(idStr);
+		username = ParserXml.getRequiredValue("username", element);
 	}
 
 	@Override

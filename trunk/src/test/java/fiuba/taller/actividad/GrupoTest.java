@@ -230,6 +230,7 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
+	@Ignore
 	@Test
 	public void guardarGrupo() throws RemoteException {
 		grupo.agregarParticipante(usernameParticipante1);

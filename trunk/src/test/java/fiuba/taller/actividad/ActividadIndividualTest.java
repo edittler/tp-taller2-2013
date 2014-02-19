@@ -57,7 +57,7 @@ public class ActividadIndividualTest {
 
 	@Test(expected = RemoteException.class)
 	public void EliminarParticipanteInexistente() throws RemoteException {
-		actIndividual.agregarParticipante("juancito");
+		actIndividual.agregarParticipante("juan");
 		actIndividual.eliminarParticipante("tito");
 	}
 

@@ -74,6 +74,13 @@ public class ActividadControladorTest {
 
 	@Test
 	public void agregarParticipante() throws RemoteException {
-		controlador.agregarParticipante("Pepe", 60, "usuario_prueba1");
+		controlador.agregarParticipante("Seba", 14, "usuario_prueba1");
+		controlador.agregarParticipante("Seba", 14, "juan");
+	}
+
+	@Test
+	public void eliminarParticipante() throws RemoteException {
+		controlador.eliminarParticipante("Seba", 14, "usuario_prueba1");
+//		controlador.agregarParticipante("Seba", 14, "juan");
 	}
 }

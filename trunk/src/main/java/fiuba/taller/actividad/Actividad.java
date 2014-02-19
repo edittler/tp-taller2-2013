@@ -310,7 +310,7 @@ public class Actividad implements Serializable {
 					"Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
-		String idStr = ParserXml.getValue("id", element);
+		String idStr = ParserXml.getValue("actividadId", element);
 		if (idStr.length() > 0)
 			id = Long.valueOf(idStr);
 		String idAmbSupStr = ParserXml.getValue("ambitoSuperiorId", element);
