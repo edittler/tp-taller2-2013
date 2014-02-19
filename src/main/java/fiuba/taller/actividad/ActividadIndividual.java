@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 public class ActividadIndividual extends Actividad {
 
 	protected static final String TIPO_ACTIVIDAD_INDIVIDUAL = "Individual";
@@ -14,13 +18,10 @@ public class ActividadIndividual extends Actividad {
 	public ActividadIndividual() {
 		super();
 		tipo = TIPO_ACTIVIDAD_INDIVIDUAL;
-		participantes = null;
+		participantes = new ArrayList<>();
 	}
 
 	public List<String> getParticipantes() {
-		if (!participantesCargados()) {
-			cargarParticipantes();
-		}
 		List<String> usernames = new ArrayList<>();
 		for(Usuario participante:participantes){
 			usernames.add(participante.getUsername());
@@ -29,9 +30,6 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	public void agregarParticipante(String username) throws RemoteException {
-		if (!participantesCargados()) {
-			cargarParticipantes();
-		}
 		if (contieneParticipante(username)) {
 			String mensaje = "El usuario " + username
 					+ " ya se encuentra en la actividad";
@@ -43,9 +41,6 @@ public class ActividadIndividual extends Actividad {
 	}
 
 	public void eliminarParticipante(String username) throws RemoteException {
-		if (!participantesCargados()) {
-			cargarParticipantes();
-		}
 		if (!contieneParticipante(username)) {
 			String mensaje = "El usuario " + username
 					+ " no se encuentra en la actividad";
@@ -61,11 +56,6 @@ public class ActividadIndividual extends Actividad {
 			}
 		}
 		actualizarEstado();
-	}
-
-	@Override
-	public void actualizarEstado() throws RemoteException {
-		super.actualizarEstado();
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
@@ -119,23 +109,47 @@ public class ActividadIndividual extends Actividad {
 		return actividad;
 	}
 
-	/* METODOS PRIVADOS AUXILIARES */
+	/* METODOS PROTEGIDOS AUXILIARES */
 
-	private boolean participantesCargados() {
-		return participantes != null;
+	@Override
+	protected String serializarInterno() {
+		String xml = super.serializarInterno();
+		xml += "<usuarios>";
+		for (Usuario usuario : participantes) {
+			// TODO : devolver excepcion si es -1 ?
+			// FIXME : ver si hace falta algo mas para poder pedir el id
+			xml += usuario.serializar();
+		}
+		xml += "</usuarios>";
+		return xml;
 	}
 
-	private void cargarParticipantes() {
-		participantes = new ArrayList<>();
-		String xmlConsulta = "<WS><Usuario><join><Actividad>"
-				+"<id> "+this.id+" </id>"
-				+"</Actividad></join></Usuario></WS>";
+	@Override
+	protected void descerializar(Document doc) throws RemoteException {
+		super.descerializar(doc);
+		NodeList nodes = doc.getElementsByTagName("usuarios");
+		if (nodes.getLength() > 1) {
+			throw new RemoteException(
+					"Debe haber solamente un nodo usuarios");
+		}
+		if (nodes.getLength() == 1) {
+			Element element = (Element) nodes.item(0);
+			cargarParticipantes(element);
+		}
+	}
 
-// TODO Implementar. Se debe cargar desde la base de datos la lista de participantes.	
-// 1) Se lo envia a Integracion la consulta
-// 2) Verifica que halla recibido una respuesta valida de parte de integracion
-// 	  Si no se levanta excepcion
-// 3) pasa el xml de listas (String) a la lista real (Array<Usuario>)
+	/* METODOS PRIVADOS AUXILIARES */
+
+	private void cargarParticipantes(Element nodoUsuarios)
+			throws RemoteException {
+		participantes = new ArrayList<>();
+		NodeList nodos = nodoUsuarios.getElementsByTagName("Usuario");
+		for (int i = 0; i < nodos.getLength(); i++) {
+			Element nodoUsuario = (Element) nodos.item(i);
+			String nodoStr = ParserXml.toString(nodoUsuario);
+			Usuario usuario = Usuario.deserializar(nodoStr);
+			participantes.add(usuario);
+		}
 	}
 
 	private boolean contieneParticipante(String username) {
@@ -145,18 +159,5 @@ public class ActividadIndividual extends Actividad {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	protected String serializarInterno() {
-		String xml = serializarInterno();
-		xml += "<usuarios>";
-		for (Usuario usuario : participantes) {
-			// TODO : devolver excepcion si es -1 ?
-			// FIXME : ver si hace falta algo mas para poder pedir el id
-			xml += usuario.serializar();
-		}
-		xml += "</usuarios>";
-		return xml;
 	}
 }
