@@ -29,6 +29,16 @@ public class ActividadIndividual extends Actividad {
 		return usernames;
 	}
 
+	/**
+	 * Agrega un participante a la actividad. Los cambios no se persisten en la
+	 * base de datos, para ello debe ejecutar el método "actualizarEstado".
+	 * 
+	 * @param username
+	 *            String con el username del usuario que se desea agregar a la
+	 *            actividad individual.
+	 * @throws RemoteException
+	 *             Si el usuario no existe o ya se encuentra en la actividad.
+	 */
 	public void agregarParticipante(String username) throws RemoteException {
 		if (contieneParticipante(username)) {
 			String mensaje = "El usuario " + username
@@ -37,9 +47,18 @@ public class ActividadIndividual extends Actividad {
 		}
 		Usuario usuario = Usuario.getUsuario(username);
 		participantes.add(usuario);
-		actualizarEstado();
 	}
 
+	/**
+	 * Elimina un participante a la actividad. Los cambios no se persisten en la
+	 * base de datos, para ello debe ejecutar el método "actualizarEstado".
+	 * 
+	 * @param username
+	 *            String con el username del usuario que se desea eliminar de la
+	 *            actividad individual.
+	 * @throws RemoteException
+	 *             Si el usuario no se encuentra en la actividad.
+	 */
 	public void eliminarParticipante(String username) throws RemoteException {
 		if (!contieneParticipante(username)) {
 			String mensaje = "El usuario " + username
@@ -55,7 +74,6 @@ public class ActividadIndividual extends Actividad {
 				encontrado = true;
 			}
 		}
-		actualizarEstado();
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
