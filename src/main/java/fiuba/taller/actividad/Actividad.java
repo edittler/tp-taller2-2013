@@ -203,7 +203,8 @@ public class Actividad implements Serializable {
 		// TODO ver formato de eliminacion de una instancia
 		IntegracionStub servicio = new IntegracionStub();
 		EliminarDatos envio = new EliminarDatos();
-		String xml = serializar();
+		String xml = "<WS><Actividad><id>" + Long.toString(id)
+				+ "</id></Actividad></WS>";
 		envio.setXml(xml);
 		EliminarDatosResponse respuesta = servicio.eliminarDatos(envio);
 		String retorno = respuesta.get_return();
@@ -310,9 +311,25 @@ public class Actividad implements Serializable {
 					"Debe haber solamente un nodo Actividad");
 		}
 		Element element = (Element) nodes.item(0);
+		/*
+		 * Como un nodo Actividad puede poseer varios nodos de atributos "id"
+		 * (los adicionales pueden ser de usuarios o grupos), se lee el atributo
+		 * "actividadId" y en caso de que no exista, se supone que el XML no
+		 * provino de Integración, por lo que se lee el campo "id" para mantener
+		 * la compatibilidad con las capas superiores.
+		 */
+		boolean encontroActividadId = false;
 		String idStr = ParserXml.getValue("actividadId", element);
-		if (idStr.length() > 0)
+		if (idStr.length() > 0) {
 			id = Long.valueOf(idStr);
+			encontroActividadId = true;
+		}
+		if (!encontroActividadId) {
+			idStr = ParserXml.getValue("id", element);
+			if (idStr.length() > 0) {
+				id = Long.valueOf(idStr);
+			}
+		}
 		String idAmbSupStr = ParserXml.getValue("ambitoSuperiorId", element);
 		if(idAmbSupStr.length() > 0)
 			idAmbitoSuperior = Long.valueOf(idAmbSupStr);

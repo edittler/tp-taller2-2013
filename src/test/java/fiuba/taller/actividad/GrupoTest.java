@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import fiuba.taller.actividad.Grupo;
 
+@Ignore
 public class GrupoTest {
 
 	private Grupo grupo;
@@ -138,7 +139,6 @@ public class GrupoTest {
 				grupoDos.contieneParticipantesDe(grupoUno));
 	}
 
-	@Ignore
 	@Test
 	public void serializarCorrecto() throws RemoteException {
 		grupo.descerializar(xmlADescerializar);
@@ -148,7 +148,6 @@ public class GrupoTest {
 		assertEquals(xmlADescerializar, xmlFinal);
 	}
 
-	@Ignore
 	@Test
 	public void descerializarConXMLCorrecto() throws RemoteException {
 		grupo.descerializar(xmlADescerializar);
@@ -230,7 +229,6 @@ public class GrupoTest {
 		grupo.descerializar(xmlADescerializar);
 	}
 
-	@Ignore
 	@Test
 	public void guardarGrupo() throws RemoteException {
 		grupo.agregarParticipante(usernameParticipante1);
