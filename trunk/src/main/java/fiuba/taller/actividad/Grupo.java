@@ -10,9 +10,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.ws.services.ActualizarDatos;
+import com.ws.services.ActualizarDatosResponse;
+import com.ws.services.EliminarDatos;
+import com.ws.services.EliminarDatosResponse;
 import com.ws.services.GuardarDatos;
 import com.ws.services.GuardarDatosResponse;
 import com.ws.services.IntegracionStub;
+import com.ws.services.SeleccionarDatos;
+import com.ws.services.SeleccionarDatosResponse;
 
 /* FORMATO DEL XML GRUPO
  * 
@@ -21,15 +27,16 @@ import com.ws.services.IntegracionStub;
  * 
 	<Grupo>
 	   <id> </id>
-	   <idActividad> </idActividad>
+	   <actividadId> </actividadId>
 	   <usuarios>
 	      <Usuario>
 	         <id> </id>
+	         <username> </username>
 	      </Usuario>
-	      .
-	      . 
+	         ... 
 	      <Usuario>
 	         <id> </id>
+	         <username> </username>
 	      </Usuario>
 	   </usuarios>
 	</Grupo>
@@ -48,6 +55,8 @@ public class Grupo implements Serializable {
 	private long idActividad;
 	private long id;
 	private List<Usuario> participantes;
+
+	private final static String className = Grupo.class.getSimpleName();
 
 	public Grupo() {
 		id = -1;
@@ -171,7 +180,7 @@ public class Grupo implements Serializable {
 			xml += "<id>" + Long.toString(id) + "</id>";
 		}
 		if (idActividad > 0) {
-			xml += "<idActividad>" + Long.toString(idActividad) + "</idActividad>";
+			xml += "<actividadId>" + Long.toString(idActividad) + "</actividadId>";
 		}
 		if (tamanio() > 0) {
 			xml += "<usuarios>";
@@ -221,81 +230,52 @@ public class Grupo implements Serializable {
 		envio.setXml(xml);
 		GuardarDatosResponse response = servicio.guardarDatos(envio);
 		String retorno = response.get_return();
-		System.out.println(retorno);
-		String idStr = procesarNotificacionIntegracion(retorno);
+		String idStr = ParserXml.procesarNotificacionIntegracion(className,
+				retorno);
 		id = Long.valueOf(idStr);
 	}
 
 	@Override
-	public void actualizarEstado() {
-		/* 
-		 * TODO(Jorge) Implementar. Se debe persistir el objeto en la base de
-		 * datos.
-		 */
+	public void actualizarEstado() throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		ActualizarDatos envio = new ActualizarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
+		String retorno = respuesta.get_return();
+		ParserXml.procesarNotificacionIntegracion(className, retorno);
 	}
 
 	@Override
 	public void eliminarEstado() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		IntegracionStub servicio = new IntegracionStub();
+		EliminarDatos envio = new EliminarDatos();
+		String xml = "<WS><Grupo><id>" + Long.toString(id)
+				+ "</id></Grupo></WS>";
+		envio.setXml(xml);
+		EliminarDatosResponse respuesta = servicio.eliminarDatos(envio);
+		String retorno = respuesta.get_return();
+		ParserXml.procesarNotificacionIntegracion(className, retorno);
 	}
 
 	@Override
-	public String realizarConsulta() {
-		/*
-		 * TODO(Jorge) Implementar
-		 */
-		return "";
+	public String realizarConsulta() throws RemoteException {
+		IntegracionStub servicio = new IntegracionStub();
+		SeleccionarDatos envio = new SeleccionarDatos();
+		String xml = serializar();
+		envio.setXml(xml);
+		SeleccionarDatosResponse respuesta = servicio.seleccionarDatos(envio);
+		String retorno = respuesta.get_return();
+		return retorno;
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */
 
-	public static boolean eliminarGrupo(long idActividad, long idGrupo) {
-		/* TODO(Jorge) Implementar. Se debe eliminar de la base de datos el
-		 * grupo que corresponde a la actividad e idGrupo pasados por parámetro.
-		 */
-		return false;
-	}
-
-	public static Grupo getGrupo(long idActividad, long idGrupo) {
+	public static Grupo getGrupo(long idGrupo) {
 		/* TODO(Jorge) Implementar. Se debe cargar desde la base de datos el 
 		 * grupo correspondiente a la actividad e idGrupo pasados por parámetro.
 		 */
 		Grupo grupo = new Grupo();
 		return grupo;
-	}
-
-	/* METODOS PRIVADOS AUXILIARES */
-
-	protected static String procesarNotificacionIntegracion(String xmlMensaje)
-			throws RemoteException {
-		Document doc = ParserXml.getDocumentElement(xmlMensaje);
-		NodeList nodes = doc.getElementsByTagName("notificacion");
-		if (nodes.getLength() != 1) {
-			throw new RemoteException(
-					"Integracion no devolvio un unico nodo notificacion");
-		}
-		Element element = (Element) nodes.item(0);
-		String numeroStr = ParserXml.getValue("numero", element);
-		int numero = Integer.valueOf(numeroStr);
-		String mensaje = ParserXml.getValue("mensaje", element);
-		String datos = "";
-		try {
-			datos = ParserXml.getValue("datos", element);
-		} catch (RemoteException e) {
-		}
-		switch (numero) {
-		// Codigo 0: Operación no permitida
-		case 0:
-			throw new RemoteException("Integracion: " + mensaje);
-		// Codigo 1: Error al realizar la operación
-		case 1:
-			throw new RemoteException("Integracion: " + mensaje);
-		// Codigo 2: Operación correcta
-		case 2:
-			return datos;
-		default:
-			throw new RemoteException("Integracion: Codigo desconocido.");
-		}
 	}
 }

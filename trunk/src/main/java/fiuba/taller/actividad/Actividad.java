@@ -39,6 +39,8 @@ public class Actividad implements Serializable {
 	protected List<Long> actividadesInternas;
 	protected long idChat;
 
+	private final static String className = Actividad.class.getSimpleName();
+
 	public Actividad() {
 		id = -1;
 		idAmbitoSuperior = -1;
@@ -190,17 +192,15 @@ public class Actividad implements Serializable {
 		GuardarDatos envio = new GuardarDatos();
 		String xml = serializar();
 		envio.setXml(xml);
-//		System.out.println(xml);
 		GuardarDatosResponse response = servicio.guardarDatos(envio);
 		String retorno = response.get_return();
-		System.out.println(retorno);
-		String idStr = procesarNotificacionIntegracion(retorno);
+		String idStr = ParserXml.procesarNotificacionIntegracion(className,
+				retorno);
 		id = Long.valueOf(idStr);
 	}
 
 	@Override
 	public void eliminarEstado() throws RemoteException {
-		// TODO ver formato de eliminacion de una instancia
 		IntegracionStub servicio = new IntegracionStub();
 		EliminarDatos envio = new EliminarDatos();
 		String xml = "<WS><Actividad><id>" + Long.toString(id)
@@ -208,8 +208,7 @@ public class Actividad implements Serializable {
 		envio.setXml(xml);
 		EliminarDatosResponse respuesta = servicio.eliminarDatos(envio);
 		String retorno = respuesta.get_return();
-		System.out.println(retorno);
-		
+		ParserXml.procesarNotificacionIntegracion(className, retorno);
 	}
 
 	@Override
@@ -220,8 +219,7 @@ public class Actividad implements Serializable {
 		envio.setXml(xml);
 		ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
 		String retorno = respuesta.get_return();
-//		System.out.println(retorno);
-		procesarNotificacionIntegracion(retorno);
+		ParserXml.procesarNotificacionIntegracion(className, retorno);
 	}
 
 	/**
@@ -371,38 +369,6 @@ public class Actividad implements Serializable {
 		}
 	}
 
-	protected static String procesarNotificacionIntegracion(String xmlMensaje)
-			throws RemoteException {
-		Document doc = ParserXml.getDocumentElement(xmlMensaje);
-		NodeList nodes = doc.getElementsByTagName("notificacion");
-		if (nodes.getLength() != 1) {
-			throw new RemoteException(
-					"Integracion no devolvio un unico nodo notificacion");
-		}
-		Element element = (Element) nodes.item(0);
-		String numeroStr = ParserXml.getValue("numero", element);
-		int numero = Integer.valueOf(numeroStr);
-		String mensaje = ParserXml.getValue("mensaje", element);
-		String datos = "";
-		try {
-			datos = ParserXml.getValue("datos", element);
-		} catch (RemoteException e) {
-		}
-		switch (numero) {
-		// Codigo 0: Operación no permitida
-		case 0:
-			throw new RemoteException("Integracion: " + mensaje);
-		// Codigo 1: Error al realizar la operación
-		case 1:
-			throw new RemoteException("Integracion: " + mensaje);
-		// Codigo 2: Operación correcta
-		case 2:
-			return datos;
-		default:
-			throw new RemoteException("Integracion: Codigo desconocido.");
-		}
-	}
-
 	protected static String procesarConsultaIndividualIntegracion(String xmlMensaje)
 			throws RemoteException {
 		Document doc = ParserXml.getDocumentElement(xmlMensaje);
@@ -410,7 +376,7 @@ public class Actividad implements Serializable {
 		int cantidadActividades = nodes.getLength();
 		switch (cantidadActividades) {
 		case 0:
-			procesarNotificacionIntegracion(xmlMensaje);
+			ParserXml.procesarNotificacionIntegracion(className, xmlMensaje);
 			break;
 		case 1:
 			return xmlMensaje;

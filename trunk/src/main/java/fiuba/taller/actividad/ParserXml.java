@@ -80,4 +80,40 @@ public class ParserXml {
 		}
 		return value;
 	}
+
+	public static String procesarNotificacionIntegracion(String clase,
+			String xmlMensaje) throws RemoteException {
+		String errorMsj = "[Paquete Actividad: Clase " + clase + "] ";
+		Document doc = ParserXml.getDocumentElement(xmlMensaje);
+		NodeList nodes = doc.getElementsByTagName("notificacion");
+		if (nodes.getLength() != 1) {
+			errorMsj += "Integracion no devolvió un único nodo <notificacion>";
+			throw new RemoteException(errorMsj);
+		}
+		Element element = (Element) nodes.item(0);
+		String numeroStr = ParserXml.getValue("numero", element);
+		int numero = Integer.valueOf(numeroStr);
+		String mensaje = ParserXml.getValue("mensaje", element);
+		String datos = "";
+		try {
+			datos = ParserXml.getValue("datos", element);
+		} catch (RemoteException e) {
+		}
+		switch (numero) {
+		// Codigo 0: Operación no permitida
+		case 0:
+			throw new RemoteException(errorMsj + "Integracion: " + mensaje);
+		// Codigo 1: Error al realizar la operación
+		case 1:
+			throw new RemoteException(errorMsj + "Integracion: " + mensaje);
+		// Codigo 2: Operación correcta
+		case 2:
+			return datos;
+		// Codigo 3: Consulta sin resultados
+		case 3:
+			throw new RemoteException(errorMsj + "Integracion: " + mensaje);
+		default:
+			throw new RemoteException(errorMsj + "Integracion: Codigo desconocido.");
+		}
+	}
 }

@@ -19,6 +19,8 @@ public class NotaGrupal extends Nota {
 
 	private long idGrupo;
 
+	private final static String className = NotaGrupal.class.getSimpleName();
+
 	public NotaGrupal(long idActividad, long idGrupo, String valorNota) {
 		super(idActividad);
 		this.idGrupo = idGrupo;
@@ -92,11 +94,9 @@ public class NotaGrupal extends Nota {
 		GuardarDatos envio = new GuardarDatos();
 		String xml = serializar();
 		envio.setXml(xml);
-//		System.out.println(xml);
 		GuardarDatosResponse response = servicio.guardarDatos(envio);
 		String retorno = response.get_return();
-		System.out.println(retorno);
-		procesarNotificacionIntegracion(retorno);
+		ParserXml.procesarNotificacionIntegracion(className, retorno);
 	}
 
 	@Override
@@ -110,8 +110,7 @@ public class NotaGrupal extends Nota {
 			envio.setXml(xml);
 			ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
 			String retorno = respuesta.get_return();
-			System.out.println(retorno);
-			procesarNotificacionIntegracion(retorno);
+			ParserXml.procesarNotificacionIntegracion(className, retorno);
 		}
 	}
 
