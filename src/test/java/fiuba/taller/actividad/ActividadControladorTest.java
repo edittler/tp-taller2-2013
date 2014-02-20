@@ -64,6 +64,16 @@ public class ActividadControladorTest {
 	}
 
 	@Test
+	public void destruirActividadExistente() throws RemoteException {
+		controlador.destruirActividad("juan", 58);
+	}
+
+	@Test(expected = RemoteException.class)
+	public void destruirActividadInexistente() throws RemoteException {
+		controlador.destruirActividad("juan", 57);
+	}
+
+	@Test
 	public void crearActividadIndividual() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
 				ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL, "", "");

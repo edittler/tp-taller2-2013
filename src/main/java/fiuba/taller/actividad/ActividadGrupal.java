@@ -93,24 +93,13 @@ public class ActividadGrupal extends Actividad {
 	public void eliminarParticipanteDeGrupo(long idGrupo, 
 			String usernameParticipanteAEliminar) 
 					throws RemoteException {
-		Grupo grupo = this.getGrupo(idGrupo);
+		Grupo grupo = getGrupo(idGrupo);
 		grupo.eliminarParticipante(usernameParticipanteAEliminar);
 		// Si ya no quedan participantes, elimino totalmente el grupo
 		if (grupo.tamanio() == 0) {
-			Grupo.eliminarGrupo(this.id, idGrupo);
-			this.grupos.remove(grupo);
+			grupo.eliminarEstado();
+			grupos.remove(grupo);
 		}
-	}
-
-	@Override
-	public void actualizarEstado() throws RemoteException {
-		super.actualizarEstado();
-		/*
-		 * TODO(Jorge) Se debe guardar además el atributo "gruposExclusivos".
-		 * Como "guardarEstado" llama al método descerializar que está 
-		 * redefinido en la clase "ActividadGrupal", no haría falta este método.
-		 * Testear y probar si es cierto lo que digo. --Pampa
-		 */
 	}
 
 	/* METODOS DE CLASE (ESTATICOS) */

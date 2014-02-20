@@ -21,6 +21,8 @@ public class NotaIndividual extends Nota {
 	
 	private final static String NODO_USERNAME = "username";
 
+	private final static String className = NotaIndividual.class.getSimpleName();
+
 	private NotaIndividual(long idActividad, String username) {
 		super(idActividad);
 		this.username = username;
@@ -94,11 +96,9 @@ public class NotaIndividual extends Nota {
 		GuardarDatos envio = new GuardarDatos();
 		String xml = serializar();
 		envio.setXml(xml);
-//		System.out.println(xml);
 		GuardarDatosResponse response = servicio.guardarDatos(envio);
 		String retorno = response.get_return();
-		System.out.println(retorno);
-		procesarNotificacionIntegracion(retorno);
+		ParserXml.procesarNotificacionIntegracion(className, retorno);
 	}
 
 	@Override
@@ -112,8 +112,7 @@ public class NotaIndividual extends Nota {
 			envio.setXml(xml);
 			ActualizarDatosResponse respuesta = servicio.actualizarDatos(envio);
 			String retorno = respuesta.get_return();
-			System.out.println(retorno);
-			procesarNotificacionIntegracion(retorno);
+			ParserXml.procesarNotificacionIntegracion(className, retorno);
 		}
 	}
 
