@@ -22,6 +22,48 @@ public class ActividadControladorTest {
 	}
 
 	@Test
+	public void obtenerActividadesDeAmbitoSuperiorCorrecto()
+			throws RemoteException {
+		// Elegir el id de un ambito que exista.
+		controlador.getActividadesDeAmbito("juan", 2);
+	}
+
+	@Test(expected = RemoteException.class)
+	public void obtenerActividadesDeAmbitoSuperiorConAmbitoInexistente()
+			throws RemoteException {
+		// Elegir el id de un ambito que NO exista.
+		controlador.getActividadesDeAmbito("juan", 200);
+	}
+
+	@Test(expected = RemoteException.class)
+	public void obtenerActividadesDeAmbitoSuperiorSinActividadesInternas()
+			throws RemoteException {
+		// Elegir el id de un ambito que NO tenga actividades internas.
+		controlador.getActividadesDeAmbito("juan", 200);
+	}
+
+	@Test
+	public void obtenerActividadesDeActividadSuperiorCorrecto()
+			throws RemoteException {
+		// Elegir el id de una actividad que tenga actividades internas.
+		controlador.getActividadesDeActividad("juan", 2);
+	}
+
+	@Test(expected = RemoteException.class)
+	public void obtenerActividadesDeActividadSuperiorConActividadInexistente()
+			throws RemoteException {
+		// Elegir el id de una actividad que NO exista.
+		controlador.getActividadesDeActividad("juan", 200);
+	}
+
+	@Test(expected = RemoteException.class)
+	public void obtenerActividadesDeActividadSuperiorSinActividadesInternas()
+			throws RemoteException {
+		// Elegir el id de una actividad que NO tenga actividades internas.
+		controlador.getActividadesDeActividad("juan", 200);
+	}
+
+	@Test
 	public void crearActividadIndividual() throws RemoteException {
 		String xml = AuxiliarPruebas.auxGenerarXml(
 				ActividadIndividual.TIPO_ACTIVIDAD_INDIVIDUAL, "", "");
@@ -75,7 +117,7 @@ public class ActividadControladorTest {
 	@Test
 	public void agregarParticipante() throws RemoteException {
 		controlador.agregarParticipante("Seba", 14, "usuario_prueba1");
-		controlador.agregarParticipante("Seba", 14, "juan");
+//		controlador.agregarParticipante("Seba", 14, "juan");
 	}
 
 	@Test

@@ -33,7 +33,7 @@ public class ActividadTest {
 		long fechaFin = 121212;
 		
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<actividadId>" + idPrueba + "</actividadId>" 
+				+ "<id>" + idPrueba + "</id>" 
 				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
 				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
 				+ "<nombre>" + nombrePrueba + "</nombre>"
@@ -68,7 +68,7 @@ public class ActividadTest {
 		long fechaFin = 121212;
 		
 		String xmlADescerializar = "<Actividad>"
-				+ "<actividadId>" + idPrueba + "</actividadId>" 
+				+ "<id>" + idPrueba + "</id>" 
 				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
 				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
 				+ "<nombre>" + nombrePrueba + "</nombre>"
@@ -103,7 +103,7 @@ public class ActividadTest {
 		
 		// Cambiamos el tag <Actividad> por <TAGACTIVIDAD> para que falle
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><TAGACTIVIDAD>"
-				+ "<actividadId>" + idPrueba + "</actividadId>" 
+				+ "<id>" + idPrueba + "</id>" 
 				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
 				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
 				+ "<nombre>" + nombrePrueba + "</nombre>"
@@ -129,7 +129,7 @@ public class ActividadTest {
 		
 		// Agregamos dos nodos <Actividad> para que falle
 		String xmlADescerializar = "<?xml version=\"1.0\"?><WS><Actividad>"
-				+ "<actividadId>" + idPrueba + "</actividadId>" 
+				+ "<id>" + idPrueba + "</id>" 
 				+ "<ambitoSuperiorId>" + idAmbSupStr + "</ambitoSuperiorId>"
 				+ "<actividadSuperiorId>" + idActSupStr + "</actividadSuperiorId>"
 				+ "<nombre>" + nombrePrueba + "</nombre>"
