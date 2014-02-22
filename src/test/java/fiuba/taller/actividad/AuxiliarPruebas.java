@@ -5,7 +5,7 @@ public class AuxiliarPruebas {
 		
 		long idPrueba = 22;
 		long idAmbSupStr = 1;
-		long idActSupStr = -1;
+		long idActSupStr = 14;
 		String nombrePrueba = "Una gran actividad";
 		String descripcion = "La mejor actividad del mundo";
 		String fechaIni = "111111";
