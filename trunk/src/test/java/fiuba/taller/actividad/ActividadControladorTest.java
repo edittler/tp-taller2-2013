@@ -29,38 +29,59 @@ public class ActividadControladorTest {
 	}
 
 	@Test(expected = RemoteException.class)
-	public void obtenerActividadesDeAmbitoSuperiorConAmbitoInexistente()
+	public void obtenerActividadesDeAmbitoSuperiorInexistente()
 			throws RemoteException {
 		// Elegir el id de un ambito que NO exista.
 		controlador.getActividadesDeAmbito("juan", 200);
 	}
 
-	@Test(expected = RemoteException.class)
+	@Test
 	public void obtenerActividadesDeAmbitoSuperiorSinActividadesInternas()
 			throws RemoteException {
 		// Elegir el id de un ambito que NO tenga actividades internas.
-		controlador.getActividadesDeAmbito("juan", 200);
+		controlador.getActividadesDeAmbito("juan", 20);
 	}
 
 	@Test
 	public void obtenerActividadesDeActividadSuperiorCorrecto()
 			throws RemoteException {
 		// Elegir el id de una actividad que tenga actividades internas.
-		controlador.getActividadesDeActividad("juan", 2);
+		controlador.getActividadesDeActividad("juan", 14);
 	}
 
 	@Test(expected = RemoteException.class)
-	public void obtenerActividadesDeActividadSuperiorConActividadInexistente()
+	public void obtenerActividadesDeActividadSuperiorInexistente()
 			throws RemoteException {
 		// Elegir el id de una actividad que NO exista.
-		controlador.getActividadesDeActividad("juan", 200);
+		controlador.getActividadesDeActividad("juan", 400);
 	}
 
-	@Test(expected = RemoteException.class)
+	@Test
 	public void obtenerActividadesDeActividadSuperiorSinActividadesInternas()
 			throws RemoteException {
 		// Elegir el id de una actividad que NO tenga actividades internas.
-		controlador.getActividadesDeActividad("juan", 200);
+		controlador.getActividadesDeActividad("juan", 32);
+	}
+
+	@Test
+	public void obtenerActividadesDeUsuarioCorrecto()
+			throws RemoteException {
+		// Elegir el username de un usuario que tenga actividades internas.
+		controlador.getActividadesDeMiembro("juan");
+	}
+
+	@Test(expected = RemoteException.class)
+	public void obtenerActividadesDeUsuarioInexistente()
+			throws RemoteException {
+		// Elegir el username de un usuario INEXISTENTE.
+		controlador.getActividadesDeMiembro("pirulo");
+	}
+
+	@Test
+	public void obtenerActividadesDeUsuarioSinActividades()
+			throws RemoteException {
+		// Elegir el username de un usuario que NO tenga actividades internas.
+		controlador.getActividadesDeMiembro("usuario_prueba1");
 	}
 
 	@Test
